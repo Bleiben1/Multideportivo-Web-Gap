@@ -3,6 +3,9 @@ $(document).bind('mobileinit', function () {
     $.mobile.loader.prototype.options.textVisible = false;
     $.mobile.loader.prototype.options.theme = "a";
     $.mobile.loader.prototype.options.html = "";
+    $.mobile.changePage.defaults.changeHash = false;
+    $.mobile.hashListeningEnabled = false;
+    $.mobile.pushStateEnabled = false;
 });
 
 $(document).ready(function () {

@@ -7,7 +7,7 @@
  * 
  * Url principal
  */
-var BASE_URL = 'http://localhost:8079/PhonegapPFinal/Multideportivo-Web-Gap/';
+var BASE_URL = 'http://www.localhost.com:8079/PhonegapPFinal/Multideportivo-Web-Gap/';
 
 
 /**
@@ -18,7 +18,7 @@ var WS_URLS =
         {
             LOGIN: "http://www......com/",
             REGISTRO: "http://www......com/",
-            EVENTO_LISTAR: "http://localhost:8080/PFinal/services/list/",
+            EVENTOS_LISTAR_DESDE_HASTA: "http://localhost.com:8080/PFinal/services/entities.maincompetition/",
             OTRO_WS: "http://www......com/",
             ETC: "http://www.......com/"
         };

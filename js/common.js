@@ -1,4 +1,4 @@
-/* 
+﻿/* 
  *   Archivo de datos y funciones comunes al sistema.
  *   @Author Nicolás 
  */
@@ -7,7 +7,7 @@
  * 
  * Url principal
  */
-var BASE_URL = 'http://www.localhost.com:8079/PhonegapPFinal/Multideportivo-Web-Gap/';
+var BASE_URL = 'localhost:8282/Multideportivo-Web-Gap/';
 
 
 /**

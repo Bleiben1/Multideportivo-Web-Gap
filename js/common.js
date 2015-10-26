@@ -7,7 +7,8 @@
  * 
  * Url principal
  */
-
+var CONSTANTE_ERROR_MESSAGE_NO_AUTORIZADO = "No esta autorizado para realizar esta acción";
+var CONSTANTE_ERROR_MESSAGE_SERVIDOR_500 = "Error interno del servidor";
 var BASE_URL = '../'
 //var BASE_URL = 'http://www.localhost.com:8079/PhonegapPFinal/Multideportivo-Web-Gap/';
 /**

@@ -14,7 +14,7 @@ $(document).ready(function () {
 
     //fix para ir al inicio el panel
     $("body").on("click", "#goto_index_page", function (e) {
-        window.location.href = BASE_URL + "index.html";
+        window.location.href = "index.html";
         e.preventDefault();
     });
 });

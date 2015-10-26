@@ -3,6 +3,9 @@ $(document).bind('mobileinit', function () {
     $.mobile.loader.prototype.options.textVisible = false;
     $.mobile.loader.prototype.options.theme = "a";
     $.mobile.loader.prototype.options.html = "";
+    $.mobile.changePage.defaults.changeHash = false;
+    $.mobile.hashListeningEnabled = false;
+    $.mobile.pushStateEnabled = false;
 });
 
 $(document).ready(function () {
@@ -14,4 +17,11 @@ $(document).ready(function () {
         window.location.href = BASE_URL + "index.html";
         e.preventDefault();
     });
+
+    //--------------prueba-------------
+    $("body").on("click", "#idEventos", function (e) {
+		cosole.log("getting events form ws, please wait...");
+        $("#infoContainer").load("pages/evento/evento.html");
+    });
+    //--------------/prueba------------
 });

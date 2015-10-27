@@ -5,6 +5,19 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listEvents();//se listan los eventos al cargar la pagina
+	
+	$("body").on("click", "#btnAddEvent", function (e) {
+		console.log("Adding new event to ws");
+		var newEventStartDate = document.getElementById("newEventStartDate").value;
+		var newEventStartTime = document.getElementById("newEventStartTime").value;
+		var newEventEndDate = document.getElementById("newEventEndDate").value;
+		var newEventEndTime = document.getElementById("newEventEndTime").value;
+		var newEventName = document.getElementById("newEventName").value;
+		var newEventDesc = document.getElementById("newEventDesc").value;
+		var newEventStart = newEventStartDate + "T" + newEventStartTime;
+		var newEventEnd = newEventEndDate + "T" + newEventEndTime;
+		addEvent(newEventStart, newEventEnd, newEventName, newEventDesc);
+	});
 });
 
 
@@ -25,9 +38,30 @@ function listEvents() {
         },
     });
 }
+
 function parseEventToHtml(event) {
     return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><h3>' +
             event.startDate + " " + event.endDate +
             '</h3><h2>' + event.name + '</h2><p>' + event.description +
             '</p><a class="btn btn-primary" href="#">Modificar</a> <a class="btn btn-primary" href="#">Borrar</a></div></div></li>';
+            '</p><a class="btn btn-primary" href="#">Modificar</a> <a class="btn" href="#">Borrar</a></div></div></li>';
+}
+
+function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
+	var arr = { Name: newEventName, description: newEventDesc, style_type: 0, startDate: newEventStart, endDate: newEventEnd };
+	$.ajax({
+		url: 'Ajax.ashx',
+		type: 'POST',
+		headers: {
+			"Token": token
+		},
+		data: JSON.stringify(arr),
+		contentType: 'application/json; charset=utf-8',
+		dataType: 'json',
+		async: false,
+		success: function(msg) {
+			alert(msg);
+			listEvents();
+		}
+	});
 }

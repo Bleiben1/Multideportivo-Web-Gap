@@ -7,3 +7,10 @@
 	padding-top: 3em;
 }
 
+html{
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}

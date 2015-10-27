@@ -27,11 +27,12 @@ $(document).ready(function () {
     $("body").on("click", "#idAdminCompetition", function (e){
        console.log("getting the data from ws, please wait...");
        $("#content").load("pages/admin_competition/admin_competition.html");
+
+        $("#infoContainer").load("pages/evento/evento.html");
     });
     //--------------/prueba------------
-				$("#log-in").click(function(event) {
-					$("#content").load('pages/login/login.html');
-				});
-
+	$("#log-in").click(function(event) {
+		$("#content").load('pages/login/login.html');
+	});
 
 });

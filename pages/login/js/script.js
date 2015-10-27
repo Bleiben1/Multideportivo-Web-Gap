@@ -1,14 +1,18 @@
 // JavaScript Document
-$("#log_in").on("click", function (e) {
+
+$(document).ready(function () {
+$("#login").on("click", function (e) {
+    console.log("prueba");
     e.preventDefault();
     var username = document.getElementById("username").value;
     var password = document.getElementById("password").value;
+console.log(username);
     login(username, password);
 
 });
 
 function login(username, password) {
-    var user = {"username": username, "pasword": password};
+    var user = {"username": username, "password": password};
     console.log(JSON.stringify(user));
     $.ajax({
         type: "POST",
@@ -24,6 +28,8 @@ function login(username, password) {
             console.log(data);
             var token = data.token;//extraer el token del mensaje
             localStorage.setItem("token", token); //guarda en la cache el token
+            var role = data.role;
+            localStorage.setItem("role", role);
 //loader(false);
             console.log("success");
             alert('Logueado correctamente.');
@@ -39,3 +45,4 @@ function login(username, password) {
         }
     });
 }
+});

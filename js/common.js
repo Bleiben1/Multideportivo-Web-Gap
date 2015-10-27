@@ -8,7 +8,8 @@
  * Url principal
  */
 var BASE_URL = 'localhost:8282/Multideportivo-Web-Gap/';
-
+var CONSTANTE_ERROR_MESSAGE_NO_AUTORIZADO = "No autorizado";
+var CONSTANTE_ERROR_MESSAGE_SERVIDOR_500 = "Error interno del servidor";
 
 /**
  * 

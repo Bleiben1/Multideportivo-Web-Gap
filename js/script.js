@@ -24,4 +24,9 @@ $(document).ready(function () {
         $("#infoContainer").load("pages/evento/evento.html");
     });
     //--------------/prueba------------
+				$("#log-in").click(function(event) {
+					$("#content").load('pages/login/login.html');
+				});
+
+
 });

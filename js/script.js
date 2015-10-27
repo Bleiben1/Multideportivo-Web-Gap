@@ -20,13 +20,12 @@ $(document).ready(function () {
 
     //--------------prueba-------------
     $("body").on("click", "#idEventos", function (e) {
-		cosole.log("getting events form ws, please wait...");
+		console.log("getting events form ws, please wait...");
         $("#infoContainer").load("pages/evento/evento.html");
     });
     //--------------/prueba------------
-				$("#log-in").click(function(event) {
-					$("#content").load('pages/login/login.html');
-				});
-
+	$("#log-in").click(function(event) {
+		$("#content").load('pages/login/login.html');
+	});
 
 });

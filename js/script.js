@@ -20,8 +20,13 @@ $(document).ready(function () {
 
     //--------------prueba-------------
     $("body").on("click", "#idEventos", function (e) {
-		cosole.log("getting events form ws, please wait...");
-        $("#infoContainer").load("pages/evento/evento.html");
+		console.log("getting events form ws, please wait...");
+        $("#content").load("pages/evento/evento.html");
+    });
+    
+    $("body").on("click", "#idAdminCompetition", function (e){
+       console.log("getting the data from ws, please wait...");
+       $("#content").load("pages/admin_competition/admin_competition.html");
     });
     //--------------/prueba------------
 				$("#log-in").click(function(event) {

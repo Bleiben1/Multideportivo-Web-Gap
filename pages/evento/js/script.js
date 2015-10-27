@@ -9,7 +9,6 @@ $(document).ready(function () {
 
 
 function listEvents() {
-    alert("test");
     var limit = (current_page - 1) * total_per_page;
     var offset = current_page * total_per_page;
     $.ajax({
@@ -30,5 +29,5 @@ function parseEventToHtml(event) {
     return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><h3>' +
             event.startDate + " " + event.endDate +
             '</h3><h2>' + event.name + '</h2><p>' + event.description +
-            '</p><a class="btn btn-primary" href="#">Modificar</a> <a class="btn" href="#">Borrar</a></div></div></li>';
+            '</p><a class="btn btn-primary" href="#">Modificar</a> <a class="btn btn-primary" href="#">Borrar</a></div></div></li>';
 }

@@ -21,7 +21,8 @@ var WS_URLS =
             REGISTRO: "http://www......com/",
             //EVENTOS_LISTAR_DESDE_HASTA: "http://localhost.com:8080/PFinal/services/entities.maincompetition/",
             EVENTOS_LISTAR_DESDE_HASTA: "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.maincompetition/",
-            OTRO_WS: "http://www......com/",
+            ADMIN_COMPETITION_LISTAR_DESDE_HASTA: "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admincompetition/",
+            ADMIN_DELEGATION_LISTAR_DESDE_HASTA: "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admindelegation/",
             ETC: "http://www.......com/"
         };
 

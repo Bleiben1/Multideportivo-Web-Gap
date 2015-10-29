@@ -104,6 +104,7 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
     });
 }
 
+
 function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
     var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
     console.log(arr);

@@ -14,3 +14,7 @@ html{
 body {
   min-height: 100%;
 }
+
+.menuHeader{
+	min-height: 3em
+}

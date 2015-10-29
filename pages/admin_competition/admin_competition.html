@@ -31,26 +31,32 @@ and open the template in the editor.
                 <h4 class="modal-title" id="myModalLabel2">Agregar nuevo Administrador de competición</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="AddForm">
                     <div class="form-group">
                         <label for="nickname" class="col-sm-2 control-label">Nickname</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="nickname" >
+                            <input type="text" class="form-control" id="AddNickname" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label">E-Mail</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="email" >
+                            <input type="email" class="form-control" id="AddEmail" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="password" >
+                            <input type="password" class="form-control" id="AddPassword" >
                         </div>
                     </div>
-
+                     <div class="form-group">
+                        <label for="AddMCId" class="col-sm-2 control-label">MC Id</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="AddMCId">
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
@@ -70,8 +76,8 @@ and open the template in the editor.
                 <h4 class="modal-title" id="myModalLabel">Información detallada del usuario administrador</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal">
-                    <div class="form-group">
+                <form class="form-horizontal" id="SDForm">
+                    <div class="form-group" >
                         <label for="evntMId" class="col-sm-2 control-label">Event Managed Id</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" id="evntMId" readonly >
@@ -104,13 +110,25 @@ and open the template in the editor.
             <div class="modal-body">
                 <form class="form-horizontal">
                     <div class="form-group">
-                        <label for="ACPassword" class="col-sm-2 control-label">Password</label>
+                        <label for="ACId" class="col-sm-2 control-label">Id</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="ACPassword" readonly >
+                            <input type="text" class="form-control" id="ACId" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="ACMCId" class="col-sm-2 control-label">Main Competition Id</label>
+                        <label for="ACEmail" class="col-sm-2 control-label">E-mail</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="ACEmail" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ACNickname" class="col-sm-2 control-label">Nickname</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="ACNickname">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ACMCId" class="col-sm-2 control-label">MC Id</label>
                         <div class="col-sm-10">
                             <select  class="form-control" id="ACMCId" >
                                 
@@ -118,9 +136,21 @@ and open the template in the editor.
                         </div>
                     </div>    
                     <div class="form-group">
+                        <label for="ACMPassword" class="col-sm-2 control-label">Password</label>
+                        <div class="col-sm-10">
+                            <input type="password" class="form-control" id="ACPassword"> <!-- quiza se saque, depende de cambios en el ws, o al menos q no se permita modificar -->
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="ACMPassword" class="col-sm-2 control-label">Token</label>
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="ACToken">
+                        </div>
+                    </div>
+                    <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
-                            <button type="button" class="btn btn-primary" id="btnAddAC"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                            <button type="button" class="btn btn-primary" id="btnEditAC"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                         </div>
                     </div>
                 </form>

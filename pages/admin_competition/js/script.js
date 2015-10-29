@@ -13,15 +13,37 @@ $(document).ready(function () {
 
     $("body").on("click", "#btnAddAC", function (e) {
         console.log("Adding new event to ws");
-        var newNickname = document.getElementById("nickname").value;
-        var newEmail = document.getElementById("email").value;
-        var newPassword = document.getElementById("password").value;
-        addAC(newNickname, newEmail, newPassword);
+        var newNickname = document.getElementById("AddNickname").value;
+        var newEmail = document.getElementById("AddEmail").value;
+        var newPassword = document.getElementById("AddPassword").value;
+        var mainCompetitionId = document.getElementById("AddMCId").value;
+        addAC(newNickname, newEmail, newPassword, mainCompetitionId);
     });
 
-    $("body").on("click", "btnEditAC", function (e) {
+    $("body").on("click", "#btnEditAC", function (e) {
+        console.log("Updating the new data");
+        var updateNickname = document.getElementById("ACNickname").value;
+        var updateMCId = document.getElementById("ACMCId").value;
+        var updateEmail = document.getElementById("ACEmail").value;
+        var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
+        var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
+        var ACId = document.getElementById("ACId").value;
+        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
+        editAC(ACId, arr);
+    });
+    $("body").on("shown.bs.modal", "#addACModal", function (e) {
+        aux = document.getElementById("AddMCId");
+        if (aux.length === 0) {
+            listAC(aux);
+        }
+    });
+    $("body").on("hidden.bs.modal", "#addACModal", function (e) {
+        document.getElementById("AddForm").reset();
+    });
 
-    })
+    $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
+        document.getElementById("SDForm").reset();
+    });
 });
 
 
@@ -85,7 +107,7 @@ function parseEventToHtml(admin_competition) {
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a> <a href="#" class="btn btn-danger btn-xs">' +
             '<span class="glyphicon glyphicon-remove">' +
-            '</span> Del</a>' + '</td>'
+            '</span> Status Change</a>' + '</td>'
     '</tr>';
 }
 function chargeACData(Object) {
@@ -99,8 +121,16 @@ function chargeACData(Object) {
         },
         cache: false,
         success: function (data) {
-            var aux = document.getElementById("ACPassword");
+            var aux = document.getElementById("ACNickname");
+            aux.value = data.nickname;
+            aux = document.getElementById("ACId");
+            aux.value = data.adminId;
+            aux = document.getElementById("ACEmail");
+            aux.value = data.email;
+            aux = document.getElementById("ACPassword");
             aux.value = data.password;
+            aux = document.getElementById("ACToken");
+            aux.value = data.token;
             aux = document.getElementById("ACMCId");
             if (aux.length === 0) {
                 listAC(aux);
@@ -131,7 +161,6 @@ function listAC(combo) {
         headers: {
             "Authorization": "oauth " + token
         },
-        
         success: function (data) {
             console.log(data);
             $.each(data, function (i, evnt) {
@@ -143,17 +172,19 @@ function listAC(combo) {
         }
     });
 }
-function editAC(idAC, ACNewData) {
-    var arr;
+function editAC(idAC, ACUpdatedData) {
+    console.log(idAC);
     var token = localStorage.getItem('token');
+    
     console.log(token);
     $.ajax({
         url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admincompetition/' + idAC,
-        type: 'POST',
-        data: JSON.stringify(arr),
+        type: 'PUT',
+        data: JSON.stringify(ACUpdatedData),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
+        cache: false,
         headers: {
             "Authorization": "oauth " + token
         },
@@ -162,27 +193,24 @@ function editAC(idAC, ACNewData) {
         }
     });
 }
-function addAC(newNickname, newEmail, newPassword) {
-    var arr = {nickname: newNickname, email: newEmail, password: newPassword};
-    console.log(arr);
+function addAC(newNickname, newEmail, newPassword, mainCompetitionId) {
+    var arr = {nickname: newNickname, token: "DEFAULT_TOKEN", password: newPassword, email: newEmail, mainCompetitionId: {mainCompetitionId: mainCompetitionId}};
     var token = localStorage.getItem('token');
     console.log(token);
     $.ajax({
         url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admincompetition/',
         type: 'POST',
-        /*headers: {
-         "token": token
-         },*/
         data: JSON.stringify(arr),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
+        cache: false,
         headers: {
             "Authorization": "oauth " + token
         },
-        success: function (msg) {
-            alert(msg);
-            listAdminCompetition();
+        success: function (data) {
+                var html = parseEventToHtml(data);
+                $("#ACTable > thead:last").append(html);
         }
     });
 }

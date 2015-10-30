@@ -29,7 +29,12 @@ $(document).ready(function () {
         var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
         var ACId = document.getElementById("ACId").value;
         var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
-        editAC(ACId, arr);
+        var flag = editAC(ACId, arr);
+        if (flag === true){
+           var element = document.getElemenById(updateMCId);
+           element.parentNode.parentNode.childNodes[1].text = updateNickname;
+        }
+        
     });
     $("body").on("shown.bs.modal", "#addACModal", function (e) {
         aux = document.getElementById("AddMCId");
@@ -44,6 +49,14 @@ $(document).ready(function () {
     $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
         document.getElementById("SDForm").reset();
     });
+    
+    $("body").on("hidden.bs.modal", "#editACModal", function (e){
+        document.getElementById("editACForm").reset();
+    });
+    
+    $('.alert .close').on('click', function(e) {
+    $(this).parent().hide();
+});
 });
 
 
@@ -103,11 +116,11 @@ function parseEventToHtml(admin_competition) {
             '<td>' + admin_competition.email + '</td>' +
             '<td>' + status + '</td>' +
             //'<td>' + admin_competition.mainCompetitionId.name + '</td>' +
-            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#"  data-toggle="modal" data-target="#editACModal" onclick="chargeACData(this)">' +
+            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_competition.adminId + ' data-toggle="modal" data-target="#editACModal" onclick="chargeACData(this)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a> <a href="#" class="btn btn-danger btn-xs">' +
             '<span class="glyphicon glyphicon-remove">' +
-            '</span> Status Change</a>' + '</td>'
+            '</span> Change Status</a>' + '</td>'
     '</tr>';
 }
 function chargeACData(Object) {
@@ -174,6 +187,7 @@ function listAC(combo) {
 }
 function editAC(idAC, ACUpdatedData) {
     console.log(idAC);
+    var flag = false;
     var token = localStorage.getItem('token');
     
     console.log(token);
@@ -189,7 +203,8 @@ function editAC(idAC, ACUpdatedData) {
             "Authorization": "oauth " + token
         },
         success: function () {
-            listAdminCompetition();
+            $("#editOkAlert").show();
+            return flag = true;
         }
     });
 }

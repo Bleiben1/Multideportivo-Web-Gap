@@ -91,7 +91,7 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
         url: theURL,
         type: 'PUT',
         headers: {
-			"Authorization":"oauth" + token
+			"Authorization":"oauth " + token
         },
         data: JSON.stringify(arr),
         contentType: 'application/json; charset=utf-8',

@@ -98,8 +98,9 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
         dataType: 'json',
         async: false,
         success: function (msg) {
-            alert(msg);
-            listEvents();
+			$('#modifEventModal').modal('hide');
+            //listEvents();
+			setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
         }
     });
 }
@@ -121,7 +122,6 @@ function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
         dataType: 'json',
         async: false,
         success: function (msg) {
-            alert(msg);
             listEvents();
         }
     });

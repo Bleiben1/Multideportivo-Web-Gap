@@ -11,7 +11,10 @@ $(document).bind('mobileinit', function () {
 $(document).ready(function () {
     console.log("Index page ready");
     loadMainPanel("mainPanel");//loads the main panel
-
+    var token = localStorage.getItem("token");
+    if (token != null){
+    document.getElementById("log-in").text = "Cerrar Sesión";
+    }
     //fix para ir al inicio el panel
     $("body").on("click", "#goto_index_page", function (e) {
         window.location.href = BASE_URL + "index.html";
@@ -28,11 +31,24 @@ $(document).ready(function () {
        console.log("getting the data from ws, please wait...");
        $("#content").load("pages/admin_competition/admin_competition.html");
 
-        $("#infoContainer").load("pages/evento/evento.html");
+        //$("#infoContainer").load("pages/evento/evento.html"); no se si se usaba para algo, o yo lo deje sin querer
     });
+    
+     $("body").on("click", "#idAdminDelegation", function (e){
+       console.log("getting the data from ws, please wait...");
+       $("#content").load("pages/admin_delegation/admin_delegation.html");
+   });
     //--------------/prueba------------
 	$("#log-in").click(function(event) {
-		$("#content").load('pages/login/login.html');
+	var token = localStorage.getItem("token");
+        if (token == null){
+            $("#content").load('pages/login/login.html');
+        }
+        else 
+            if (confirm('¿Seguro que desea cerrar la sesión?')) 
+            localStorage.removeItem("token");
+                document.getElementById("log-in").text = "Ingresar";
+
 	});
 
 });

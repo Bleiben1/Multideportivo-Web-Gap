@@ -145,7 +145,7 @@ function chargeACData(Object) {
             aux = document.getElementById("ACToken");
             aux.value = data.token;
             aux = document.getElementById("ACMCId");
-            if (aux.length === 0) {
+            if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                 listAC(aux);
             }
             //console.log(aux.options);
@@ -164,7 +164,7 @@ function chargeACData(Object) {
     });
 }
 
-function listAC(combo) {
+function listAC(combo) { //llenar combo con los id de los admines de competición existentes
     var i = 0;
     console.log(combo);
     $.ajax({

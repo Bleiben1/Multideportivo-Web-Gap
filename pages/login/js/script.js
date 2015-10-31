@@ -33,6 +33,7 @@ function login(username, password) {
 //loader(false);
             console.log("success");
             alert('Logueado correctamente.');
+            document.getElementById("log-in").text = "Cerrar Sesión";
         },
         statusCode: {
             401:

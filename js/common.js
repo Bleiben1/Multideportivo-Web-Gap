@@ -11,6 +11,8 @@ var BASE_URL = 'localhost:8282/Multideportivo-Web-Gap/';
 var CONSTANTE_ERROR_MESSAGE_NO_AUTORIZADO = "No autorizado";
 var CONSTANTE_ERROR_MESSAGE_SERVIDOR_500 = "Error interno del servidor";
 var BASE_URL_SERVER = "http://tecnocompetition.ddns.net:8080/pfinal/services/";
+var NOT_ALLOWED_METHOD = "Método no permitido";
+var NOT_AUTHORIZED = "No autorizado";
 /**
  * 
  * URLS DE WEBSERVICES
@@ -24,6 +26,7 @@ var WS_URLS =
             ADMIN_COMPETITION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.admincompetition/",
             ADMIN_DELEGATION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.admindelegation/",
             ADMIN_COMPETITION_VER_DETALLE: BASE_URL_SERVER+"entities.admincompetition/",
+            DELEGATIONS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.delegation/",
             ETC: "http://www.......com/"
         };
 

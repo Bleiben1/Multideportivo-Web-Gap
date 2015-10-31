@@ -4,31 +4,31 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<script src="pages/admin_competition/js/script.js"></script>
-<link href="pages/admin_competition/css/style.css" rel="stylesheet" type="text/css"/>
+<script src="pages/admin_delegation/js/script.js"></script>
+<link href="pages/admin_delegation/css/style.css" rel="stylesheet" type="text/css"/>
 <div>
 
     <div class="row col-md-12 col-md-offset-0 custyle">
-        <table class="table table-striped custab" id="ACTable">
+        <table class="table table-striped custab" id="ADTable">
             <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Nickname</th>
                     <th>Email</th>
+                    <th>Delegation</th>
                     <th>Status</th>
                     <th class="text-center">Action</th>
                 </tr>
             </thead>
         </table>
-        <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#addACModal"><b>+</b> Add new AC</a>
+        <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#addADModal"><b>+</b> Add new AD</a>
     </div>
 </div>
-<div class="modal fade" id="addACModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+<div class="modal fade" id="addADModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel2">Agregar nuevo Administrador de competición</h4>
+                <h4 class="modal-title" id="myModalLabel2">Agregar nuevo Administrador de delegación</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="AddForm">
@@ -51,16 +51,16 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="AddMCId" class="col-sm-2 control-label">MC Id</label>
+                        <label for="AddDId" class="col-sm-2 control-label">Delegation</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="AddMCId">
+                            <select class="form-control" id="AddDId">
                             </select>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
-                            <button type="button" class="btn btn-primary" id="btnAddAC"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                            <button type="button" class="btn btn-primary" id="btnAddAD"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                         </div>
                     </div>
                 </form>
@@ -73,26 +73,26 @@ and open the template in the editor.
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Información detallada del usuario administrador</h4>
+                <h4 class="modal-title" id="myModalLabel">Información detallada del usuario administrador de delegación</h4>
             </div>
             <div class="modal-body">
                 <form class="form-horizontal" id="SDForm">
                     <div class="form-group" >
-                        <label for="evntMId" class="col-sm-2 control-label">Event Managed Id</label>
+                        <label for="nickname" class="col-sm-2 control-label">Nickname</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="evntMId" readonly >
+                            <input type="text" class="form-control" id="nickname" readonly >
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="evntMName" class="col-sm-2 control-label">Event Managed Name</label>
+                        <label for="delCountry" class="col-sm-2 control-label">Del Country</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="evntMName" readonly>
+                            <input type="text" class="form-control" id="delCountry" readonly>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="evntMDesc" class="col-sm-2 control-label">Event Managed Description</label>
+                        <label for="delEmail" class="col-sm-2 control-label">Del E-mail</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="evntMDesc" readonly>
+                            <input type="text" class="form-control" id="delEmail" readonly>
                         </div>
                     </div>       
                 </form>
@@ -142,6 +142,7 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="form-group">
+                        <label for="ACMPassword" class="col-sm-2 control-label">Token</label>
                         <div class="col-sm-10">
                             <input type="hidden" class="form-control" id="ACToken">
                         </div>

@@ -66,7 +66,7 @@ function listAdminDelegation() {
     });
 };
 
-function addAC(nickname, email, password, delegationId) {
+function addAD(nickname, email, password, delegationId) {
     var arr = {nickname: nickname, token: "DEFAULT_TOKEN", password: password, email: email, delegationId: {delegationId: delegationId}};
     var token = localStorage.getItem('token');
     console.log(token);
@@ -84,7 +84,27 @@ function addAC(nickname, email, password, delegationId) {
         success: function (data) {
                 var html = parseEventToHtml(data);
                 $("#ADTable > thead:last").append(html);
+        },
+        statusCode: {
+            500: function () {
+                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addADErrorAlert');
+                $("#addADErrorAlert").show();
+            },
+            400: function () {
+                addAlert(DB_ERROR, 'addADErrorAlert');
+                $("#addADErrorAlert").show();
+
+            },
+            401: function () {
+                addAlert(NOT_AUTHORIZED, 'addADErrorAlert');
+                $("#addADErrorAlert").show();
+            },
+            415: function () {
+                addAlert(NOT_ALLOWED_METHOD, 'addADErrorAlert');
+                $("#addADErrorAlert").show();
+            }
         }
+        
     });
 }
 function listAD(combo){

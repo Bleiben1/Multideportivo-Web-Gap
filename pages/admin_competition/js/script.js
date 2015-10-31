@@ -30,11 +30,11 @@ $(document).ready(function () {
         var ACId = document.getElementById("ACId").value;
         var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
         var flag = editAC(ACId, arr);
-        if (flag === true){
-           var element = document.getElemenById(updateMCId);
-           element.parentNode.parentNode.childNodes[1].text = updateNickname;
+        if (flag === true) {
+            var element = document.getElemenById(updateMCId);
+            element.parentNode.parentNode.childNodes[1].text = updateNickname;
         }
-        
+
     });
     $("body").on("shown.bs.modal", "#addACModal", function (e) {
         aux = document.getElementById("AddMCId");
@@ -49,14 +49,14 @@ $(document).ready(function () {
     $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
         document.getElementById("SDForm").reset();
     });
-    
-    $("body").on("hidden.bs.modal", "#editACModal", function (e){
+
+    $("body").on("hidden.bs.modal", "#editACModal", function (e) {
         document.getElementById("editACForm").reset();
     });
-    
-    $('.alert .close').on('click', function(e) {
-    $(this).parent().hide();
-});
+
+    $('.alert .close').on('click', function (e) {
+        $(this).parent().hide();
+    });
 });
 
 
@@ -189,7 +189,7 @@ function editAC(idAC, ACUpdatedData) {
     console.log(idAC);
     var flag = false;
     var token = localStorage.getItem('token');
-    
+
     console.log(token);
     $.ajax({
         url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admincompetition/' + idAC,
@@ -203,11 +203,31 @@ function editAC(idAC, ACUpdatedData) {
             "Authorization": "oauth " + token
         },
         success: function () {
-            $("#editOkAlert").show();
+            $("#editACOkAlert").show();
             return flag = true;
+        },
+        statusCode: {
+            404: function () {
+                addAlert('No se ha encontrado el admin de competición a modificar', 'editACErrorAlert');
+                $("#editACErrorAlert").show();
+            },
+            500: function () {
+                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editACErrorAlert');
+                $("#editACErrorAlert").show();
+            },
+            415: function () {
+                addAlert(NOT_ALLOWED_METHOD, 'editACErrorAlert');
+                $("#editACErrorAlert").show();
+            },
+            401: function () {
+                addAlert(NOT_AUTHORIZED, 'editACErrorAlert');
+                $("#editACErrorAlert").show();
+            }
         }
     });
 }
+
+
 function addAC(newNickname, newEmail, newPassword, mainCompetitionId) {
     var arr = {nickname: newNickname, token: "DEFAULT_TOKEN", password: newPassword, email: newEmail, mainCompetitionId: {mainCompetitionId: mainCompetitionId}};
     var token = localStorage.getItem('token');
@@ -224,8 +244,28 @@ function addAC(newNickname, newEmail, newPassword, mainCompetitionId) {
             "Authorization": "oauth " + token
         },
         success: function (data) {
-                var html = parseEventToHtml(data);
-                $("#ACTable > thead:last").append(html);
+            $("#addACOkAlert").show();
+            var html = parseEventToHtml(data);
+            $("#ACTable > thead:last").append(html);
+        },
+        statusCode: {
+            500: function () {
+                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addACErrorAlert');
+                $("#addACErrorAlert").show();
+            },
+            400: function () {
+                addAlert(DB_ERROR, 'addACErrorAlert');
+                $("#addACErrorAlert").show();
+
+            },
+            401: function () {
+                addAlert(NOT_AUTHORIZED, 'addACErrorAlert');
+                $("#addACErrorAlert").show();
+            },
+            415: function () {
+                addAlert(NOT_ALLOWED_METHOD, 'addACErrorAlert');
+                $("#addACErrorAlert").show();
+            }
         }
     });
 }

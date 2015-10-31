@@ -13,6 +13,7 @@ var CONSTANTE_ERROR_MESSAGE_SERVIDOR_500 = "Error interno del servidor";
 var BASE_URL_SERVER = "http://tecnocompetition.ddns.net:8080/pfinal/services/";
 var NOT_ALLOWED_METHOD = "Método no permitido";
 var NOT_AUTHORIZED = "No autorizado";
+var DB_ERROR = "Error de base de datos";
 /**
  * 
  * URLS DE WEBSERVICES
@@ -43,4 +44,10 @@ function loadMainPanel(panelId) {
     console.log("Main panel created and appended to " + panelId + ".");
     return r;
 }
- 
+
+function addAlert(message, id) { //cargar mensajes de error 
+    $('#' + id).append(
+            '<div class="alert">' +
+            '<button type="button" class="close" data-dismiss="alert">' +
+            '&times;</button>' + message + '</div>');
+}

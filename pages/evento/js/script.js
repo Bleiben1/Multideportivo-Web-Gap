@@ -91,16 +91,15 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
         url: theURL,
         type: 'PUT',
         headers: {
-			"Authorization":"oauth " + token
+		"Authorization":"oauth " + token
         },
         data: JSON.stringify(arr),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
         success: function (msg) {
-			$('#modifEventModal').modal('hide');
-            //listEvents();
-			setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
+		$('#modifEventModal').modal('hide');
+		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
         }
     });
 }
@@ -114,15 +113,16 @@ function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
     $.ajax({
         url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.maincompetition/',
         type: 'POST',
-        /*headers: {
-            "token": token
-        },*/
+        headers: {
+		"Authorization":"oauth " + token
+        },
         data: JSON.stringify(arr),
         contentType: 'application/json; charset=utf-8',
         dataType: 'json',
         async: false,
         success: function (msg) {
-            listEvents();
+        	$('#addEventModal').modal('hide');
+		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
         }
     });
 }

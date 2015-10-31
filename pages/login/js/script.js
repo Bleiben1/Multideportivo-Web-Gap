@@ -34,6 +34,13 @@ function login(username, password) {
             console.log("success");
             alert('Logueado correctamente.');
             document.getElementById("log-in").text = "Cerrar Sesión";
+            /*var div = document.createElement("div");
+            div.innerHTML = "<b>WELCOME BACK</b>";
+            div.setAttribute("class","col-md-12");
+            div.setAttribute("id","infoContainer");
+            $("#content").load(div);*/
+            //document.getElementById("content").removeChild("login_container");
+            $("#login_container").remove();
         },
         statusCode: {
             401:

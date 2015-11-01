@@ -164,7 +164,7 @@ function chargeACData(Object) {
     });
 }
 
-function listAC(combo) { //llenar combo con los id de los admines de competición existentes
+function listAC(combo) { //llenar combo con los id de los eventos principales existentes
     var i = 0;
     console.log(combo);
     $.ajax({

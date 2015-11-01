@@ -11,10 +11,27 @@ $(document).ready(function () {
     loadMainPanel("eventMainPanel");//loads the main panel
     listAdminDelegation(); //listado de los administradores de de
     
+    $("body").on("click", "#btnEditAC", function (e) {
+        console.log("Updating the new data");
+        var updateNickname = document.getElementById("ACNickname").value;
+        var updateMCId = document.getElementById("ACMCId").value;
+        var updateEmail = document.getElementById("ACEmail").value;
+        var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
+        var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
+        var ACId = document.getElementById("ACId").value;
+        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
+        var flag = editAC(ACId, arr);
+        if (flag === true) {
+            var element = document.getElemenById(updateMCId);
+            element.parentNode.parentNode.childNodes[1].text = updateNickname;
+        }
+
+    });
+
     $("body").on("shown.bs.modal", "#addADModal", function (e) {
         aux = document.getElementById("AddDId");
         if (aux.length === 0) {
-            listAD(aux);
+            listDelegation(aux);
         }
     });
     $("body").on("hidden.bs.modal", "#addADModal", function (e) {
@@ -22,6 +39,14 @@ $(document).ready(function () {
     });
      $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
         document.getElementById("SDForm").reset();
+    });
+    
+        $("body").on("hidden.bs.modal", "#editACModal", function (e) {
+        document.getElementById("editACForm").reset();
+    });
+
+    $('.alert .close').on('click', function (e) {
+        $(this).parent().hide();
     });
    });
 function parseEventToHtml(admin_delegation) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla
@@ -82,6 +107,7 @@ function addAD(nickname, email, password, delegationId) {
             "Authorization": "oauth " + token
         },
         success: function (data) {
+                        $("#addADOkAlert").show();
                 var html = parseEventToHtml(data);
                 $("#ADTable > thead:last").append(html);
         },
@@ -107,7 +133,7 @@ function addAD(nickname, email, password, delegationId) {
         
     });
 }
-function listAD(combo){
+function listDelegation(combo){
     var i = 0;
     console.log(combo);
     $.ajax({
@@ -148,6 +174,88 @@ function seeDetailAD(Object) {
             aux.value = data.delegationId.countryId.name;
             aux = document.getElementById("delEmail");
             aux.value = data.delegationId.email;
+        }
+    });
+}
+
+function editAD(idAD, ADUpdatedData) {
+    var flag = false;
+    var token = localStorage.getItem('token');
+
+    console.log(token);
+    $.ajax({
+        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + idAC,
+        type: 'PUT',
+        data: JSON.stringify(ADUpdatedData),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        cache: false,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        success: function () {
+            $("#editADOkAlert").show();
+            return flag = true;
+        },
+        statusCode: {
+            404: function () {
+                addAlert('No se ha encontrado el admin de delegación a modificar', 'editADErrorAlert');
+                $("#editADErrorAlert").show();
+            },
+            500: function () {
+                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editADErrorAlert');
+                $("#editADErrorAlert").show();
+            },
+            415: function () {
+                addAlert(NOT_ALLOWED_METHOD, 'editADErrorAlert');
+                $("#editADErrorAlert").show();
+            },
+            401: function () {
+                addAlert(NOT_AUTHORIZED, 'editADErrorAlert');
+                $("#editADErrorAlert").show();
+            }
+        }
+    });
+}
+
+function chargeADData(Object) {
+    ACId = Object.parentNode.parentNode.childNodes[0].childNodes[0].text;
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + ACId,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        cache: false,
+        success: function (data) {
+            var aux = document.getElementById("ADNickname");
+            aux.value = data.nickname;
+            aux = document.getElementById("ADId");
+            aux.value = data.adminId;
+            aux = document.getElementById("ADEmail");
+            aux.value = data.email;
+            aux = document.getElementById("ADPassword");
+            aux.value = data.password;
+            aux = document.getElementById("ADToken");
+            aux.value = data.token;
+            aux = document.getElementById("ADDelegation");
+            if (aux.length === 0) { //no permite cargar múltiples veces el combobox
+                listDelegation(aux);
+            }
+            //console.log(aux.options);
+            $.each(aux.options, function (i, option) {
+                console.log(option.value);
+                console.log(data.delegationId.delegationId); //revisar cuando anden los ws de delegation
+                if (option.value == data.delegationId.delegationId)
+                {
+                    console.log("ok");
+                    console.log(option.index);
+                    aux.selectedIndex = option.index;
+                    return true;
+                }
+            });
         }
     });
 }

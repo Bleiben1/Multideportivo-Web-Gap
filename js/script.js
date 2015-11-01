@@ -26,6 +26,11 @@ $(document).ready(function () {
 		console.log("getting events form ws, please wait...");
         $("#content").load("pages/evento/evento.html");
     });
+	
+	$("body").on("click", "#idCompeticiones", function (e) {
+		console.log("getting events form ws, please wait...");
+    	$("#content").load("pages/competicion/competicion.html");
+    });
     
     $("body").on("click", "#idAdminCompetition", function (e){
        console.log("getting the data from ws, please wait...");

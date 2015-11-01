@@ -24,6 +24,7 @@ var WS_URLS =
             REGISTRO: "http://www......com/",
             //EVENTOS_LISTAR_DESDE_HASTA: "http://localhost.com:8080/PFinal/services/entities.maincompetition/",
             EVENTOS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.maincompetition/",
+            COMPETICIONES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.competition/",
             ADMIN_COMPETITION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.admincompetition/",
             ADMIN_DELEGATION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.admindelegation/",
             ADMIN_COMPETITION_VER_DETALLE: BASE_URL_SERVER+"entities.admincompetition/",

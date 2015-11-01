@@ -52,6 +52,12 @@ $(document).ready(function () {
         var newEventEnd = newEventEndDate + "T" + newEventEndTime+ ":00";
         modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventDesc);
     });
+	
+	$("body").on("click", ".btnDel", function (e) {
+        console.log("Deleting event data from ws");
+        var eventId = $(this).attr("id");
+		delEvent(eventId);
+    });
 });
 
 
@@ -77,7 +83,7 @@ function parseEventToHtml(event) {
     return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><h3>' +
             event.startDate + " " + event.endDate +
             '</h3><h2>' + event.name + '</h2><p>' + event.description +
-            '</p><a id="' + event.mainCompetitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifEventModal" data-event-name="' + event.name + '" data-event-description="' + event.description + '" data-event-startdate="' + event.startDate + '" data-event-enddate="' + event.endDate + '">Modificar</a> <a class="btn btn-primary" href="#">Borrar</a></div></div></li>';
+            '</p><a id="' + event.mainCompetitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifEventModal" data-event-name="' + event.name + '" data-event-description="' + event.description + '" data-event-startdate="' + event.startDate + '" data-event-enddate="' + event.endDate + '">Modificar</a> <a class="btn btn-primary btnDel" href="#" id="' + event.mainCompetitionId + '">Borrar</a></div></div></li>';
     '</p></div></div></li>';
 }
 
@@ -123,6 +129,25 @@ function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
         success: function (msg) {
         	$('#addEventModal').modal('hide');
 		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
+        }
+    });
+}
+
+function delEvent(eventId) {
+    var token = localStorage.getItem('token');
+    console.log(token);
+	var theURL = "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.maincompetition/" + eventId;
+    $.ajax({
+        url: theURL,
+        type: 'DELETE',
+        headers: {
+		"Authorization":"oauth " + token
+        },
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (msg) {
+			setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000)
         }
     });
 }

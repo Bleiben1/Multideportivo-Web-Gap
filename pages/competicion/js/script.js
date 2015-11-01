@@ -3,8 +3,6 @@ var total_per_page = 10;
 
 $(document).ready(function () {
     console.log("Competicion document ready.");
-	var spliter = location.search.replace('?', '').split('=');
-	var eventId = spliter[1];
     listCompetitions();
 	
 /*    $("body").on("click", "#btnAddEvent", function (e) {
@@ -84,6 +82,7 @@ function listCompetitions() {
             });
         },
     });
+    localStorage.removeItem("listCompetitionEventId");
 }
 
 function parseCompetitionToHtml(event) {

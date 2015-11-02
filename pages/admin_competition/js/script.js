@@ -27,12 +27,19 @@ $(document).ready(function () {
         var updateEmail = document.getElementById("ACEmail").value;
         var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
         var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
+        var updateStatus = document.getElementById("ACStatus").value;
+        console.log("el valor del status es: "+document.getElementById("ACStatus").value);
         var ACId = document.getElementById("ACId").value;
-        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
-        var flag = editAC(ACId, arr);
-        if (flag === true) {
-            var element = document.getElemenById(updateMCId);
-            element.parentNode.parentNode.childNodes[1].text = updateNickname;
+        console.log();
+        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
+        var flagA = false;
+        flagA = editAC(ACId, arr);
+        console.log(flagA);
+        if (flagA === true) {
+            var element = document.getElementById(ACId);
+            console.log(element.parentNode.parentNode.childNodes[1].innerHTML);
+            element.parentNode.parentNode.childNodes[1].innerHTML = updateNickname;
+            element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus)?"Active" : "Inactive";
         }
 
     });
@@ -44,6 +51,8 @@ $(document).ready(function () {
     });
     $("body").on("hidden.bs.modal", "#addACModal", function (e) {
         document.getElementById("AddForm").reset();
+        $("#addACOkAlert").hide();
+        $("#addACErrorAlert").hide();
     });
 
     $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
@@ -52,6 +61,8 @@ $(document).ready(function () {
 
     $("body").on("hidden.bs.modal", "#editACModal", function (e) {
         document.getElementById("editACForm").reset();
+        $("#editACOkAlert").hide();
+        $("#editACErrorAlert").hide();
     });
 
     $('.alert .close').on('click', function (e) {
@@ -118,9 +129,7 @@ function parseEventToHtml(admin_competition) {
             //'<td>' + admin_competition.mainCompetitionId.name + '</td>' +
             '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_competition.adminId + ' data-toggle="modal" data-target="#editACModal" onclick="chargeACData(this)">' +
             '<span class="glyphicon glyphicon-edit">' +
-            '</span> Edit</a> <a href="#" class="btn btn-danger btn-xs">' +
-            '<span class="glyphicon glyphicon-remove">' +
-            '</span> Change Status</a>' + '</td>'
+            '</span> Edit</a>' + '</td>'
     '</tr>';
 }
 function chargeACData(Object) {
@@ -144,6 +153,9 @@ function chargeACData(Object) {
             aux.value = data.password;
             aux = document.getElementById("ACToken");
             aux.value = data.token;
+            aux = document.getElementById("ACStatus");
+            console.log("el valor es: "+aux);
+            aux.selectedIndex = (data.status) ? 1 : 0 ;
             aux = document.getElementById("ACMCId");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                 listAC(aux);
@@ -187,9 +199,8 @@ function listAC(combo) { //llenar combo con los id de los eventos principales ex
 }
 function editAC(idAC, ACUpdatedData) {
     console.log(idAC);
-    var flag = false;
     var token = localStorage.getItem('token');
-
+    var flag = false;
     console.log(token);
     $.ajax({
         url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.admincompetition/' + idAC,
@@ -204,7 +215,7 @@ function editAC(idAC, ACUpdatedData) {
         },
         success: function () {
             $("#editACOkAlert").show();
-            return flag = true;
+            flag = true;
         },
         statusCode: {
             404: function () {
@@ -225,6 +236,7 @@ function editAC(idAC, ACUpdatedData) {
             }
         }
     });
+    return flag;
 }
 
 

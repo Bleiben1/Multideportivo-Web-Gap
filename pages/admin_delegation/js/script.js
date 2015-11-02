@@ -10,22 +10,34 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listAdminDelegation(); //listado de los administradores de de
-    
-    $("body").on("click", "#btnEditAC", function (e) {
+
+    $("body").on("click", "#btnEditAD", function (e) {
         console.log("Updating the new data");
-        var updateNickname = document.getElementById("ACNickname").value;
-        var updateMCId = document.getElementById("ACMCId").value;
-        var updateEmail = document.getElementById("ACEmail").value;
-        var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
-        var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
-        var ACId = document.getElementById("ACId").value;
-        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
-        var flag = editAC(ACId, arr);
+        var updateNickname = document.getElementById("ADNickname").value;
+        var updateDId = document.getElementById("ADDelegation").value;
+        var updateDName = document.getElementById("ADDelegation").options[document.getElementById("ADDelegation").selectedIndex].text;
+        var updateEmail = document.getElementById("ADEmail").value;
+        var updatePassword = document.getElementById("ADPassword").value; // quiza se saque en el futuro
+        var updateToken = document.getElementById("ADToken").value; // quiza se saque en el futuro
+        var updateStatus = document.getElementById("ADStatus").value;
+        var ADId = document.getElementById("ADId").value;
+        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, delegationId: {delegationId: updateDId}};
+        var flag = editAD(ADId, arr);
         if (flag === true) {
-            var element = document.getElemenById(updateMCId);
-            element.parentNode.parentNode.childNodes[1].text = updateNickname;
+            var element = document.getElementById(ADId);
+            console.log(updateDName);
+            element.parentNode.parentNode.childNodes[2].innerHTML = updateDName; //necesito sacar el texto que esta puesto en el combobox
+            element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus) ? "Active" : "Inactive";
         }
 
+    });
+    $("body").on("click", "#btnAddAD", function (e) {
+        console.log("Adding new event to ws");
+        var newNickname = document.getElementById("AddNickname").value;
+        var newEmail = document.getElementById("AddEmail").value;
+        var newPassword = document.getElementById("AddPassword").value;
+        var delegationId = document.getElementById("AddDId").value;
+        addAD(newNickname, newEmail, newPassword, delegationId);
     });
 
     $("body").on("shown.bs.modal", "#addADModal", function (e) {
@@ -36,37 +48,41 @@ $(document).ready(function () {
     });
     $("body").on("hidden.bs.modal", "#addADModal", function (e) {
         document.getElementById("AddForm").reset();
+        $("#addADOkAlert").hide();
+        $("#addADErrorAlert").hide();
     });
-     $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
+    $("body").on("hidden.bs.modal", "#seeDetailModal", function (e) {
         document.getElementById("SDForm").reset();
     });
-    
-        $("body").on("hidden.bs.modal", "#editACModal", function (e) {
-        document.getElementById("editACForm").reset();
+
+    $("body").on("hidden.bs.modal", "#editADModal", function (e) {
+        document.getElementById("editADForm").reset();
+        $("#editADOkAlert").hide();
+        $("#editADErrorAlert").hide();
     });
 
     $('.alert .close').on('click', function (e) {
         $(this).parent().hide();
     });
-   });
+});
 function parseEventToHtml(admin_delegation) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla
 
-var status;
+    var status;
     status = (admin_delegation.status) ? "Active" : "Inactive";
 
     return '<tr>' +
             '<td><a onclick="seeDetailAD(this)" data-toggle="modal" data-target="#seeDetailModal">' + admin_delegation.adminId + '</a></td>' +
             '<td>' + admin_delegation.email + '</td>' +
-            '<td>' + admin_delegation.delegationId.name + '</td>' + 
+            '<td>' + admin_delegation.delegationId.name + '</td>' +
             '<td>' + status + '</td>' +
-            //'<td>' + admin_competition.mainCompetitionId.name + '</td>' +
             '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_delegation.adminId + ' data-toggle="modal" data-target="#editADModal" onclick="chargeADData(this)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a> <a href="#" class="btn btn-danger btn-xs">' +
             '<span class="glyphicon glyphicon-remove">' +
             '</span> Change Status</a>' + '</td>'
     '</tr>';
-    };
+}
+;
 
 function listAdminDelegation() {
     var limit = (current_page - 1) * total_per_page;
@@ -89,7 +105,8 @@ function listAdminDelegation() {
             });
         }
     });
-};
+}
+;
 
 function addAD(nickname, email, password, delegationId) {
     var arr = {nickname: nickname, token: "DEFAULT_TOKEN", password: password, email: email, delegationId: {delegationId: delegationId}};
@@ -107,33 +124,38 @@ function addAD(nickname, email, password, delegationId) {
             "Authorization": "oauth " + token
         },
         success: function (data) {
-                        $("#addADOkAlert").show();
-                var html = parseEventToHtml(data);
-                $("#ADTable > thead:last").append(html);
+            console.log("success?")
+            $("#addADOkAlert").show();
+            var html = parseEventToHtml(data);
+            $("#ADTable > thead:last").append(html);
         },
         statusCode: {
             500: function () {
+                console.log("error 500");
                 addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addADErrorAlert');
                 $("#addADErrorAlert").show();
             },
             400: function () {
+                console.log("error 400");
                 addAlert(DB_ERROR, 'addADErrorAlert');
                 $("#addADErrorAlert").show();
 
             },
             401: function () {
+                console.log("error 401");
                 addAlert(NOT_AUTHORIZED, 'addADErrorAlert');
                 $("#addADErrorAlert").show();
             },
             415: function () {
+                console.log("error 415");
                 addAlert(NOT_ALLOWED_METHOD, 'addADErrorAlert');
                 $("#addADErrorAlert").show();
             }
         }
-        
+
     });
 }
-function listDelegation(combo){
+function listDelegation(combo) {
     var i = 0;
     console.log(combo);
     $.ajax({
@@ -184,7 +206,7 @@ function editAD(idAD, ADUpdatedData) {
 
     console.log(token);
     $.ajax({
-        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + idAC,
+        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + idAD,
         type: 'PUT',
         data: JSON.stringify(ADUpdatedData),
         contentType: 'application/json; charset=utf-8',
@@ -196,7 +218,7 @@ function editAD(idAD, ADUpdatedData) {
         },
         success: function () {
             $("#editADOkAlert").show();
-            return flag = true;
+            flag = true;
         },
         statusCode: {
             404: function () {
@@ -217,6 +239,7 @@ function editAD(idAD, ADUpdatedData) {
             }
         }
     });
+    return flag;
 }
 
 function chargeADData(Object) {
@@ -240,6 +263,9 @@ function chargeADData(Object) {
             aux.value = data.password;
             aux = document.getElementById("ADToken");
             aux.value = data.token;
+            aux = document.getElementById("ADStatus");
+            console.log("el valor es: "+aux);
+            aux.selectedIndex = (data.status) ? 1 : 0 ;
             aux = document.getElementById("ADDelegation");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                 listDelegation(aux);

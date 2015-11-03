@@ -43,6 +43,11 @@ $(document).ready(function () {
        console.log("getting the data from ws, please wait...");
        $("#content").load("pages/admin_delegation/admin_delegation.html");
    });
+   $("body").on("click","#idDelegation", function (e){
+      console.log("getting the delegations from the ws, please wait...");
+      $("#content").load("pages/delegation/delegation.html");
+   });
+   
     //--------------/prueba------------
 	$("#log-in").click(function(event) {
 	var token = localStorage.getItem("token");

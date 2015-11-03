@@ -77,8 +77,7 @@ function parseEventToHtml(admin_delegation) {//segun los datos enviados, crea un
             '<td>' + status + '</td>' +
             '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_delegation.adminId + ' data-toggle="modal" data-target="#editADModal" onclick="chargeADData(this)">' +
             '<span class="glyphicon glyphicon-edit">' +
-            '</span> Edit</a>' + '</td>'
-    '</tr>';
+            '</span> Edit</a>' + '</td>' +'</tr>';
 }
 ;
 
@@ -152,7 +151,7 @@ function addAD(nickname, email, password, delegationId) {
         }
 
     });
-}
+};
 function listDelegation(combo) {
     var i = 0;
     console.log(combo);

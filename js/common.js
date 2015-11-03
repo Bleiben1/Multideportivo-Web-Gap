@@ -29,6 +29,7 @@ var WS_URLS =
             ADMIN_DELEGATION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.admindelegation/",
             ADMIN_COMPETITION_VER_DETALLE: BASE_URL_SERVER+"entities.admincompetition/",
             DELEGATIONS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.delegation/",
+            COUNTRIES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.country/",
             ETC: "http://www.......com/"
         };
 

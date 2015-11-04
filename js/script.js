@@ -21,7 +21,6 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-    //--------------prueba-------------
     $("body").on("click", "#idEventos", function (e) {
 		console.log("getting events form ws, please wait...");
         $("#content").load("pages/evento/evento.html");
@@ -48,7 +47,6 @@ $(document).ready(function () {
       $("#content").load("pages/delegation/delegation.html");
    });
    
-    //--------------/prueba------------
 	$("#log-in").click(function(event) {
 	var token = localStorage.getItem("token");
         if (token == null){

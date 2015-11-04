@@ -5,8 +5,13 @@ $(document).ready(function () {
     console.log("Competicion document ready.");
     listCompetitions();
 	
-/*    $("body").on("click", "#btnAddEvent", function (e) {
-        console.log("Adding new event to ws");
+	$("body").on("click", ".btnAddCompetitionModalToggle", function (e) {
+		console.log("Population events select");
+		populateEventSelect();
+	});
+	
+    /*$("body").on("click", "#btnAddEvent", function (e) {
+        console.log("Adding new competition to ws");
         var newEventStartDate = document.getElementById("newEventStartDate").value;
         var newEventStartTime = document.getElementById("newEventStartTime").value;
         var newEventEndDate = document.getElementById("newEventEndDate").value;
@@ -18,38 +23,26 @@ $(document).ready(function () {
         addEvent(newEventStart, newEventEnd, newEventName, newEventDesc);
     }); */
 	
-/*	$("body").on("click", ".btnModif", function (e) {
-        console.log("Sending modified event data to ws");
-        var eventId = $(this).attr("id");
-        var newEventStartDate = "" + $(this).attr("data-event-startdate");
+	$("body").on("click", ".btnModif", function (e) {
+        console.log("Sending modified competition data to ws");
+        var competitionId = $(this).attr("id");
+		var newCompetitionName = $(this).attr("data-competition-name");
+		var newCompetitionDescription = $(this).attr("data-competition-description");
+		/* var newEventStartDate = "" + $(this).attr("data-event-startdate");
         var newEventEndDate = "" + $(this).attr("data-event-enddate");
 		var newEventName = $(this).attr("data-event-name");
-        var newEventDesc = $(this).attr("data-event-description");
-		$("#eventId").attr("value", function(){return eventId});
-		$("#newEventName2").attr("value", function(){return newEventName;});
-		$("#newEventDesc2").val(newEventDesc);
-		var startDate = newEventStartDate.substring(0,10);
-		$("#newEventStartDate2").attr("value", function(){return startDate;});
-		var startHour = newEventStartDate.substring(11,16);
-		$("#newEventStartTime2").attr("value", function(){return startHour;});
-		var endDate = newEventEndDate.substring(0,10);
-		$("#newEventEndDate2").attr("value", function(){return endDate;});
-		var endHour = newEventEndDate.substring(11,16);
-		$("#newEventEndTime2").attr("value", function(){return endHour;});
-    });*/
+        var newEventDesc = $(this).attr("data-event-description");*/
+		$("#competitionId").attr("value", function(){return competitionId});
+		$("#newCompetitionName").attr("value", function(){return newCompetitionName;});
+		$("#newCompetitionDescription").val(newCompetitionDescription);
+    });
 	
-/*    $("body").on("click", "#btnModifEvent", function (e) {
+/*    $("body").on("click", "#btnModifCompetition", function (e) {
         console.log("Adding new event to ws");
-		var eventId  = document.getElementById("eventId").value;
-        var newEventStartDate = document.getElementById("newEventStartDate2").value;
-        var newEventStartTime = document.getElementById("newEventStartTime2").value;
-        var newEventEndDate = document.getElementById("newEventEndDate2").value;
-        var newEventEndTime = document.getElementById("newEventEndTime2").value;
-        var newEventName = document.getElementById("newEventName2").value;
-        var newEventDesc = document.getElementById("newEventDesc2").value;
-        var newEventStart = newEventStartDate + "T" + newEventStartTime+ ":00";
-        var newEventEnd = newEventEndDate + "T" + newEventEndTime+ ":00";
-        modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventDesc);
+		var competitionId  = document.getElementById("competitionId").value;
+        var newCompetitionName = document.getElementById("newCompetitionName").value;
+        var newCompetitionDescription = document.getElementById("newCompetitionDescription").value;
+        modifCompetition(competitionId, newCompetitionName, newCompetitionDescription);
     });*/
 	
 /*	$("body").on("click", ".btnDel", function (e) {
@@ -64,12 +57,18 @@ function listCompetitions() {
     var limit = (current_page - 1) * total_per_page;
     var offset = current_page * total_per_page;
 	var eventId = localStorage.getItem('listCompetitionEventId');
+	var	wsurl = "";
+	if (eventId === null){
+		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA + limit + "/" + offset;
+	}else{
+		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA+ eventId + "/" + limit + "/" + offset;
+	}
 	var token = localStorage.getItem('token');
     console.log(token);
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA+ eventId + "/" + limit + "/" + offset,
+        url: wsurl,
 		headers: {
 			"Authorization":"oauth " + token
         },
@@ -91,7 +90,30 @@ function parseCompetitionToHtml(event) {
     '</p></div></div></li>';
 }
 
-/*function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventDesc) {
+function populateEventSelect() {
+	var limit = 0;
+    var offset = 50;
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.EVENTOS_LISTAR_DESDE_HASTA + limit + "/" + offset,
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (i, evnt) {
+                console.log(evnt);
+                var html = parseEventToPopulateSelectHtml(evnt);
+                $("#newCompetitionMainCompetitionId").append(html);
+            });
+        },
+    });
+}
+
+function parseEventToPopulateSelectHtml(event) {
+    return '<option value=' + event.mainCompetitionId + '>' + event.name + '</option>';
+}
+
+/* se consultará por la def. del ws sobre esta funcionalidad 
+function modifCompetition(competitionId, newCompetitionName, newCompetitionDescription) {
     var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
     console.log(arr);
     var token = localStorage.getItem('token');

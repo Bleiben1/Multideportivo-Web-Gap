@@ -46,7 +46,10 @@ $(document).ready(function () {
       console.log("getting the delegations from the ws, please wait...");
       $("#content").load("pages/delegation/delegation.html");
    });
-   
+    $("body").on("click","#idDiscipline", function (e){
+      console.log("getting the disciplines from the ws, please wait...");
+      $("#content").load("pages/discipline/discipline.html");
+   });
 	$("#log-in").click(function(event) {
 	var token = localStorage.getItem("token");
         if (token == null){

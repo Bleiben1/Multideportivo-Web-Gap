@@ -30,7 +30,7 @@ $(document).ready(function () {
         var updateTel = document.getElementById("editDelTel").value; // quiza se saque en el futuro
         var updateMQ = document.getElementById("editDelMQ").value; // quiza se saque en el futuro
         var updateCId = document.getElementById("editDelCountry").value;
-        var arr = {name: updateName, telephone: updateTel,imageUrl: "//", membersQty: updateMQ, email: updateEmail, countryId: {countryId: updateCId}};
+        var arr = {name: updateName, telephone: updateTel, imageUrl: "//", membersQty: updateMQ, email: updateEmail, countryId: {countryId: updateCId}};
         var flag = editDelegation(delegationId, arr);
         if (flag === true) {
             var element = document.getElementById(delegationId);
@@ -82,6 +82,7 @@ function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila
 function chargeDelegationData(idDelegation) {
     idDel = idDelegation.substring(4);
     console.log(idDel);
+    token = localStorage.getItem("token");
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -142,8 +143,7 @@ function listDelegations() {
             });
         }
     });
-}
-;
+};
 function seeDetailDelegation(idDelegation) {
     console.log(idDelegation);
     $.ajax({

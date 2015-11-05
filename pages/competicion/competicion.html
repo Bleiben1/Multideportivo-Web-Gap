@@ -24,45 +24,39 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="newEventStartDate" class="col-sm-2 control-label">Fecha de inicio</label>
+                            <label for="newCompetitionLocationId" class="col-sm-2 control-label">Seleccione una localidad</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="newEventStartDate" >
+                                <select class="form-control" name="newCompetitionLocationId" id="newCompetitionLocationId" >
+                                	<option value="0" selected>Seleccione localidad...</option>
+                                	<option value="1">Estadio unico de la Plata</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="newEventStartTime" class="col-sm-2 control-label">Hora de Inicio</label>
+                            <label for="newCompetitionName" class="col-sm-2 control-label">Nombre</label>
                             <div class="col-sm-10">
-                                <input type="time" class="form-control" id="newEventStartTime" >
+                                <input type="text" class="form-control" id="newCompetitionName" placeholder="Nombre de la nueva competicion">
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="newEventEndDate" class="col-sm-2 control-label">Fecha de Fin</label>
+                            <label for="newCompetitionDesc" class="col-sm-2 control-label">Descripcion</label>
                             <div class="col-sm-10">
-                                <input type="date" class="form-control" id="newEventEndDate" >
+                                <textarea class="form-control" rows="3" id="newCompetitionDesc"></textarea>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="newEventEndTime" class="col-sm-2 control-label">Hora de Fin</label>
+                            <label for="newCompetitionDisciplineId" class="col-sm-2 control-label">Seleccione una disciplina</label>
                             <div class="col-sm-10">
-                                <input type="time" class="form-control" id="newEventEndTime" >
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newEventName" class="col-sm-2 control-label">Nombre</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="newEventName" placeholder="Nombre del nuevo evento">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newEventDesc" class="col-sm-2 control-label">Descripcion</label>
-                            <div class="col-sm-10">
-                                <textarea class="form-control" rows="3" id="newEventDesc"></textarea>
+                                <select class="form-control" name="newCompetitionLocationId" id="newCompetitionDisciplineId" >
+                                	<option value="0" selected>Seleccione disciplina...</option>
+                                	<option value="1">Futbol</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="col-sm-offset-2 col-sm-10">
                                 <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
-                                <button type="button" class="btn btn-primary" id="btnAddEvent"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                                <button type="button" class="btn btn-primary" id="btnAddCompetition"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                             </div>
                         </div>
                     </form>
@@ -74,37 +68,61 @@
     
     <!-- Modal2 -->
     <div class="modal fade" id="modifCompetitionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title" id="myModalLabel2">Modificar Competencia</h4>
-          </div>
-          <div class="modal-body">
-		  		<form class="form-horizontal">
-	   		      <input type="text" class="form-control hidden" id="competitionId" placeholder="super id">
-                  <div class="form-group">
-                  	<label for="newCompetitionName" class="col-sm-2 control-label">Nombre</label>
-				    <div class="col-sm-10">
-					    <input type="text" class="form-control" id="newCompetitionName" placeholder="Nombre del evento">
-				    </div>
-                  </div>
-                  <div class="form-group">
-                  	<label for="newCompetitionDescription" class="col-sm-2 control-label">Descripcion</label>
-				    <div class="col-sm-10">
-					    <textarea class="form-control" rows="3" id="newCompetitionDescription"></textarea>
-				    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-						            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
-       							    <button type="button" class="btn btn-primary" id="btnModifCompetition"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar Cambios</button>
-                    </div>
-                  </div>
-                </form>
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel2">Modificar competencia</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="newCompetitionMainCompetitionId2" class="col-sm-2 control-label">Seleccione un Evento</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="newCompetitionMainCompetitionId2" id="newCompetitionMainCompetitionId2" >
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompetitionLocationId2" class="col-sm-2 control-label">Seleccione una localidad</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="newCompetitionLocationId2" id="newCompetitionLocationId2" >
+                                	<option value="0" selected>Seleccione localidad...</option>
+                                	<option value="1">Estadio unico de la Plata</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompetitionName2" class="col-sm-2 control-label">Nombre</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="newCompetitionName2" placeholder="Nombre de la nueva competicion">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompetitionDesc2" class="col-sm-2 control-label">Descripcion</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" rows="3" id="newCompetitionDesc2"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="newCompetitionDisciplineId2" class="col-sm-2 control-label">Seleccione una disciplina</label>
+                            <div class="col-sm-10">
+                                <select class="form-control" name="newCompetitionLocationId2" id="newCompetitionDisciplineId2" >
+                                	<option value="0" selected>Seleccione disciplina...</option>
+                                	<option value="1">Futbol</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                                <button type="button" class="btn btn-primary" id="btnModifCompetition"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- /modal2 -->
 </div>

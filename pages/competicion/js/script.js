@@ -10,28 +10,21 @@ $(document).ready(function () {
 		populateEventSelect();
 	});
 	
-    /*$("body").on("click", "#btnAddEvent", function (e) {
+    $("body").on("click", "#btnAddCompetition", function (e) {
         console.log("Adding new competition to ws");
-        var newEventStartDate = document.getElementById("newEventStartDate").value;
-        var newEventStartTime = document.getElementById("newEventStartTime").value;
-        var newEventEndDate = document.getElementById("newEventEndDate").value;
-        var newEventEndTime = document.getElementById("newEventEndTime").value;
-        var newEventName = document.getElementById("newEventName").value;
-        var newEventDesc = document.getElementById("newEventDesc").value;
-        var newEventStart = newEventStartDate + "T" + newEventStartTime+ ":00";
-        var newEventEnd = newEventEndDate + "T" + newEventEndTime+ ":00";
-        addEvent(newEventStart, newEventEnd, newEventName, newEventDesc);
-    }); */
+        var newCompetitionMainCompetitionId = document.getElementById("newCompetitionMainCompetitionId").value;
+        var newCompetitionLocationId = document.getElementById("newCompetitionLocationId").value;
+        var newCompetitionName = document.getElementById("newCompetitionName").value;
+        var newCompetitionDesc = document.getElementById("newCompetitionDesc").value;
+        var newCompetitionDisciplineId = document.getElementById("newCompetitionDisciplineId").value;
+        addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId);
+    });
 	
 	$("body").on("click", ".btnModif", function (e) {
         console.log("Sending modified competition data to ws");
         var competitionId = $(this).attr("id");
 		var newCompetitionName = $(this).attr("data-competition-name");
 		var newCompetitionDescription = $(this).attr("data-competition-description");
-		/* var newEventStartDate = "" + $(this).attr("data-event-startdate");
-        var newEventEndDate = "" + $(this).attr("data-event-enddate");
-		var newEventName = $(this).attr("data-event-name");
-        var newEventDesc = $(this).attr("data-event-description");*/
 		$("#competitionId").attr("value", function(){return competitionId});
 		$("#newCompetitionName").attr("value", function(){return newCompetitionName;});
 		$("#newCompetitionDescription").val(newCompetitionDescription);
@@ -45,11 +38,11 @@ $(document).ready(function () {
         modifCompetition(competitionId, newCompetitionName, newCompetitionDescription);
     });*/
 	
-/*	$("body").on("click", ".btnDel", function (e) {
-        console.log("Deleting event data from ws");
-        var eventId = $(this).attr("id");
-		delEvent(eventId);
-    });*/
+	$("body").on("click", ".btnDel", function (e) {
+        console.log("Deleting competition data from ws");
+        var competitionId = $(this).attr("id");
+		delCompetition(competitionId);
+    });
 });
 
 
@@ -58,7 +51,7 @@ function listCompetitions() {
     var offset = current_page * total_per_page;
 	var eventId = localStorage.getItem('listCompetitionEventId');
 	var	wsurl = "";
-	if (eventId === null){
+	if (localStorage.getItem('listCompetitionEventId') === null){
 		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA + limit + "/" + offset;
 	}else{
 		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA+ eventId + "/" + limit + "/" + offset;
@@ -112,8 +105,7 @@ function parseEventToPopulateSelectHtml(event) {
     return '<option value=' + event.mainCompetitionId + '>' + event.name + '</option>';
 }
 
-/* se consultará por la def. del ws sobre esta funcionalidad 
-function modifCompetition(competitionId, newCompetitionName, newCompetitionDescription) {
+/*function modifCompetition(competitionId, newCompetitionName, newCompetitionDescription) {
     var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -137,13 +129,13 @@ function modifCompetition(competitionId, newCompetitionName, newCompetitionDescr
 }*/
 
 
-/*function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
-    var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
+function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
+    var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
     $.ajax({
-        url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.maincompetition/',
+        url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.competition/',
         type: 'POST',
         headers: {
 		"Authorization":"oauth " + token
@@ -153,16 +145,16 @@ function modifCompetition(competitionId, newCompetitionName, newCompetitionDescr
         dataType: 'json',
         async: false,
         success: function (msg) {
-        	$('#addEventModal').modal('hide');
-		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
+        	$('#addCompetitionModal').modal('hide');
+		setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 1000);
         }
     });
-}*/
+}
 
-/*function delEvent(eventId) {
+function delCompetition(competitionId) {
     var token = localStorage.getItem('token');
     console.log(token);
-	var theURL = "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.maincompetition/" + eventId;
+	var theURL = "http://tecnocompetition.ddns.net:8080/pfinal/services/entities.competition/" + competitionId;
     $.ajax({
         url: theURL,
         type: 'DELETE',
@@ -173,7 +165,7 @@ function modifCompetition(competitionId, newCompetitionName, newCompetitionDescr
         dataType: 'json',
         async: false,
         success: function (msg) {
-			setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000)
+			setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 1000)
         }
     });
-}*/
+}

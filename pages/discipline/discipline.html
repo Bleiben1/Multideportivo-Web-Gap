@@ -44,15 +44,15 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="AddMemQty" class="col-sm-2 control-label">Img</label>
+                        <label for="AddImg" class="col-sm-2 control-label">Img</label>
                         <div class="col-sm-10">
-                            <input type="file"  name="archivos" />
+                            <input type="file"  name="archivos"  class="form-control" id="AddImg">
                         </div>
                     </div>
-                    <div class="alert alert-warning alert-dismissable" id="addDelErrorAlert" style="display:none;">
+                    <div class="alert alert-warning alert-dismissable" id="addDiscErrorAlert" style="display:none;">
 
                     </div>
-                    <div class="alert alert-success alert-dismissable" id="addDelOkAlert" style="display:none;">
+                    <div class="alert alert-success alert-dismissable" id="addDiscOkAlert" style="display:none;">
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                         <strong>¡Éxito!</strong> Se ha agregado la disciplina correctamente.
                     </div>
@@ -60,6 +60,57 @@ and open the template in the editor.
                         <div class="col-sm-offset-2 col-sm-10">
                             <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
                             <button type="button" class="btn btn-primary" id="btnAddDiscipline"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editDisciplineModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar información de la disciplina</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="editDisciplineForm">
+                    <div class="form-group">
+                        <label for="editDiscId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editDiscId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDiscName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="editDiscName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDiscDescription" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea rows="3" maxlength="500" class="form-control" id="editDiscDescription"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <!--<label for="editDiscImg" class="col-sm-2 control-label">Img</label>-->
+                        <div class="col-sm-10">
+                            <input type="hidden" class="form-control" id="editDiscImg">
+                        </div>
+                    </div>
+                    <div class="alert alert-warning alert-dismissable" id="editDiscErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="editDiscOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se han modificado los datos correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnEditDiscipline"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                         </div>
                     </div>
                 </form>

@@ -16,7 +16,7 @@ $(document).ready(function () {
         var newName = document.getElementById("AddName").value;
         var newDescription = document.getElementById("AddDescription").value;
         //var newImg = document.getElementById("AddImg").value; 
-        addDelegation(newName, newDescription, "//");
+        addDiscipline(newName, newDescription, "/noimage/");
     });
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnEditDiscipline", function (e) {
@@ -25,11 +25,10 @@ $(document).ready(function () {
         var updateName = document.getElementById("editDiscName").value;
         //var updateImg = document.getElementById("editDiscImg").value; 
         var updateDescription = document.getElementById("editDiscDescription").value;
-        var arr = {name: updateName, description: updateDescription,imageUrl: "//"};
+        var arr = {name: updateName, description: updateDescription,imageUrl: "/noimage/"};
         var flag = editDiscipline(disciplineId, arr);
         if (flag === true) {
-            var element = document.getElementById(disciplineId);
-            console.log(updateDName);
+            var element = document.getElementById('edit'+disciplineId);
             element.parentNode.parentNode.childNodes[1].innerHTML = updateName; //necesito sacar el texto que esta puesto en el combobox
             element.parentNode.parentNode.childNodes[2].innerHTML = updateDescription;
             //element.parentNode.parentNode.childNodes[3].innerHTML = updateImg;
@@ -57,6 +56,11 @@ $(document).ready(function () {
         $("#editDiscOkAlert").hide();
         $("#editDiscErrorAlert").hide();
     });
+        $("body").on("hidden.bs.modal", "#editDisciplineModal", function (e) {
+        document.getElementById("editDisciplineForm").reset();
+        $("#editDiscOkAlert").hide();
+        $("#editDiscErrorAlert").hide();
+    });
 });
 function parseEventToHtml(discipline) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla
 
@@ -64,7 +68,7 @@ function parseEventToHtml(discipline) {//segun los datos enviados, crea una fila
             '<td>' + discipline.disciplineId + '</td>' +
             '<td>' + discipline.name + '</td>' +
             '<td>' + discipline.description + '</td>' +
-            '<!-- <td class="text-center"> -->' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + discipline.disciplineId + ' data-toggle="modal" data-target="#editDisciplineModal" onclick="chargeDisciplineData(this.id)">' +
+            '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + discipline.disciplineId + ' data-toggle="modal" data-target="#editDisciplineModal" onclick="chargeDisciplineData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + discipline.disciplineId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
 };

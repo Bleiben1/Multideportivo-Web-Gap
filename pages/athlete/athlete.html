@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<script src="pages/athlete/js/script.js"></script>
+<link href="pages/athlete/css/style.css" rel="stylesheet" type="text/css"/>
+<div>
+    <div class="row col-md-12 col-md-offset-0 custyle">
+        <table class="table table-striped custab" id="AthleteTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Complete Name</th>
+                    <th>Delegation</th>
+                    <th>Age</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+        </table>
+        <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#addAthleteModal"><b>+</b> Add new athlete</a>
+    </div>
+</div>
+<div class="modal fade" id="seeDetAthleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Información detallada del atleta</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="SDAthleteForm">
+                    <div class="form-group" >
+                        <label for="dob" class="col-sm-2 control-label">Birthday</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="dob" readonly >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="featured" class="col-sm-2 control-label">Featured</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="featured" readonly>
+                        </div>
+                    </div>   
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addAthleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">Agregar nuevo atleta</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="AddAthleteForm">
+                    <div class="form-group">
+                        <label for="AddName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="AddName" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddLastName" class="col-sm-2 control-label">LastName</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="AddLastName" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDob" class="col-sm-2 control-label">Birthday</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="AddDob" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddFeatured" class="col-sm-2 control-label">Featured</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="AddFeatured" >
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddDelegation" class="col-sm-2 control-label">Delegation</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="AddDelegation">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning alert-dismissable" id="addAthleteErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="addAthleteOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se ha agregado el atleta correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnAddAthlete"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editAthleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar información del atleta</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="editAthleteForm">
+                    <div class="form-group">
+                        <label for="AthleteId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editAthleteId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AthleteName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editAthleteName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AthleteLastName" class="col-sm-2 control-label">Last Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editAthleteLastName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AthleteDelegation" class="col-sm-2 control-label">Delegation</label>
+                        <div class="col-sm-10">
+                            <select  class="form-control" id="editAthleteDelegation" >
+
+                            </select>
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                        <label for="AthleteDob" class="col-sm-2 control-label">Birthday</label>
+                        <div class="col-sm-10">
+                            <input type="date" class="form-control" id="editAthleteDob">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                        <label for="AthleteFeatured" class="col-sm-2 control-label">Featured</label>
+                        <div class="col-sm-10">
+                            <select  class="form-control" id="editAthleteFeatured" >
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning alert-dismissable" id="editAthleteErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="editAthleteOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se han modificado los datos correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnEditAthlete"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

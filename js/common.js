@@ -7,6 +7,8 @@
  * 
  * Url principal
  */
+var current_page = 1;
+var total_per_page = 10;
 var BASE_URL = 'localhost:8282/Multideportivo-Web-Gap/';
 var CONSTANTE_ERROR_MESSAGE_NO_AUTORIZADO = "No autorizado";
 var CONSTANTE_ERROR_MESSAGE_SERVIDOR_500 = "Error interno del servidor";
@@ -31,6 +33,7 @@ var WS_URLS =
             DELEGATIONS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.delegation/",
             COUNTRIES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.country/",
             DISCIPLINES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.discipline/",
+            ATHLETES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.athlete/",
             ETC: "http://www.......com/"
         };
 
@@ -53,4 +56,55 @@ function addAlert(message, id) { //cargar mensajes de error
             '<div class="alert">' +
             '<button type="button" class="close" data-dismiss="alert">' +
             '&times;</button>' + message + '</div>');
+}
+
+function calculateAge(date){
+    var values=date.split("-");
+        var day = values[2];
+        var month = values[1];
+        var year = values[0];
+ 
+        // cogemos los valores actuales
+        var date_today = new Date();
+        var today_year = date_today.getYear();
+        var today_month = date_today.getMonth()+1;
+        var today_day = date_today.getDate();
+ 
+        // realizamos el calculo
+        var age = (today_year + 1900) - year;
+        if ( today_month < month )
+        {
+            age--;
+        }
+        if ((month == today_month) && (today_day < day))
+        {
+            age--;
+        }
+        if (age > 1900)
+        {
+            age -= 1900;
+        }
+        return age;
+}
+function listDelegation(combo) {
+    var i = 0;
+    console.log(combo);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.DELEGATIONS_LISTAR_DESDE_HASTA + 0 + "/" + 900,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (i, delegation) {
+                var option = document.createElement("option");
+                option.text = delegation.name;
+                option.value = delegation.delegationId;
+                combo.add(option);
+                i++;
+            });
+        }
+    });
 }

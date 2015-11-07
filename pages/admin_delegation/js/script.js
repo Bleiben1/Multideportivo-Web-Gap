@@ -152,28 +152,6 @@ function addAD(nickname, email, password, delegationId) {
 
     });
 };
-function listDelegation(combo) {
-    var i = 0;
-    console.log(combo);
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: WS_URLS.DELEGATIONS_LISTAR_DESDE_HASTA + 0 + "/" + 900,
-        headers: {
-            "Authorization": "oauth " + token
-        },
-        success: function (data) {
-            console.log(data);
-            $.each(data, function (i, delegation) {
-                var option = document.createElement("option");
-                option.text = delegation.name;
-                option.value = delegation.delegationId;
-                combo.add(option);
-                i++;
-            });
-        }
-    });
-}
 function seeDetailAD(Object) {
     var ACId = Object.text;
     console.log(Object.text);
@@ -237,7 +215,7 @@ function editAD(idAD, ADUpdatedData) {
         }
     });
     return flag;
-}
+};
 
 function chargeADData(Object) {
     ACId = Object.parentNode.parentNode.childNodes[0].childNodes[0].text;

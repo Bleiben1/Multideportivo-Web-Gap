@@ -77,8 +77,7 @@ function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=' + delegation.delegationId + ' href="#" data-toggle="modal" data-target="#seeDetDelegationModal" onclick="seeDetailDelegation(this.id)">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
             '</span> See Detail</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + delegation.delegationId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
-}
-;
+};
 function chargeDelegationData(idDelegation) {
     idDel = idDelegation.substring(4);
     console.log(idDel);

@@ -12,8 +12,8 @@ $(document).ready(function () {
     console.log("Index page ready");
     loadMainPanel("mainPanel");//loads the main panel
     var token = localStorage.getItem("token");
-    if (token != null){
-    document.getElementById("log-in").text = "Cerrar Sesión";
+    if (token != null) {
+        document.getElementById("log-in").text = "Cerrar Sesión";
     }
     //fix para ir al inicio el panel
     $("body").on("click", "#goto_index_page", function (e) {
@@ -22,44 +22,48 @@ $(document).ready(function () {
     });
 
     $("body").on("click", "#idEventos", function (e) {
-		console.log("getting events form ws, please wait...");
+        console.log("getting events form ws, please wait...");
         $("#content").load("pages/evento/evento.html");
     });
-	
-	$("body").on("click", "#idCompeticiones", function (e) {
-		console.log("getting events form ws, please wait...");
-    	$("#content").load("pages/competicion/competicion.html");
+
+    $("body").on("click", "#idCompeticiones", function (e) {
+        console.log("getting events form ws, please wait...");
+        $("#content").load("pages/competicion/competicion.html");
     });
-    
-    $("body").on("click", "#idAdminCompetition", function (e){
-       console.log("getting the data from ws, please wait...");
-       $("#content").load("pages/admin_competition/admin_competition.html");
+
+    $("body").on("click", "#idAdminCompetition", function (e) {
+        console.log("getting the data from ws, please wait...");
+        $("#content").load("pages/admin_competition/admin_competition.html");
 
         //$("#infoContainer").load("pages/evento/evento.html"); no se si se usaba para algo, o yo lo deje sin querer
     });
-    
-     $("body").on("click", "#idAdminDelegation", function (e){
-       console.log("getting the data from ws, please wait...");
-       $("#content").load("pages/admin_delegation/admin_delegation.html");
-   });
-   $("body").on("click","#idDelegation", function (e){
-      console.log("getting the delegations from the ws, please wait...");
-      $("#content").load("pages/delegation/delegation.html");
-   });
-    $("body").on("click","#idDiscipline", function (e){
-      console.log("getting the disciplines from the ws, please wait...");
-      $("#content").load("pages/discipline/discipline.html");
-   });
-	$("#log-in").click(function(event) {
-	var token = localStorage.getItem("token");
-        if (token == null){
+
+    $("body").on("click", "#idAdminDelegation", function (e) {
+        console.log("getting the data from ws, please wait...");
+        $("#content").load("pages/admin_delegation/admin_delegation.html");
+    });
+    $("body").on("click", "#idDelegation", function (e) {
+        console.log("getting the delegations from the ws, please wait...");
+        $("#content").load("pages/delegation/delegation.html");
+    });
+    $("body").on("click", "#idDiscipline", function (e) {
+        console.log("getting the disciplines from the ws, please wait...");
+        $("#content").load("pages/discipline/discipline.html");
+    });
+    $("body").on("click", "#idAthlete", function (e) {
+        console.log("getting the athletes from the ws, please wait...");
+        $("#content").load("pages/athlete/athlete.html");
+    });
+    $("#log-in").click(function (event) {
+        var token = localStorage.getItem("token");
+        if (token == null) {
             $("#content").load('pages/login/login.html');
         }
-        else 
-            if (confirm('¿Seguro que desea cerrar la sesión?')) 
+        else
+        if (confirm('¿Seguro que desea cerrar la sesión?'))
             localStorage.removeItem("token");
-                document.getElementById("log-in").text = "Ingresar";
+        document.getElementById("log-in").text = "Ingresar";
 
-	});
+    });
 
 });

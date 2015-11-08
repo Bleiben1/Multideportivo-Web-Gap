@@ -54,6 +54,10 @@ $(document).ready(function () {
         console.log("getting the athletes from the ws, please wait...");
         $("#content").load("pages/athlete/athlete.html");
     });
+    $("body").on("click", "#idLocation", function (e) {
+        console.log("getting the locations from the ws, please wait...");
+        $("#content").load("pages/location/location.html");
+    });
     $("#log-in").click(function (event) {
         var token = localStorage.getItem("token");
         if (token == null) {

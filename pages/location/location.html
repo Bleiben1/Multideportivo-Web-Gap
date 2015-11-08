@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<script src="pages/location/js/script.js"></script>
+<link href="pages/location/css/style.css" rel="stylesheet" type="text/css"/>
+<div>
+    <div class="row col-md-12 col-md-offset-0 custyle">
+        <table class="table table-striped custab" id="LocationTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Capacity</th>
+                    <th>Region</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+        </table>
+        <a href="#" class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#addLocationModal"><b>+</b> Add new location</a>
+    </div>
+</div>
+<div class="modal fade" id="seeDetLocationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Información detallada de la sede</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="SDLocationForm">
+                    <div class="form-group" >
+                        <label for="latitude" class="col-sm-2 control-label">Latitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="latitude" readonly >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="longitude" class="col-sm-2 control-label">Longitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="longitude" readonly>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addLocationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel2">Agregar nueva sede</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="AddLocationForm">
+                    <div class="form-group">
+                        <label for="AddName" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="AddName" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddCapacity" class="col-sm-2 control-label">Capacity</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="AddCapacity" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddLatitude" class="col-sm-2 control-label">Latitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="AddLatitude" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddLongitude" class="col-sm-2 control-label">Longitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="AddLongitude" >
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddCountry" class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="AddCountry">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="AddRegion" class="col-sm-2 control-label">Region</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="AddRegion">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="alert alert-warning alert-dismissable" id="addLocationErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="addLocationOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se ha agregado la sede correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnAddLocation"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="editLocationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar información de la sede</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="editLocationForm">
+                    <div class="form-group">
+                        <label for="editLocationId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editLocationId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="DelegationEmail" class="col-sm-2 control-label">Name</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editLocationName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocationName" class="col-sm-2 control-label">Latitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="editLocationLatitude">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocationLongitude" class="col-sm-2 control-label">Longitude</label>
+                        <div class="col-sm-10">
+                            <input type="number" step="any" class="form-control" id="editLocationLongitude">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocationCapacity" class="col-sm-2 control-label">Capacity</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" id="editLocationCapacity">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editLocationCountry" class="col-sm-2 control-label">Country</label>
+                        <div class="col-sm-10">
+                            <select  class="form-control" id="editLocationCountry" >
+
+                            </select>
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        <label for="editLocationRegion" class="col-sm-2 control-label">Region</label>
+                        <div class="col-sm-10">
+                            <select  class="form-control" id="editLocationRegion" >
+
+                            </select>
+                        </div>
+                    </div>    
+                    
+                    <div class="alert alert-warning alert-dismissable" id="editLocationErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="editLocationOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se han modificado los datos correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnEditLocation"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

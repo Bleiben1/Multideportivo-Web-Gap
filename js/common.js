@@ -34,6 +34,8 @@ var WS_URLS =
             COUNTRIES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.country/",
             DISCIPLINES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.discipline/",
             ATHLETES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.athlete/",
+            LOCATIONS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.location/",
+            REGION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.region/",
             ETC: "http://www.......com/"
         };
 
@@ -108,3 +110,48 @@ function listDelegation(combo) {
         }
     });
 }
+function listCountries(combo) {
+    var i = 0;
+    console.log(combo);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.COUNTRIES_LISTAR_DESDE_HASTA,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (i, country) {
+                var option = document.createElement("option");
+                option.text = country.name;
+                option.value = country.countryId;
+                combo.add(option);
+                i++;
+            });
+        }
+    });
+}
+;
+function listRegions(idCountry, combo){
+    var i = 0;
+    console.log(combo);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.REGION_LISTAR_DESDE_HASTA + idCountry,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        success: function (data) {
+            console.log(data);
+            $.each(data, function (i, region) {
+                var option = document.createElement("option");
+                option.text = region.name;
+                option.value = region.regionId;
+                combo.add(option);
+                i++;
+            });
+        }
+    });
+};

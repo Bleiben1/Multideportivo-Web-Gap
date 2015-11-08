@@ -213,29 +213,7 @@ function addDelegation(name, email, membersQty, telephone, countryId) {
 
     });
 }
-function listCountries(combo) {
-    var i = 0;
-    console.log(combo);
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: WS_URLS.COUNTRIES_LISTAR_DESDE_HASTA,
-        headers: {
-            "Authorization": "oauth " + token
-        },
-        success: function (data) {
-            console.log(data);
-            $.each(data, function (i, country) {
-                var option = document.createElement("option");
-                option.text = country.name;
-                option.value = country.countryId;
-                combo.add(option);
-                i++;
-            });
-        }
-    });
-}
-;
+
 
 function editDelegation(idDelegation, DelegationUpdatedData) {
     var flag = false;

@@ -58,6 +58,12 @@ $(document).ready(function () {
         console.log("getting the locations from the ws, please wait...");
         $("#content").load("pages/location/location.html");
     });
+	
+    $("body").on("click", "#idParticipation", function (e) {
+        console.log("getting the participants from the ws, please wait...");
+        $("#content").load("pages/participacion/participacion.html");
+    });
+	
     $("#log-in").click(function (event) {
         var token = localStorage.getItem("token");
         if (token == null) {

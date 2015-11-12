@@ -33,6 +33,17 @@ function login(username, password) {
 //loader(false);
             console.log("success");
             alert('Logueado correctamente.');
+            $("#login_container").remove();
+                    $("#content").append('<div class="col-sm-4 col-md-4 col-sm-offset-4 col-md-offset-4 ">'+
+            '<div class="alert alert-success">'+
+                '<button id="loggedIn" type="button" class="close" data-dismiss="alert" aria-hidden="true">'+
+                    '×</button>'+
+               '<span class="glyphicon glyphicon-ok"></span> <strong>Success Message</strong>'+
+                '<hr class="message-inner-separator">'+
+                '<p>'+
+                    'You successfully logged in.</p>'+
+            '</div>'+
+        '</div>');
             document.getElementById("log-in").text = "Cerrar Sesión";
             /*var div = document.createElement("div");
             div.innerHTML = "<b>WELCOME BACK</b>";
@@ -40,7 +51,7 @@ function login(username, password) {
             div.setAttribute("id","infoContainer");
             $("#content").load(div);*/
             //document.getElementById("content").removeChild("login_container");
-            $("#login_container").remove();
+            
         },
         statusCode: {
             401:

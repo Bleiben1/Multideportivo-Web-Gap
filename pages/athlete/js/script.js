@@ -7,6 +7,8 @@
 $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
+    listDelegation(document.getElementById("searchByDel"));
+    $("#AthleteTable tr").remove();
     listAthletes(); //listado de los athletas almacenaos en la base de datos
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnAddAthlete", function (e) {
@@ -27,7 +29,7 @@ $(document).ready(function () {
         var updateFeatured = document.getElementById("editAthleteFeatured").value;
         var updateDelegationId = document.getElementById("editAthleteDelegation").value;
         var AthleteId = document.getElementById("editAthleteId").value;
-        var arr = {name: updateName, lastname: updateLName, dob : updateDob  + "T00:00:00-03:00", featured: updateFeatured, delegationId: {delegationId: updateDelegationId}};
+        var arr = {name: updateName, lastname: updateLName, dob: updateDob + "T00:00:00-03:00", featured: updateFeatured, delegationId: {delegationId: updateDelegationId}};
         var flag = editAthlete(AthleteId, arr);
         if (flag === true) {
             var element = document.getElementById("edit" + AthleteId);
@@ -64,6 +66,10 @@ $(document).ready(function () {
         $("#editAthleteOkAlert").hide();
         $("#editAthleteErrorAlert").hide();
     });
+    $("body").on("change", "#searchByDel", function (e) {
+        $("#AthleteTable tr").remove();
+        listAthletesByDelegation(document.getElementById("searchByDel").value);
+    });
 });
 
 
@@ -89,6 +95,7 @@ function listAthletes() {
     var offset = current_page * total_per_page;
     token = localStorage.getItem("token");
     console.log(token);
+    var selectedDelegation;
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -101,6 +108,43 @@ function listAthletes() {
                 var html = parseEventToHtml(athlete);
                 $("#AthleteTable > thead:last").append(html);
             });
+        }
+    });
+}
+;
+function listAthletesByDelegation(idDelegation) {
+    var limit = (current_page - 1) * total_per_page;
+    var offset = current_page * total_per_page;
+    token = localStorage.getItem("token");
+    console.log(token);
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.ATHLETES_LISTAR_DESDE_HASTA + "delegation/" + idDelegation + "/" + limit + "/" + offset,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        cache: false,
+        success: function (data) {
+            $("#AthleteTable tr").remove();
+            $.each(data, function (i, athlete) {
+                var html = parseEventToHtml(athlete);
+                $("#AthleteTable > thead:last").append(html);
+            });
+        },
+        statusCode: {
+            404: function () {
+                $("#AthleteTable tr").remove();
+                html = '<tr>' +
+                        '<td>' + "No hay registro de atletas de tal delegación" + '</td>' +
+                        '<td></td>' +
+                        '<td></td>' +
+                        '<td></td>' +
+                        '<td </td>' + '</tr>';
+
+                $("#AthleteTable > thead:last").append(html);
+                alert("No hay registro de ningun atleta proveniente de tal delegación");
+            }
         }
     });
 }
@@ -130,6 +174,7 @@ function addAthlete(name, lastName, dob, featured, delegationId) {
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
+    var selectedDelegation = document.getElementById("searchByDel").value;
     $.ajax({
         url: WS_URLS.ATHLETES_LISTAR_DESDE_HASTA,
         type: 'POST',
@@ -143,8 +188,10 @@ function addAthlete(name, lastName, dob, featured, delegationId) {
         },
         success: function (data) {
             $("#addAthleteOkAlert").show();
-            var html = parseEventToHtml(data);
-            $("#AthleteTable > thead:last").append(html);
+            if (delegationId === selectedDelegation) {
+                var html = parseEventToHtml(data);
+                $("#AthleteTable > thead:last").append(html);
+            }
         },
         statusCode: {
             500: function () {
@@ -234,9 +281,9 @@ function chargeAthleteData(idAthlete) {
             aux = document.getElementById("editAthleteLastName");
             aux.value = data.lastname;
             aux = document.getElementById("editAthleteDob");
-            aux.value = data.dob.substring(0,10);
+            aux.value = data.dob.substring(0, 10);
             aux = document.getElementById("editAthleteFeatured");
-            aux.selectedIndex = (data.featured) ? 1 : 0 ;
+            aux.selectedIndex = (data.featured) ? 1 : 0;
             aux = document.getElementById("editAthleteDelegation");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                 listDelegation(aux);
@@ -244,7 +291,7 @@ function chargeAthleteData(idAthlete) {
             //console.log(aux.options);
             $.each(aux.options, function (i, option) {
                 console.log(option.value);
-                console.log(data.delegationId.delegationId); 
+                console.log(data.delegationId.delegationId);
                 if (option.value == data.delegationId.delegationId)
                 {
                     console.log("ok");

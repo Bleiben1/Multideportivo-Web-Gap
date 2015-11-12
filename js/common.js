@@ -91,6 +91,7 @@ function calculateAge(date){
 function listDelegation(combo) {
     var i = 0;
     console.log(combo);
+    var token = localStorage.getItem("token");
     $.ajax({
         type: "GET",
         dataType: "json",

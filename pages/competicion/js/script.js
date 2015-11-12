@@ -50,8 +50,20 @@ $(document).ready(function () {
         var competitionId = $(this).attr("id");
 		delCompetition(competitionId);
     });
+	
+	$("body").on("click", ".btnParticipation", function (e) {
+		console.log("Getting participants data from ws");
+        var competitionId = $(this).attr("id");
+		listParticipants(competitionId);
+    });
+	
 });
 
+function listParticipants(competitionId) {
+	console.log("getting participants from ws, please wait...");
+	localStorage.setItem("listParticipantCompetitionId", competitionId);
+	$("#content").load("pages/participacion/participacion.html");
+}
 
 function listCompetitions() {
     var limit = (current_page - 1) * total_per_page;
@@ -86,7 +98,7 @@ function listCompetitions() {
 
 function parseCompetitionToHtml(event) {
     return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><h2>' + event.name + '</h2><p>Disciplina : ' + event.disciplineId.name + '</p><p>' + event.description +
-            '</p><a id="' + event.competitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifCompetitionModal" data-competition-name="' + event.name + '" data-competition-description="' + event.description + '" data-competition-mainCompetitionId="' + event.mainCompetitionId.mainCompetitionId + '" data-competition-disciplineId="' + event.disciplineId.disciplineId + '" data-competition-disciplineId-name="' + event.disciplineId.name + '" data-competition-locationId-locationId="' + event.locationId.locationId + '" data-competition-locationId-name="' + event.locationId.name + '">Modificar</a> <a class="btn btn-primary btnDel" href="#" id="' + event.competitionId + '">Borrar</a></div></div></li>';
+            '</p><a id="' + event.competitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifCompetitionModal" data-competition-name="' + event.name + '" data-competition-description="' + event.description + '" data-competition-mainCompetitionId="' + event.mainCompetitionId.mainCompetitionId + '" data-competition-disciplineId="' + event.disciplineId.disciplineId + '" data-competition-disciplineId-name="' + event.disciplineId.name + '" data-competition-locationId-locationId="' + event.locationId.locationId + '" data-competition-locationId-name="' + event.locationId.name + '">Modificar</a> <a class="btn btn-primary btnDel" href="#" id="' + event.competitionId + '">Borrar</a> <a class="btn btn-primary btnParticipation" href="#" id="' + event.competitionId + '">Gestionar Atletas Participantes</a></div></div></li>';
     '</p></div></div></li>';
 }
 

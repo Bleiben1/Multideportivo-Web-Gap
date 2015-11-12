@@ -3,7 +3,7 @@ var total_per_page = 10;
 
 $(document).ready(function () {
     console.log("Participacion document ready.");
-    //listParticipants();
+    listParticipants();
 	
 	$("body").on("click", ".btnAddParticipantModalToggle", function (e) {
 		console.log("Populating selects");
@@ -54,38 +54,35 @@ $(document).ready(function () {
 	*/
 });
 
-/*
 function listParticipants() {
     var limit = (current_page - 1) * total_per_page;
     var offset = current_page * total_per_page;
-	var eventId = localStorage.getItem('listCompetitionEventId');
+	var competitionId = localStorage.getItem('listParticipantCompetitionId');
 	var	wsurl = "";
-	if (localStorage.getItem('listCompetitionEventId') === null){
-		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA + limit + "/" + offset;
+	if (localStorage.getItem('listParticipantCompetitionId') === null){
+		console.log("Ha ocurrido un error, no se seleccionó competición");
 	}else{
-		wsurl = WS_URLS.COMPETICIONES_LISTAR_DESDE_HASTA+ eventId + "/" + limit + "/" + offset;
+		var token = localStorage.getItem('token');
+		console.log(token);
+		$.ajax({
+			type: "GET",
+			dataType: "json",
+			url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.participation/competition/' + competitionId,
+			headers: {
+				"Authorization":"oauth " + token
+			},
+			success: function (data) {
+				console.log(data);
+				$.each(data, function (i, evnt) {
+					console.log(evnt);
+					var html = parseParticipantsToHtml(evnt);
+					$("#listParticipantsContent").append(html);
+				});
+			},
+		});
 	}
-	var token = localStorage.getItem('token');
-    console.log(token);
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: wsurl,
-		headers: {
-			"Authorization":"oauth " + token
-        },
-        success: function (data) {
-            console.log(data);
-            $.each(data, function (i, evnt) {
-                console.log(evnt);
-                var html = parseCompetitionToHtml(evnt);
-                $("#listParticipantsContent").append(html);
-            });
-        },
-    });
-    localStorage.removeItem("listCompetitionEventId");
+    localStorage.removeItem("listParticipantCompetitionId");
 }
-*/
 
 function populateSelects() {
 	var limit = 0;
@@ -116,6 +113,10 @@ function populateSelects() {
             });
         },
     });
+}
+
+function parseParticipantsToHtml(event) {
+    return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>Atleta : ' + event.name + ' ' + event.lastname + ' Delegación : ' + event.delegationId.name + '</p></div></div></li>';
 }
 
 function parseAthleteToPopulateSelectHtml(event) {

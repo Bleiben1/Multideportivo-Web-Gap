@@ -3,11 +3,12 @@ var total_per_page = 10;
 
 $(document).ready(function () {
     console.log("Participacion document ready.");
-    listParticipants();
+	$("#listParticipantsContent").empty();
+	listParticipants();
+	console.log("Populating selects");
+	populateSelects();
 	
 	$("body").on("click", ".btnAddParticipantModalToggle", function (e) {
-		console.log("Populating selects");
-		populateSelects();
 	});
 	
     $("body").on("click", "#btnAddParticipant", function (e) {
@@ -55,8 +56,8 @@ $(document).ready(function () {
 });
 
 function listParticipants() {
-    var limit = (current_page - 1) * total_per_page;
-    var offset = current_page * total_per_page;
+	var limit = (current_page - 1) * total_per_page;
+	var offset = current_page * total_per_page;
 	var competitionId = localStorage.getItem('listParticipantCompetitionId');
 	var	wsurl = "";
 	if (localStorage.getItem('listParticipantCompetitionId') === null){
@@ -68,20 +69,22 @@ function listParticipants() {
 			type: "GET",
 			dataType: "json",
 			url: 'http://tecnocompetition.ddns.net:8080/pfinal/services/entities.participation/competition/' + competitionId,
-			headers: {
-				"Authorization":"oauth " + token
-			},
 			success: function (data) {
 				console.log(data);
 				$.each(data, function (i, evnt) {
-					console.log(evnt);
+					console.log("evento -> "+evnt);
 					var html = parseParticipantsToHtml(evnt);
 					$("#listParticipantsContent").append(html);
 				});
 			},
+			statusCode: {
+            404:
+                    function () {
+						$("#listParticipantsContent").append('<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>No se encontraron Atletas participando en esta competición ...</p></div></div></li>');
+                    }
+        	}
 		});
 	}
-    localStorage.removeItem("listParticipantCompetitionId");
 }
 
 function populateSelects() {
@@ -116,7 +119,7 @@ function populateSelects() {
 }
 
 function parseParticipantsToHtml(event) {
-    return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>Atleta : ' + event.name + ' ' + event.lastname + ' Delegación : ' + event.delegationId.name + '</p></div></div></li>';
+    return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>Atleta : ' + event.athlete.name + ' ' + event.athlete.lastname + ' Delegación : ' + event.athlete.delegationId.name + '</p></div></div></li>';
 }
 
 function parseAthleteToPopulateSelectHtml(event) {

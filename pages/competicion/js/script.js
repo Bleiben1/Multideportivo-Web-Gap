@@ -1,5 +1,6 @@
 var current_page = 1;
 var total_per_page = 10;
+var count = 1;
 
 $(document).ready(function () {
     console.log("Competicion document ready.");
@@ -52,9 +53,12 @@ $(document).ready(function () {
     });
 	
 	$("body").on("click", ".btnParticipation", function (e) {
-		console.log("Getting participants data from ws");
-        var competitionId = $(this).attr("id");
-		listParticipants(competitionId);
+		if (count == 1){
+			console.log("Getting participants data from ws");
+			var competitionId = $(this).attr("id");
+			listParticipants(competitionId);
+		}
+		count = count + 1;
     });
 	
 });

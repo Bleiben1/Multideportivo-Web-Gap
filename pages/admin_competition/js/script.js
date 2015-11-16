@@ -13,34 +13,78 @@ $(document).ready(function () {
 
     $("body").on("click", "#btnAddAC", function (e) {
         console.log("Adding new event to ws");
-        var newNickname = document.getElementById("AddNickname").value;
-        var newEmail = document.getElementById("AddEmail").value;
-        var newPassword = document.getElementById("AddPassword").value;
-        var mainCompetitionId = document.getElementById("AddMCId").value;
-        addAC(newNickname, newEmail, newPassword, mainCompetitionId);
+        fail = false;
+        fail_log = '';
+        $('#AddForm').find('select, textarea, input').each(function () {
+            if (!$(this).prop('required')) {
+
+            } else {
+                if (!$(this).val()) {
+                    fail = true;
+                    name = $(this).attr('name');
+                    fail_log += name + " is required \n";
+                }
+
+            }
+        });
+
+        //submit if fail never got set to true
+        if (!fail) {
+            var newNickname = document.getElementById("AddNickname").value;
+            var newEmail = document.getElementById("AddEmail").value;
+            var newPassword = document.getElementById("AddPassword").value;
+            var mainCompetitionId = document.getElementById("AddMCId").value;
+
+            addAC(newNickname, newEmail, newPassword, mainCompetitionId);
+        }
+        else {
+            alert(fail_log);
+        }
+
     });
 
     $("body").on("click", "#btnEditAC", function (e) {
         console.log("Updating the new data");
-        var updateNickname = document.getElementById("ACNickname").value;
-        var updateMCId = document.getElementById("ACMCId").value;
-        var updateEmail = document.getElementById("ACEmail").value;
-        var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
-        var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
-        var updateStatus = document.getElementById("ACStatus").value;
-        console.log("el valor del status es: "+document.getElementById("ACStatus").value);
-        var ACId = document.getElementById("ACId").value;
-        console.log();
-        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
-        var flagA = false;
-        flagA = editAC(ACId, arr);
-        console.log(flagA);
-        if (flagA === true) {
-            var element = document.getElementById(ACId);
-            console.log(element.parentNode.parentNode.childNodes[1].innerHTML);
-            element.parentNode.parentNode.childNodes[1].innerHTML = updateNickname;
-            element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus)?"Active" : "Inactive";
+        fail = false;
+        fail_log = '';
+        $('#AddForm').find('select, textarea, input').each(function () {
+            if (!$(this).prop('required')) {
+
+            } else {
+                if (!$(this).val()) {
+                    fail = true;
+                    name = $(this).attr('name');
+                    fail_log += name + " is required \n";
+                }
+
+            }
+        });
+        //submit if fail never got set to true
+        if (!fail) {
+            var updateNickname = document.getElementById("ACNickname").value;
+            var updateMCId = document.getElementById("ACMCId").value;
+            var updateEmail = document.getElementById("ACEmail").value;
+            var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
+            var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
+            var updateStatus = document.getElementById("ACStatus").value;
+            console.log("el valor del status es: " + document.getElementById("ACStatus").value);
+            var ACId = document.getElementById("ACId").value;
+            console.log();
+            var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
+            var flagA = false;
+            flagA = editAC(ACId, arr);
+            console.log(flagA);
+            if (flagA === true) {
+                var element = document.getElementById(ACId);
+                console.log(element.parentNode.parentNode.childNodes[1].innerHTML);
+                element.parentNode.parentNode.childNodes[1].innerHTML = updateNickname;
+                element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus) ? "Active" : "Inactive";
+            }
         }
+        else {
+            alert(fail_log);
+        }
+
 
     });
     $("body").on("shown.bs.modal", "#addACModal", function (e) {
@@ -94,8 +138,8 @@ function listAdminCompetition() {
     });
 }
 
-function seeDetailAC(Object) {
-    var ACId = Object.text;
+function seeDetailAC(id) {
+    var ACId = id.substring(2);
     console.log(Object.text);
     $.ajax({
         type: "GET",
@@ -122,18 +166,20 @@ function parseEventToHtml(admin_competition) {
     status = (admin_competition.status) ? "Active" : "Inactive";
 
     return '<tr>' +
-            '<td><a onclick="seeDetailAC(this)" data-toggle="modal" data-target="#seeDetailModal">' + admin_competition.adminId + '</a></td>' +
+            '<td>' + admin_competition.adminId + '</td>' +
             '<td>' + admin_competition.nickname + '</td>' +
             '<td>' + admin_competition.email + '</td>' +
             '<td>' + status + '</td>' +
             //'<td>' + admin_competition.mainCompetitionId.name + '</td>' +
-            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_competition.adminId + ' data-toggle="modal" data-target="#editACModal" onclick="chargeACData(this)">' +
+            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_competition.adminId + ' data-toggle="modal" data-target="#editACModal" onclick="chargeACData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
-            '</span> Edit</a>' + '</td>'
+            '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=sd' + admin_competition.adminId + ' href="#" onclick="seeDetailAC(this.id)" data-toggle="modal" data-target="#seeDetailModal">' +
+            '<span class="glyphicon glyphicon-plus-sign">' +
+            '</span> See Detail</a>' + '</td>'
     '</tr>';
 }
-function chargeACData(Object) {
-    ACId = Object.parentNode.parentNode.childNodes[0].childNodes[0].text;
+function chargeACData(id) {
+    ACId = id;
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -154,8 +200,8 @@ function chargeACData(Object) {
             aux = document.getElementById("ACToken");
             aux.value = data.token;
             aux = document.getElementById("ACStatus");
-            console.log("el valor es: "+aux);
-            aux.selectedIndex = (data.status) ? 1 : 0 ;
+            console.log("el valor es: " + aux);
+            aux.selectedIndex = (data.status) ? 1 : 0;
             aux = document.getElementById("ACMCId");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                 listAC(aux);
@@ -219,20 +265,32 @@ function editAC(idAC, ACUpdatedData) {
         },
         statusCode: {
             404: function () {
-                addAlert('No se ha encontrado el admin de competición a modificar', 'editACErrorAlert');
+                $("#editACErrorAlert").empty();
+                $("#editACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + 'No se ha encontrado el admin de competición a modificar');
                 $("#editACErrorAlert").show();
+                $("#editACErrorAlert").fadeOut(2000);
             },
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editACErrorAlert');
+                $("#editACErrorAlert").empty();
+                $("#editACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#editACErrorAlert").show();
+                $("#editACErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'editACErrorAlert');
+                $("#editACErrorAlert").empty();
+                $("#editACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#editACErrorAlert").show();
+                $("#editACErrorAlert").fadeOut(2000);
             },
             401: function () {
-                addAlert(NOT_AUTHORIZED, 'editACErrorAlert');
+                $("#editACErrorAlert").empty();
+                $("#editACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#editACErrorAlert").show();
+                $("#editACErrorAlert").fadeOut(2000);
             }
         }
     });
@@ -262,21 +320,33 @@ function addAC(newNickname, newEmail, newPassword, mainCompetitionId) {
         },
         statusCode: {
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addACErrorAlert');
+                $("#addADErrorAlert").empty();
+                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addACErrorAlert").show();
-            },
-            400: function () {
-                addAlert(DB_ERROR, 'addACErrorAlert');
-                $("#addACErrorAlert").show();
+                $("#addACErrorAlert").fadeOut(2000);
 
             },
-            401: function () {
-                addAlert(NOT_AUTHORIZED, 'addACErrorAlert');
+            400: function () {
+                $("#addADErrorAlert").empty();
+                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addACErrorAlert").show();
+                $("#addACErrorAlert").fadeOut(2000);
+            },
+            401: function () {
+                $("#addADErrorAlert").empty();
+                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
+                $("#addACErrorAlert").show();
+                $("#addACErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'addACErrorAlert');
+                $("#addADErrorAlert").empty();
+                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addACErrorAlert").show();
+                $("#addACErrorAlert").fadeOut(2000);
             }
         }
     });

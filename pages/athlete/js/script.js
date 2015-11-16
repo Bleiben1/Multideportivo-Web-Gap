@@ -195,25 +195,33 @@ function addAthlete(name, lastName, dob, featured, delegationId) {
         },
         statusCode: {
             500: function () {
-                console.log("error 500");
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addAthleteErrorAlert');
+                $("#addAthleteErrorAlert").empty();
+                $("#addAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addAthleteErrorAlert").show();
+                $("#addAthleteErrorAlert").fadeOut(2000);
             },
             400: function () {
-                console.log("error 400");
-                addAlert(DB_ERROR, 'addAthleteErrorAlert');
+                $("#addAthleteErrorAlert").empty();
+                $("#addAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addAthleteErrorAlert").show();
+                $("#addAthleteErrorAlert").fadeOut(2000);
 
             },
             401: function () {
-                console.log("error 401");
-                addAlert(NOT_AUTHORIZED, 'addAthleteErrorAlert');
+                $("#addAthleteErrorAlert").empty();
+                $("#addAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#addAthleteErrorAlert").show();
+                $("#addAthleteErrorAlert").fadeOut(2000);
             },
             415: function () {
-                console.log("error 415");
-                addAlert(NOT_ALLOWED_METHOD, 'addAthleteErrorAlert');
+                $("#addAthleteErrorAlert").empty();
+                $("#addAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addAthleteErrorAlert").show();
+                $("#addAthleteErrorAlert").fadeOut(2000);
             }
         }
 
@@ -242,20 +250,32 @@ function editAthlete(idAthlete, AthleteUpdatedData) {
         },
         statusCode: {
             404: function () {
-                addAlert('No se ha encontrado el atleta a modificar', 'editAthleteErrorAlert');
+                $("#editAthleteErrorAlert").empty();
+                $("#editAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + 'No se ha encontrado el atleta a modificar');
                 $("#editAthleteErrorAlert").show();
+                $("#editAthleteErrorAlert").fadeOut(2000);
             },
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editAthleteErrorAlert');
+                $("#editAthleteErrorAlert").empty();
+                $("#editAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#editAthleteErrorAlert").show();
+                $("#editAthleteErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'editAthleteErrorAlert');
+                $("#editAthleteErrorAlert").empty();
+                $("#editAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#editAthleteErrorAlert").show();
+                $("#editAthleteErrorAlert").fadeOut(2000);
             },
             401: function () {
-                addAlert(NOT_AUTHORIZED, 'editAthleteErrorAlert');
+                $("#editAthleteErrorAlert").empty();
+                $("#editAthleteErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#editAthleteErrorAlert").show();
+                $("#editAthleteErrorAlert").fadeOut(2000);
             }
         }
     });

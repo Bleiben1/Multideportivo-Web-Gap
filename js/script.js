@@ -70,9 +70,11 @@ $(document).ready(function () {
             $("#content").load('pages/login/login.html');
         }
         else
-        if (confirm('¿Seguro que desea cerrar la sesión?'))
+        if (confirm('¿Seguro que desea cerrar la sesión?')){
             localStorage.removeItem("token");
         document.getElementById("log-in").text = "Ingresar";
+    }
+
     });
 
 });

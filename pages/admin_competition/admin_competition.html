@@ -35,25 +35,25 @@ and open the template in the editor.
                     <div class="form-group">
                         <label for="nickname" class="col-sm-2 control-label">Nickname</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="AddNickname" >
+                            <input type="text" class="form-control" id="AddNickname" required name="Nickname">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="email" class="col-sm-2 control-label">E-Mail</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="AddEmail" >
+                            <input type="email" class="form-control" id="AddEmail" required name="E-Mail">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="password" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="AddPassword" >
+                            <input type="password" class="form-control" id="AddPassword" required name="Password">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="AddMCId" class="col-sm-2 control-label">MC Id</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="AddMCId">
+                            <select class="form-control" id="AddMCId" required name="Main Competition">
                             </select>
                         </div>
                     </div>
@@ -66,7 +66,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
                             <button type="button" class="btn btn-primary" id="btnAddAC"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                         </div>
                     </div>
@@ -138,13 +138,13 @@ and open the template in the editor.
                     <div class="form-group">
                         <label for="ACNickname" class="col-sm-2 control-label">Nickname</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" id="ACNickname">
+                            <input type="text" class="form-control" id="ACNickname" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ACMCId" class="col-sm-2 control-label">MC Id</label>
                         <div class="col-sm-10">
-                            <select  class="form-control" id="ACMCId" >
+                            <select  class="form-control" id="ACMCId" required>
 
                             </select>
                         </div>
@@ -152,13 +152,13 @@ and open the template in the editor.
                     <div class="form-group">
                         <label for="ACPassword" class="col-sm-2 control-label">Password</label>
                         <div class="col-sm-10">
-                            <input type="password" class="form-control" id="ACPassword"> <!-- quiza se saque, depende de cambios en el ws, o al menos q no se permita modificar -->
+                            <input type="password" class="form-control" id="ACPassword" required> <!-- quiza se saque, depende de cambios en el ws, o al menos q no se permita modificar -->
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="ACStatus" class="col-sm-2 control-label">Status</label>
                         <div class="col-sm-10">
-                            <select  class="form-control" id="ACStatus" >
+                            <select  class="form-control" id="ACStatus" required>
                                 <option value="0">Inactive</option>
                                 <option value="1">Active</option>
                             </select>
@@ -177,7 +177,7 @@ and open the template in the editor.
                     </div>
                     <div class="form-group">
                         <div class="col-sm-offset-2 col-sm-10">
-                            <button type="button" class="btn btn-default" data-dismiss="moda"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
                             <button type="button" class="btn btn-primary" id="btnEditAC"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
                         </div>
                     </div>

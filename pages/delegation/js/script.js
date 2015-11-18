@@ -77,7 +77,8 @@ function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=' + delegation.delegationId + ' href="#" data-toggle="modal" data-target="#seeDetDelegationModal" onclick="seeDetailDelegation(this.id)">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
             '</span> See Detail</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + delegation.delegationId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
-};
+}
+;
 function chargeDelegationData(idDelegation) {
     idDel = idDelegation.substring(4);
     console.log(idDel);
@@ -142,7 +143,8 @@ function listDelegations() {
             });
         }
     });
-};
+}
+;
 function seeDetailDelegation(idDelegation) {
     console.log(idDelegation);
     $.ajax({
@@ -189,25 +191,32 @@ function addDelegation(name, email, membersQty, telephone, countryId) {
         },
         statusCode: {
             500: function () {
-                console.log("error 500");
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addDelErrorAlert');
+                $("#addDelErrorAlert").empty();
+                $("#addDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addDelErrorAlert").show();
+                $("#addDelErrorAlert").fadeOut(2000);
             },
             400: function () {
-                console.log("error 400");
-                addAlert(DB_ERROR, 'addDelErrorAlert');
+                $("#addDelErrorAlert").empty();
+                $("#addDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addDelErrorAlert").show();
-
+                $("#addDelErrorAlert").fadeOut(2000);
             },
             401: function () {
-                console.log("error 401");
-                addAlert(NOT_AUTHORIZED, 'addDelErrorAlert');
+                $("#addDelErrorAlert").empty();
+                $("#addDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#addDelErrorAlert").show();
+                $("#addDelErrorAlert").fadeOut(2000);
             },
             415: function () {
-                console.log("error 415");
-                addAlert(NOT_ALLOWED_METHOD, 'addDelErrorAlert');
+                $("#addDelErrorAlert").empty();
+                $("#addDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addDelErrorAlert").show();
+                $("#addDelErrorAlert").fadeOut(2000);
             }
         }
 
@@ -237,20 +246,32 @@ function editDelegation(idDelegation, DelegationUpdatedData) {
         },
         statusCode: {
             404: function () {
-                addAlert('No se ha encontrado la delegación a modificar', 'editDelErrorAlert');
+                $("#editDelErrorAlert").empty();
+                $("#editDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + 'No se ha encontrado la delegación a modificar');
                 $("#editDelErrorAlert").show();
+                $("#editDelErrorAlert").fadeOut(2000);
             },
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editDelErrorAlert');
+                $("#editDelErrorAlert").empty();
+                $("#editDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#editDelErrorAlert").show();
+                $("#editDelErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'editDelErrorAlert');
+                $("#editDelErrorAlert").empty();
+                $("#editDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#editDelErrorAlert").show();
+                $("#editDelErrorAlert").fadeOut(2000);
             },
             401: function () {
-                addAlert(NOT_AUTHORIZED, 'editDelErrorAlert');
+                $("#editDelErrorAlert").empty();
+                $("#editDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#editDelErrorAlert").show();
+                $("#editDelErrorAlert").fadeOut(2000);
             }
         }
     });

@@ -135,25 +135,33 @@ function addLocation(name, latitude, longitude, capacity, regionId) {
         },
         statusCode: {
             500: function () {
-                console.log("error 500");
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addLocationErrorAlert');
+                $("#addLocationErrorAlert").empty();
+                $("#addLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addLocationErrorAlert").show();
+                $("#addLocationErrorAlert").fadeOut(2000);
             },
             400: function () {
-                console.log("error 400");
-                addAlert(DB_ERROR, 'addLocationErrorAlert');
+                $("#addLocationErrorAlert").empty();
+                $("#addLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addLocationErrorAlert").show();
+                $("#addLocationErrorAlert").fadeOut(2000);
 
             },
             401: function () {
-                console.log("error 401");
-                addAlert(NOT_AUTHORIZED, 'addLocationErrorAlert');
+                $("#addLocationErrorAlert").empty();
+                $("#addLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#addLocationErrorAlert").show();
+                $("#addLocationErrorAlert").fadeOut(2000);
             },
             415: function () {
-                console.log("error 415");
-                addAlert(NOT_ALLOWED_METHOD, 'addLocationErrorAlert');
+                $("#addLocationErrorAlert").empty();
+                $("#addLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addLocationErrorAlert").show();
+                $("#addLocationErrorAlert").fadeOut(2000);
             }
         }
 
@@ -203,20 +211,32 @@ function editLocation(idLocation, LocationUpdatedData) {
         },
         statusCode: {
             404: function () {
-                addAlert('No se ha encontrado la sede a modificar', 'editLocationErrorAlert');
+                $("#editLocationErrorAlert").empty();
+                $("#editLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + 'No se ha encontrado la sede a modificar');
                 $("#editLocationErrorAlert").show();
+                $("#editLocationErrorAlert").fadeOut(2000);
             },
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editLocationErrorAlert');
+                $("#editLocationErrorAlert").empty();
+                $("#editLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#editLocationErrorAlert").show();
+                $("#editLocationErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'editLocationErrorAlert');
+                $("#editLocationErrorAlert").empty();
+                $("#editLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#editLocationErrorAlert").show();
+                $("#editLocationErrorAlert").fadeOut(2000);
             },
             401: function () {
-                addAlert(NOT_AUTHORIZED, 'editLocationErrorAlert');
+                $("#editLocationErrorAlert").empty();
+                $("#editLocationErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#editLocationErrorAlert").show();
+                $("#editLocationErrorAlert").fadeOut(2000);
             }
         }
     });

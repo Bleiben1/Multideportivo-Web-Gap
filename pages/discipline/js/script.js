@@ -25,10 +25,10 @@ $(document).ready(function () {
         var updateName = document.getElementById("editDiscName").value;
         //var updateImg = document.getElementById("editDiscImg").value; 
         var updateDescription = document.getElementById("editDiscDescription").value;
-        var arr = {name: updateName, description: updateDescription,imageUrl: "/noimage/"};
+        var arr = {name: updateName, description: updateDescription, imageUrl: "/noimage/"};
         var flag = editDiscipline(disciplineId, arr);
         if (flag === true) {
-            var element = document.getElementById('edit'+disciplineId);
+            var element = document.getElementById('edit' + disciplineId);
             element.parentNode.parentNode.childNodes[1].innerHTML = updateName; //necesito sacar el texto que esta puesto en el combobox
             element.parentNode.parentNode.childNodes[2].innerHTML = updateDescription;
             //element.parentNode.parentNode.childNodes[3].innerHTML = updateImg;
@@ -42,9 +42,9 @@ $(document).ready(function () {
     });
     $("body").on("shown.bs.modal", "#addDisciplineModal", function (e) {
         /*aux = document.getElementById("AddCountry");
-        if (aux.length === 0) {
-            listCountries(aux);
-        }*/
+         if (aux.length === 0) {
+         listCountries(aux);
+         }*/
     });
     $("body").on("hidden.bs.modal", "#addDiscplineModal", function (e) {
         document.getElementById("AddDiscForm").reset();
@@ -56,7 +56,7 @@ $(document).ready(function () {
         $("#editDiscOkAlert").hide();
         $("#editDiscErrorAlert").hide();
     });
-        $("body").on("hidden.bs.modal", "#editDisciplineModal", function (e) {
+    $("body").on("hidden.bs.modal", "#editDisciplineModal", function (e) {
         document.getElementById("editDisciplineForm").reset();
         $("#editDiscOkAlert").hide();
         $("#editDiscErrorAlert").hide();
@@ -71,7 +71,8 @@ function parseEventToHtml(discipline) {//segun los datos enviados, crea una fila
             '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + discipline.disciplineId + ' data-toggle="modal" data-target="#editDisciplineModal" onclick="chargeDisciplineData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + discipline.disciplineId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
-};
+}
+;
 function chargeDisciplineData(idDiscipline) {
     idDisc = idDiscipline.substring(4);
     console.log(idDisc);
@@ -133,7 +134,8 @@ function listDisciplines() {
             });
         }
     });
-};
+}
+;
 
 function addDiscipline(name, description, imgUrl) {
     var arr = {name: name, description: description, imageUrl: imgUrl};
@@ -158,25 +160,32 @@ function addDiscipline(name, description, imgUrl) {
         },
         statusCode: {
             500: function () {
-                console.log("error 500");
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'addDiscErrorAlert');
+                $("#addDiscErrorAlert").empty();
+                $("#addDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addDiscErrorAlert").show();
+                $("#addDiscErrorAlert").fadeOut(2000);
             },
             400: function () {
-                console.log("error 400");
-                addAlert(DB_ERROR, 'addDiscErrorAlert');
+                $("#addDiscErrorAlert").empty();
+                $("#addDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addDiscErrorAlert").show();
-
+                $("#addDiscErrorAlert").fadeOut(2000);
             },
             401: function () {
-                console.log("error 401");
-                addAlert(NOT_AUTHORIZED, 'addDiscErrorAlert');
+                $("#addDiscErrorAlert").empty();
+                $("#addDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#addDiscErrorAlert").show();
+                $("#addDiscErrorAlert").fadeOut(2000);
             },
             415: function () {
-                console.log("error 415");
-                addAlert(NOT_ALLOWED_METHOD, 'addDiscErrorAlert');
+                $("#addDiscErrorAlert").empty();
+                $("#addDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addDiscErrorAlert").show();
+                $("#addDiscErrorAlert").fadeOut(2000);
             }
         }
 
@@ -205,20 +214,32 @@ function editDiscipline(idDiscipline, DisciplineUpdatedData) {
         },
         statusCode: {
             404: function () {
-                addAlert('No se ha encontrado la disciplina a modificar', 'editDiscErrorAlert');
+                $("#editDiscErrorAlert").empty();
+                $("#editDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + 'No se ha encontrado la disciplina a modificar');
                 $("#editDiscErrorAlert").show();
+                $("#editDiscErrorAlert").fadeOut(2000);
             },
             500: function () {
-                addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'editDiscErrorAlert');
+                $("#editDiscErrorAlert").empty();
+                $("#editDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#editDiscErrorAlert").show();
+                $("#editDiscErrorAlert").fadeOut(2000);
             },
             415: function () {
-                addAlert(NOT_ALLOWED_METHOD, 'editDiscErrorAlert');
+                $("#editDiscErrorAlert").empty();
+                $("#editDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#editDiscErrorAlert").show();
+                $("#editDiscErrorAlert").fadeOut(2000);
             },
             401: function () {
-                addAlert(NOT_AUTHORIZED, 'editDiscErrorAlert');
+                $("#editDiscErrorAlert").empty();
+                $("#editDiscErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#editDiscErrorAlert").show();
+                $("#editDiscErrorAlert").fadeOut(2000);
             }
         }
     });

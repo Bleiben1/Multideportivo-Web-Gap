@@ -1,6 +1,7 @@
 // JavaScript Document
 
 $(document).ready(function () {
+	hideLoader();
 $("#login").on("click", function (e) {
     console.log("prueba");
     e.preventDefault();

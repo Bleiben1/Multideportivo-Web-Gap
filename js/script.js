@@ -23,50 +23,68 @@ $(document).ready(function () {
 
     $("body").on("click", "#idEventos", function (e) {
         console.log("getting events form ws, please wait...");
+		showLoader();
         $("#content").load("pages/evento/evento.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
 
     $("body").on("click", "#idCompeticiones", function (e) {
         console.log("getting events form ws, please wait...");
+		showLoader();
         $("#content").load("pages/competicion/competicion.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
 
     $("body").on("click", "#idAdminCompetition", function (e) {
         console.log("getting the data from ws, please wait...");
+		showLoader();
         $("#content").load("pages/admin_competition/admin_competition.html");
-
+		setTimeout(function() { hideLoader(); }, 1000);
         //$("#infoContainer").load("pages/evento/evento.html"); no se si se usaba para algo, o yo lo deje sin querer
     });
 
     $("body").on("click", "#idAdminDelegation", function (e) {
         console.log("getting the data from ws, please wait...");
+		showLoader();
         $("#content").load("pages/admin_delegation/admin_delegation.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
     $("body").on("click", "#idDelegation", function (e) {
         console.log("getting the delegations from the ws, please wait...");
+		showLoader();
         $("#content").load("pages/delegation/delegation.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
     $("body").on("click", "#idDiscipline", function (e) {
         console.log("getting the disciplines from the ws, please wait...");
+		showLoader();
         $("#content").load("pages/discipline/discipline.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
     $("body").on("click", "#idAthlete", function (e) {
         console.log("getting the athletes from the ws, please wait...");
+		showLoader();
         $("#content").load("pages/athlete/athlete.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
     $("body").on("click", "#idLocation", function (e) {
         console.log("getting the locations from the ws, please wait...");
+		showLoader();
         $("#content").load("pages/location/location.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
 	
     $("body").on("click", "#idParticipation", function (e) {
         console.log("getting the participants from the ws, please wait...");
+		showLoader();
         $("#content").load("pages/participacion/participacion.html");
+		setTimeout(function() { hideLoader(); }, 1000);
     });
 	
     $("#log-in").click(function (event) {
         var token = localStorage.getItem("token");
         if (token == null) {
+		showLoader();
             $("#content").load('pages/login/login.html');
         }
         else

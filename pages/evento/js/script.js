@@ -144,7 +144,6 @@ function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
         dataType: 'json',
         async: false,
         success: function (msg) {
-        	$('#addEventModal').modal('hide');
 		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
         }
     });

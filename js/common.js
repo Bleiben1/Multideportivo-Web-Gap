@@ -156,3 +156,11 @@ function listRegions(idCountry, combo){
         }
     });
 };
+
+function showLoader(){
+	$("#loading").removeClass("hidden");
+	}
+	
+function hideLoader(){
+	$("#loading").addClass("hidden");
+	}

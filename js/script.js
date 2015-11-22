@@ -25,7 +25,6 @@ $(document).ready(function () {
         console.log("getting events form ws, please wait...");
 		showLoader();
         $("#content").load("pages/evento/evento.html");
-		setTimeout(function() { hideLoader(); }, 1000);
     });
 
     $("body").on("click", "#idCompeticiones", function (e) {

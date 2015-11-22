@@ -13,6 +13,7 @@ $(document).ready(function () {
 	
     $("body").on("click", "#btnAddParticipant", function (e) {
         console.log("Adding new participant to ws");
+		showLoader();
         var newParticipantAthleteId = document.getElementById("newParticipantAthleteId").value;
         var newParticipantMainCompetitionId = document.getElementById("newParticipantMainCompetitionId").value;
         var newParticipantPosition = document.getElementById("newParticipantPosition").value;
@@ -78,12 +79,24 @@ function listParticipants() {
 				});
 			},
 			statusCode: {
-            404:
-                    function () {
+				400: function () {
+					addAlert(DB_ERROR, 'competitionAlert');
+				},
+				401: function () {
+					addAlert(NOT_AUTHORIZED, 'competitionAlert');
+				},
+				404: function () {
 						$("#listParticipantsContent").append('<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>No se encontraron Atletas participando en esta competición ...</p></div></div></li>');
-                    }
-        	}
+				},
+				415: function () {
+					addAlert(NOT_ALLOWED_METHOD, 'competitionAlert');
+				},
+				500: function () {
+					addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'competitionAlert');
+				}
+			}
 		});
+		hideLoader();
 	}
 }
 
@@ -156,6 +169,7 @@ function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCom
 */
 
 function addParticipant(newParticipantAthleteId, newParticipantMainCompetitionId, newParticipantPosition) {
+        	$('#addParticipantModal').modal('hide');
     var arr = {participationPK:{athleteId: newParticipantAthleteId,competitionId: newParticipantMainCompetitionId},position:newParticipantPosition};
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -171,10 +185,11 @@ function addParticipant(newParticipantAthleteId, newParticipantMainCompetitionId
         dataType: 'json',
         async: false,
         success: function (msg) {
-        	$('#addParticipantModal').modal('hide');
-		setTimeout(function() { $("#content").load("pages/participacion/participacion.html"); }, 1000);
+			console.log('participante agregado con exito');
+			addAlert('participante agregado con exito', 'participantAlert');
         }
     });
+	setTimeout(function() { $("#content").load("pages/participacion/participacion.html"); }, 500);
 }
 
 /*

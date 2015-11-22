@@ -13,6 +13,7 @@ $(document).ready(function () {
 	
     $("body").on("click", "#btnAddCompetition", function (e) {
         console.log("Adding new competition to ws");
+		showLoader();
         var newCompetitionMainCompetitionId = document.getElementById("newCompetitionMainCompetitionId").value;
         var newCompetitionLocationId = document.getElementById("newCompetitionLocationId").value;
         var newCompetitionName = document.getElementById("newCompetitionName").value;
@@ -37,6 +38,7 @@ $(document).ready(function () {
 	
     $("body").on("click", "#btnModifCompetition", function (e) {
         console.log("Editing competition to ws");
+		showLoader();
 		var competitionId  = document.getElementById("competitionId").value;
         var newCompetitionMainCompetitionId = document.getElementById("newCompetitionMainCompetitionId2").value;
         var newCompetitionLocationId = document.getElementById("newCompetitionLocationId2").value;
@@ -55,6 +57,7 @@ $(document).ready(function () {
 	$("body").on("click", ".btnParticipation", function (e) {
 		if (count == 1){
 			console.log("Getting participants data from ws");
+			showLoader();
 			var competitionId = $(this).attr("id");
 			listParticipants(competitionId);
 		}
@@ -96,7 +99,25 @@ function listCompetitions() {
                 $("#listCompetitionsContent").append(html);
             });
         },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'competitionAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'competitionAlert');
+			},
+            404: function () {
+				$("#listCompetitionsContent").append('<li class="list-group-item"><div class="thumbnail"><div class="caption"><p>No se encontraron Competiciones para este evento ...</p></div></div></li>');
+            },
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'competitionAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'competitionAlert');
+			}
+        }
     });
+	hideLoader();
     localStorage.removeItem("listCompetitionEventId");
 }
 
@@ -129,6 +150,7 @@ function parseEventToPopulateSelectHtml(event) {
 }
 
 function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
+   	$('#modifCompetitionModal').modal('hide');
     var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -145,14 +167,30 @@ function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCom
         dataType: 'json',
         async: false,
         success: function (msg) {
-        	$('#modifCompetitionModal').modal('hide');
-		setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 1000);
+			addAlert('Competición modificada con exito', 'competitionAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'competitionAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'competitionAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'competitionAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'competitionAlert');
+			}
         }
     });
+	hideLoader();
+	setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 500);
 }
 
 
 function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
+   	$('#addCompetitionModal').modal('hide');
     var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -168,10 +206,26 @@ function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationI
         dataType: 'json',
         async: false,
         success: function (msg) {
-        	$('#addCompetitionModal').modal('hide');
-		setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 1000);
+			console.log('competicion agregada con exito');
+			addAlert('Competicion agregada con exito', 'competitionAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'competitionAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'competitionAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'competitionAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'competitionAlert');
+			}
         }
     });
+	hideLoader();
+	setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 500);
 }
 
 function delCompetition(competitionId) {
@@ -188,7 +242,23 @@ function delCompetition(competitionId) {
         dataType: 'json',
         async: false,
         success: function (msg) {
-			setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 1000)
+			console.log('Competicion borrado con exito');
+			addAlert('Competicion borrada con exito', 'competitionAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'eventAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'eventAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'eventAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'eventAlert');
+			}
         }
     });
+	setTimeout(function() { $("#content").load("pages/competicion/competicion.html"); }, 500);
 }

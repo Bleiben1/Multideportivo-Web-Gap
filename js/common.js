@@ -55,7 +55,7 @@ function loadMainPanel(panelId) {
 
 function addAlert(message, id) { //cargar mensajes de error 
     $('#' + id).append(
-            '<div class="alert">' +
+            '<div class="alert alert-info">' +
             '<button type="button" class="close" data-dismiss="alert">' +
             '&times;</button>' + message + '</div>');
 }

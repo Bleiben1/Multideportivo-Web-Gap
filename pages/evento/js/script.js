@@ -8,6 +8,7 @@ $(document).ready(function () {
 	
     $("body").on("click", "#btnAddEvent", function (e) {
         console.log("Adding new event to ws");
+		showLoader();
         var newEventStartDate = document.getElementById("newEventStartDate").value;
         var newEventStartTime = document.getElementById("newEventStartTime").value;
         var newEventEndDate = document.getElementById("newEventEndDate").value;
@@ -41,6 +42,7 @@ $(document).ready(function () {
 	
     $("body").on("click", "#btnModifEvent", function (e) {
         console.log("Adding new event to ws");
+		showLoader();
 		var eventId  = document.getElementById("eventId").value;
         var newEventStartDate = document.getElementById("newEventStartDate2").value;
         var newEventStartTime = document.getElementById("newEventStartTime2").value;
@@ -61,6 +63,7 @@ $(document).ready(function () {
 	
 	$("body").on("click", ".btnCompetition", function (e) {
 		console.log("Getting event competition data from ws");
+		showLoader();
         var eventId = $(this).attr("id");
 		listCompetition(eventId);
     });
@@ -87,7 +90,25 @@ function listEvents() {
                 $("#listEventsContent").append(html);
             });
         },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'eventAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'eventAlert');
+			},
+            404: function () {
+				addAlert('No se encontraron registros de Eventos', 'eventAlert');
+            },
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'eventAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'eventAlert');
+			}
+        }
     });
+	hideLoader();
 }
 
 function parseEventToHtml(event) {
@@ -105,6 +126,7 @@ function parseEventToHtml(event) {
 }
 
 function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventDesc) {
+	$('#modifEventModal').modal('hide');
     var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -121,14 +143,32 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
         dataType: 'json',
         async: false,
         success: function (msg) {
-		$('#modifEventModal').modal('hide');
-		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
+			hideLoader();
+			console.log('evento modificado con exito');
+			addAlert('Evento modificado con exito', 'eventAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'eventAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'eventAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'eventAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'eventAlert');
+			}
         }
     });
+	hideLoader();
+	setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 500);
 }
 
 
 function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
+	$('#addEventModal').modal('hide');
     var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
     console.log(arr);
     var token = localStorage.getItem('token');
@@ -144,9 +184,27 @@ function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
         dataType: 'json',
         async: false,
         success: function (msg) {
-		setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000);
+			hideLoader();
+			console.log('evento agregado con exito');
+			addAlert('Evento agregado con exito', 'eventAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'eventAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'eventAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'eventAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'eventAlert');
+			}
         }
     });
+	hideLoader();
+	setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 500);
 }
 
 function delEvent(eventId) {
@@ -163,7 +221,23 @@ function delEvent(eventId) {
         dataType: 'json',
         async: false,
         success: function (msg) {
-			setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 1000)
+			console.log('Evento borrado con exito');
+			addAlert('Evento borrado con exito', 'eventAlert');
+        },
+		statusCode: {
+			400: function () {
+				addAlert(DB_ERROR, 'eventAlert');
+			},
+			401: function () {
+				addAlert(NOT_AUTHORIZED, 'eventAlert');
+			},
+			415: function () {
+				addAlert(NOT_ALLOWED_METHOD, 'eventAlert');
+			},
+			500: function () {
+				addAlert(CONSTANTE_ERROR_MESSAGE_SERVIDOR_500, 'eventAlert');
+			}
         }
     });
+	setTimeout(function() { $("#content").load("pages/evento/evento.html"); }, 500);
 }

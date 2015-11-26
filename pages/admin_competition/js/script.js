@@ -10,6 +10,7 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listAdminCompetition(); //listado de los administradores de competition
+    document.getElementById("AddMCId").options.length = 0;
 
     $("body").on("click", "#btnAddAC", function (e) {
         console.log("Adding new event to ws");
@@ -45,53 +46,34 @@ $(document).ready(function () {
 
     $("body").on("click", "#btnEditAC", function (e) {
         console.log("Updating the new data");
-        fail = false;
-        fail_log = '';
-        $('#AddForm').find('select, textarea, input').each(function () {
-            if (!$(this).prop('required')) {
 
-            } else {
-                if (!$(this).val()) {
-                    fail = true;
-                    name = $(this).attr('name');
-                    fail_log += name + " is required \n";
-                }
-
-            }
-        });
-        //submit if fail never got set to true
-        if (!fail) {
-            var updateNickname = document.getElementById("ACNickname").value;
-            var updateMCId = document.getElementById("ACMCId").value;
-            var updateEmail = document.getElementById("ACEmail").value;
-            var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
-            var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
-            var updateStatus = document.getElementById("ACStatus").value;
-            console.log("el valor del status es: " + document.getElementById("ACStatus").value);
-            var ACId = document.getElementById("ACId").value;
-            console.log();
-            var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
-            var flagA = false;
-            flagA = editAC(ACId, arr);
-            console.log(flagA);
-            if (flagA === true) {
-                var element = document.getElementById(ACId);
-                console.log(element.parentNode.parentNode.childNodes[1].innerHTML);
-                element.parentNode.parentNode.childNodes[1].innerHTML = updateNickname;
-                element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus) ? "Active" : "Inactive";
-            }
+        var updateNickname = document.getElementById("ACNickname").value;
+        var updateMCId = document.getElementById("ACMCId").value;
+        var updateEmail = document.getElementById("ACEmail").value;
+        var updatePassword = document.getElementById("ACPassword").value; // quiza se saque en el futuro
+        var updateToken = document.getElementById("ACToken").value; // quiza se saque en el futuro
+        var updateStatus = document.getElementById("ACStatus").value;
+        console.log("el valor del status es: " + document.getElementById("ACStatus").value);
+        var ACId = document.getElementById("ACId").value;
+        console.log();
+        var arr = {nickname: updateNickname, token: updateToken, password: updatePassword, status: updateStatus, email: updateEmail, mainCompetitionId: {mainCompetitionId: updateMCId}};
+        var flagA = false;
+        flagA = editAC(ACId, arr);
+        console.log(flagA);
+        if (flagA === true) {
+            var element = document.getElementById(ACId);
+            console.log(element.parentNode.parentNode.childNodes[1].innerHTML);
+            element.parentNode.parentNode.childNodes[1].innerHTML = updateNickname;
+            element.parentNode.parentNode.childNodes[3].innerHTML = " ";
+            console.log("el status es" + updateStatus);
+            element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus) ? "Active" : "Inactive";
         }
-        else {
-            alert(fail_log);
-        }
-
-
     });
     $("body").on("shown.bs.modal", "#addACModal", function (e) {
         aux = document.getElementById("AddMCId");
-        if (aux.length === 0) {
-            listAC(aux);
-        }
+        console.log("ok");
+        listAC(aux);
+
     });
     $("body").on("hidden.bs.modal", "#addACModal", function (e) {
         document.getElementById("AddForm").reset();
@@ -110,7 +92,12 @@ $(document).ready(function () {
     });
 
     $('.alert .close').on('click', function (e) {
-        $(this).parent().hide();
+        console.log( $(this).parent());
+        //$(this).parent().hide();
+        $(this).parent().css ({
+            "display": "none"
+        });
+        console.log("Error");
     });
 });
 
@@ -232,8 +219,10 @@ function listAC(combo) { //llenar combo con los id de los eventos principales ex
         headers: {
             "Authorization": "oauth " + token
         },
+        cache: false,
         success: function (data) {
             console.log(data);
+            $("#AddMCId").html(" ");
             $.each(data, function (i, evnt) {
                 var option = document.createElement("option");
                 option.text = evnt.mainCompetitionId;

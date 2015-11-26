@@ -95,7 +95,6 @@ function listAthletes() {
     var offset = current_page * total_per_page;
     token = localStorage.getItem("token");
     console.log(token);
-    var selectedDelegation;
     $.ajax({
         type: "GET",
         dataType: "json",

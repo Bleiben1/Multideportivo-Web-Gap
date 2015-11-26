@@ -99,8 +99,11 @@ function listDelegation(combo) {
         headers: {
             "Authorization": "oauth " + token
         },
+        cache: false,
         success: function (data) {
             console.log(data);
+            console.log(combo);
+            $(combo).html(" ");
             $.each(data, function (i, delegation) {
                 var option = document.createElement("option");
                 option.text = delegation.name;
@@ -123,6 +126,7 @@ function listCountries(combo) {
         },
         success: function (data) {
             console.log(data);
+            $(combo).html(" ");
             $.each(data, function (i, country) {
                 var option = document.createElement("option");
                 option.text = country.name;
@@ -146,6 +150,7 @@ function listRegions(idCountry, combo){
         },
         success: function (data) {
             console.log(data);
+            $(combo).html(" ");
             $.each(data, function (i, region) {
                 var option = document.createElement("option");
                 option.text = region.name;

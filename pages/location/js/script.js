@@ -270,8 +270,7 @@ function chargeLocationData(id) {
                 listCountries(aux); //faltaria indicar que pais es segun la region pero no se si hay ws
             }
             $.each(aux.options, function (i, option) {
-                console.log(option.value);
-                console.log(data.regionId.countryId.countryId); //revisar cuando anden los ws de delegation
+                console.log("El valor es: " + data.regionId.countryId.countryId);
                 if (option.value == data.regionId.countryId.countryId)
                 {
                     console.log("ok");

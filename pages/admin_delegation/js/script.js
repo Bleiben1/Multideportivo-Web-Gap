@@ -11,21 +11,6 @@ $(document).ready(function () {
     listAdminDelegation(); //listado de los administradores de de
 
     $("body").on("click", "#btnEditAD", function (e) {
-        fail = false;
-        fail_log = '';
-        $('#AddForm').find('select, textarea, input').each(function () {
-            if (!$(this).prop('required')) {
-
-            } else {
-                if (!$(this).val()) {
-                    fail = true;
-                    name = $(this).attr('name');
-                    fail_log += name + " is required \n";
-                }
-
-            }
-        });
-        if (!fail) {
             var updateNickname = document.getElementById("ADNickname").value;
             var updateDId = document.getElementById("ADDelegation").value;
             var updateDName = document.getElementById("ADDelegation").options[document.getElementById("ADDelegation").selectedIndex].text;
@@ -42,10 +27,6 @@ $(document).ready(function () {
                 element.parentNode.parentNode.childNodes[2].innerHTML = updateDName; //necesito sacar el texto que esta puesto en el combobox
                 element.parentNode.parentNode.childNodes[3].innerHTML = (updateStatus) ? "Active" : "Inactive";
             }
-        }
-        else {
-            alert(fail_log);
-        }
     });
     $("body").on("click", "#btnAddAD", function (e) {
         fail = false;
@@ -106,7 +87,7 @@ function parseEventToHtml(admin_delegation) {//segun los datos enviados, crea un
             '<td>' + admin_delegation.email + '</td>' +
             '<td>' + admin_delegation.delegationId.name + '</td>' +
             '<td>' + status + '</td>' +
-            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_delegation.adminId + ' data-toggle="modal" data-target="#editADModal" onclick="chargeADData(this)">' +
+            '<td class="text-center">' + '<a class="btn btn-info btn-xs" href="#" id=' + admin_delegation.adminId + ' data-toggle="modal" data-target="#editADModal" onclick="chargeADData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=sd' + admin_delegation.adminId + ' href="#" onclick="seeDetailAD(this.id)" data-toggle="modal" data-target="#seeDetailModal">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
@@ -270,12 +251,11 @@ function editAD(idAD, ADUpdatedData) {
     return flag;
 }
 ;
-function chargeADData(Object) {
-    ACId = Object.parentNode.parentNode.childNodes[0].childNodes[0].text;
+function chargeADData(idAdminDelegation) {
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + ACId,
+        url: WS_URLS.ADMIN_DELEGATION_LISTAR_DESDE_HASTA + idAdminDelegation,
         headers: {
             "Authorization": "oauth " + token
         },

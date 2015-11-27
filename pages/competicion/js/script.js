@@ -18,8 +18,11 @@ $(document).ready(function () {
         var newCompetitionLocationId = document.getElementById("newCompetitionLocationId").value;
         var newCompetitionName = document.getElementById("newCompetitionName").value;
         var newCompetitionDesc = document.getElementById("newCompetitionDesc").value;
+        var newCompetitionStartDate = document.getElementById("newCompetitionStartDate").value;
+        var newCompetitionStartTime = document.getElementById("newCompetitionStartTime").value;
         var newCompetitionDisciplineId = document.getElementById("newCompetitionDisciplineId").value;
-        addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId);
+        var newCompetitionStart = newCompetitionStartDate + "T" + newCompetitionStartTime+ ":00";
+        addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId, newCompetitionStart);
     });
 	
 	$("body").on("click", ".btnModif", function (e) {
@@ -27,9 +30,14 @@ $(document).ready(function () {
         var competitionId = $(this).attr("id");
 		var newCompetitionName = $(this).attr("data-competition-name");
 		var newCompetitionDescription = $(this).attr("data-competition-description");
+		var newCompetitionStartDate = "" + $(this).attr("data-competition-startdate");
 		$("#competitionId").attr("value", function(){return competitionId});
 		$("#newCompetitionName2").attr("value", function(){return newCompetitionName;});
 		$("#newCompetitionDesc2").val(newCompetitionDescription);
+		var startDate = newCompetitionStartDate.substring(0,10);
+		$("#newCompetitionStartDate2").attr("value", function(){return startDate;});
+		var startHour = newCompetitionStartDate.substring(11,16);
+		$("#newCompetitionStartTime2").attr("value", function(){return startHour;});
 		populateEventSelect("newCompetitionMainCompetitionId2");
 		document.getElementById('newCompetitionMainCompetitionId2').value = $(this).attr("data-competition-mainCompetitionId");
 		document.getElementById('newCompetitionDisciplineId2').value = $(this).attr("data-competition-disciplineId");
@@ -45,7 +53,10 @@ $(document).ready(function () {
         var newCompetitionName = document.getElementById("newCompetitionName2").value;
         var newCompetitionDesc = document.getElementById("newCompetitionDesc2").value;
         var newCompetitionDisciplineId = document.getElementById("newCompetitionDisciplineId2").value;
-        modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId);
+        var newCompetitionStartDate = document.getElementById("newCompetitionStartDate2").value;
+        var newCompetitionStartTime = document.getElementById("newCompetitionStartTime2").value;
+        var newCompetitionStart = newCompetitionStartDate + "T" + newCompetitionStartTime+ ":00";
+        modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId, newCompetitionStart);
     });
 	
 	$("body").on("click", ".btnDel", function (e) {
@@ -122,8 +133,12 @@ function listCompetitions() {
 }
 
 function parseCompetitionToHtml(event) {
+	var eventStartDate = event.startDate;
+	alert(eventStartDate);
+	var startDate = eventStartDate.substring(0,10);
+	var startHour = eventStartDate.substring(11,16);
     return '<li class="list-group-item"><div class="thumbnail"><div class="caption"><h2>' + event.name + '</h2><p>Disciplina : ' + event.disciplineId.name + '</p><p>' + event.description +
-            '</p><a id="' + event.competitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifCompetitionModal" data-competition-name="' + event.name + '" data-competition-description="' + event.description + '" data-competition-mainCompetitionId="' + event.mainCompetitionId.mainCompetitionId + '" data-competition-disciplineId="' + event.disciplineId.disciplineId + '" data-competition-disciplineId-name="' + event.disciplineId.name + '" data-competition-locationId-locationId="' + event.locationId.locationId + '" data-competition-locationId-name="' + event.locationId.name + '">Modificar</a> <a class="btn btn-primary btnDel" href="#" id="' + event.competitionId + '">Borrar</a> <a class="btn btn-primary btnParticipation" href="#" id="' + event.competitionId + '">Gestionar Atletas Participantes</a></div></div></li>';
+            '</p><p>Fecha de inicio: ' + startDate + ' Hora de inicio: ' + startHour + '</p><a id="' + event.competitionId + '" class="btn btn-primary btnModif" href="#" data-toggle="modal" data-target="#modifCompetitionModal" data-competition-name="' + event.name + '" data-competition-description="' + event.description + '" data-competition-mainCompetitionId="' + event.mainCompetitionId.mainCompetitionId + '" data-competition-disciplineId="' + event.disciplineId.disciplineId + '" data-competition-disciplineId-name="' + event.disciplineId.name + '" data-competition-locationId-locationId="' + event.locationId.locationId + '" data-competition-startdate="' + event.startDate + '" data-competition-locationId-name="' + event.locationId.name + '">Modificar</a> <a class="btn btn-primary btnDel" href="#" id="' + event.competitionId + '">Borrar</a> <a class="btn btn-primary btnParticipation" href="#" id="' + event.competitionId + '">Gestionar Atletas Participantes</a></div></div></li>';
     '</p></div></div></li>';
 }
 
@@ -149,9 +164,9 @@ function parseEventToPopulateSelectHtml(event) {
     return '<option value=' + event.mainCompetitionId + '>' + event.name + '</option>';
 }
 
-function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
+function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId, newCompetitionStart) {
    	$('#modifCompetitionModal').modal('hide');
-    var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };
+    var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId}, startDate: newCompetitionStart};
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
@@ -189,9 +204,9 @@ function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCom
 }
 
 
-function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
+function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId, newCompetitionStart) {
    	$('#addCompetitionModal').modal('hide');
-    var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };
+    var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId}, startDate: newCompetitionStart};
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
@@ -214,6 +229,8 @@ function addCompetition(newCompetitionMainCompetitionId, newCompetitionLocationI
 				addAlert(DB_ERROR, 'competitionAlert');
 			},
 			401: function () {
+				alert("actualizado");
+				console.log('Ha ocurrido un error: ' + NOT_AUTHORIZED);
 				addAlert(NOT_AUTHORIZED, 'competitionAlert');
 			},
 			415: function () {

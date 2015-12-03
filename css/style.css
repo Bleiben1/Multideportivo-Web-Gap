@@ -46,6 +46,7 @@ hr.message-inner-separator
    background-color: #fff;
    z-index: 99;
    text-align: center;
+   padding-top: 40%;
 }
 
 .hidden{

@@ -10,15 +10,60 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listDelegations(); //listado de los administradores de de
+    //
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnAddDelegation", function (e) {
         console.log("Adding a new delegation to ws");
-        var newName = document.getElementById("AddName").value;
-        var newEmail = document.getElementById("AddEmail").value;
-        var newMQ = document.getElementById("AddMemQty").value;
-        var countryId = document.getElementById("AddCountry").value;
-        var newTelephone = document.getElementById("AddTelephone").value;
-        addDelegation(newName, newEmail, newMQ, newTelephone, countryId);
+        fail = false;
+        fail_log = '';
+        email_fail = false;
+        tel_fail = false;
+        $('#AddDelForm').find('select, textarea, input').each(function () {
+            if (!$(this).prop('required')) {
+
+            } else {
+                if (!$(this).val()) {
+                    fail = true;
+                }
+                if ($("#AddEmail").val().indexOf('@', 0) == -1 || $("#AddEmail").val().indexOf('.', 0) == -1) {
+                    email_fail = true;
+                    console.log("damn");
+                }
+
+            }
+        });
+        if($("#AddTelephone").val().length < 9 || isNaN($("#AddTelephone").val())) {     
+          tel_fail = true;
+        }
+        console.log(email_fail + " " + fail);
+        if (!fail && !email_fail) {
+            var newName = document.getElementById("AddName").value;
+            var newEmail = document.getElementById("AddEmail").value;
+            var newMQ = document.getElementById("AddMemQty").value;
+            var countryId = document.getElementById("AddCountry").value;
+            var newTelephone = document.getElementById("AddTelephone").value;
+            addDelegation(newName, newEmail, newMQ, newTelephone, countryId);
+        }
+        $("#addDelErrorAlert").empty();
+        if (fail) {
+            console.log("paso x aqui");
+            $("#addDelErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    '<strong>¡Error! </strong> <br>' + 'No pueden haber campos vacíos <br> ');
+        }
+        if (email_fail) {
+            $("#addDelErrorAlert").append('Email no válido. Ej: ejemplo@correo.com. ');
+        }
+        if (tel_fail){
+            if(email_fail){
+                $("#addDelErrorAlert").append('<br>');
+            }
+            $("#addDelErrorAlert").append('El teléfono debe tener 9 caracteres, Ej:999888777');
+        }
+        if (fail || email_fail)
+        {
+            $("#addDelErrorAlert").show();
+            $("#addDelErrorAlert").fadeOut(4000);
+        }
     });
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnEditDelegation", function (e) {
@@ -64,6 +109,7 @@ $(document).ready(function () {
         $("#editDelOkAlert").hide();
         $("#editDelErrorAlert").hide();
     });
+    
 });
 
 function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla

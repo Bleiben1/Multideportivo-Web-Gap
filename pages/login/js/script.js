@@ -45,7 +45,10 @@ function login(username, password) {
                     'You successfully logged in.</p>'+
             '</div>'+
         '</div>');
-            document.getElementById("log-in").text = "Cerrar Sesión";
+$("#content div").fadeOut(3000, function(){
+    $("#content").append("");
+});
+        $("#log-in").text("Cerrar Sesión");
             /*var div = document.createElement("div");
             div.innerHTML = "<b>WELCOME BACK</b>";
             div.setAttribute("class","col-md-12");

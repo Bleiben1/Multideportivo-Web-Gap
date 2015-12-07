@@ -46,7 +46,14 @@ $(document).ready(function () {
         if (aux.length === 0) {
             listCountries(aux);
         }
+        initialize();
     });
+    $("body").on("load", "#addLocationModal", function (e){
+       console.log("gonzalo wn qliao pesado");
+       initialize(); 
+    });
+    
+    
     $("body").on("hidden.bs.modal", "#addLocationModal", function (e) {
         document.getElementById("AddLocationForm").reset();
         $("#addLocationOkAlert").hide();
@@ -71,6 +78,10 @@ $(document).ready(function () {
     $("body").on("change", "#AddCountry", function (e) {
         document.getElementById("AddRegion").options.length = 0;
         listRegions(this.options[this.selectedIndex].value, document.getElementById("AddRegion"));
+    });
+    
+        $("body").on("change", "#editLocationCountry", function (e) {
+        listRegions(document.getElementById("editLocationCountry").value, document.getElementById("editLocationRegion"));
     });
 });
 
@@ -279,10 +290,62 @@ function chargeLocationData(id) {
                     aux = document.getElementById("editLocationRegion");
                     if (aux.length === 0) { //no permite cargar múltiples veces el combobox
                         listRegions(data.regionId.countryId.countryId, aux);
+                        aux = document.getElementById("editLocationRegion");
+                        console.log(aux.options);
+                        $.each(aux.options, function (i, option){
+                           if (option.text == data.regionId.name)
+                           {
+                           console.log("el nombre de la region es: "+data.regionId.name);
+                           aux.selectedIndex = option.index;
+                           }
+                        });
                     }
                     return true;
                 }
             });
         }
+    });
+}
+
+//------------------------------------------------------------------------------
+var map = null;
+var infoWindow = null;
+
+function openInfoWindow(marker) {
+    var markerLatLng = marker.getPosition();
+    console.log("ok");
+    alert("latitud: " + markerLatLng.lat() + "longitud" + markerLatLng.lng());
+    document.getElementById("AddLatitude").value = markerLatLng.lat();
+    document.getElementById("AddLongitude").value = markerLatLng.lng();
+    infoWindow.setContent([
+        'La posicion del marcador es: ',
+        markerLatLng.lat(),
+        ', ',
+        markerLatLng.lng(),
+        'Arrastrame y haz click para actualizar la posicion.'
+    ].join(''));
+    infoWindow.open(map, marker);
+}
+
+function initialize() {
+    var myLatlng = new google.maps.LatLng(20.68017, -101.35437);
+    var myOptions = {
+        zoom: 13,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    var mapDiv = document.getElementById('map');
+    
+    map = new google.maps.Map(mapDiv, myOptions);
+    infoWindow = new google.maps.InfoWindow();
+    var marker = new google.maps.Marker({
+        position: myLatlng,
+        draggable: true,
+        map: map,
+        title: "Ejemplo marcador arrastrable"
+    });
+
+    google.maps.event.addListener(marker, 'click', function () {
+        openInfoWindow(marker);
     });
 }

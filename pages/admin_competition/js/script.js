@@ -22,8 +22,6 @@ $(document).ready(function () {
             } else {
                 if (!$(this).val()) {
                     fail = true;
-                    name = $(this).attr('name');
-                    fail_log += name + " is required \n";
                 }
 
             }
@@ -39,8 +37,11 @@ $(document).ready(function () {
             addAC(newNickname, newEmail, newPassword, mainCompetitionId);
         }
         else {
-            alert(fail_log);
-        }
+                $("#addACErrorAlert").empty();
+                $("#addACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error! </strong>' + 'No pueden haber campos vacíos');
+                $("#addACErrorAlert").show();
+                $("#addACErrorAlert").fadeOut(4000);        }
 
     });
 
@@ -309,30 +310,30 @@ function addAC(newNickname, newEmail, newPassword, mainCompetitionId) {
         },
         statusCode: {
             500: function () {
-                $("#addADErrorAlert").empty();
-                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                $("#addACErrorAlert").empty();
+                $("#addACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                         '<strong>¡Error!</strong>' + CONSTANTE_ERROR_MESSAGE_SERVIDOR_500);
                 $("#addACErrorAlert").show();
                 $("#addACErrorAlert").fadeOut(2000);
 
             },
             400: function () {
-                $("#addADErrorAlert").empty();
-                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                $("#addACErrorAlert").empty();
+                $("#addACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                         '<strong>¡Error!</strong>' + DB_ERROR);
                 $("#addACErrorAlert").show();
                 $("#addACErrorAlert").fadeOut(2000);
             },
             401: function () {
-                $("#addADErrorAlert").empty();
-                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                $("#addACErrorAlert").empty();
+                $("#addACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                         '<strong>¡Error!</strong>' + NOT_AUTHORIZED);
                 $("#addACErrorAlert").show();
                 $("#addACErrorAlert").fadeOut(2000);
             },
             415: function () {
-                $("#addADErrorAlert").empty();
-                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                $("#addACErrorAlert").empty();
+                $("#addACErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
                         '<strong>¡Error!</strong>' + NOT_ALLOWED_METHOD);
                 $("#addACErrorAlert").show();
                 $("#addACErrorAlert").fadeOut(2000);

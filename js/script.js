@@ -89,7 +89,7 @@ $(document).ready(function () {
         else
         if (confirm('¿Seguro que desea cerrar la sesión?')){
             localStorage.removeItem("token");
-        document.getElementById("log-in").text = "Ingresar";
+        $("#log-in").text("Ingresar") ;
     }
 
     });

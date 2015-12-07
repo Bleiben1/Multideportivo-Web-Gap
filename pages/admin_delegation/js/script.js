@@ -37,8 +37,6 @@ $(document).ready(function () {
             } else {
                 if (!$(this).val()) {
                     fail = true;
-                    name = $(this).attr('name');
-                    fail_log += name + " is required \n";
                 }
 
             }
@@ -51,8 +49,11 @@ $(document).ready(function () {
             addAD(newNickname, newEmail, newPassword, delegationId);
         }
         else {
-            alert(fail_log);
-        }
+                $("#addADErrorAlert").empty();
+                $("#addADErrorAlert").append('<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                        '<strong>¡Error! </strong>' + 'No pueden haber campos vacíos');
+                $("#addADErrorAlert").show();
+                $("#addADErrorAlert").fadeOut(4000);        }
     });
 
     $("body").on("shown.bs.modal", "#addADModal", function (e) {

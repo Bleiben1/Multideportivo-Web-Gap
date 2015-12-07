@@ -38,7 +38,6 @@ hr.message-inner-separator
    width: 100%;
    height: 100%;
    top: 0px;
-   padding-top: 5em;
    left: 0px;
    position: fixed;
    display: block;
@@ -46,7 +45,7 @@ hr.message-inner-separator
    background-color: #fff;
    z-index: 99;
    text-align: center;
-   padding-top: 40%;
+   padding-top: 30%;
 }
 
 .hidden{

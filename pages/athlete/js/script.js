@@ -8,7 +8,6 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listDelegation(document.getElementById("searchByDel"));
-    $("#AthleteTable tr").remove();
     listAthletes(); //listado de los athletas almacenaos en la base de datos
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnAddAthlete", function (e) {
@@ -69,6 +68,7 @@ $(document).ready(function () {
     $("body").on("change", "#searchByDel", function (e) {
         $("#AthleteTable tr").remove();
         listAthletesByDelegation(document.getElementById("searchByDel").value);
+        
     });
 });
 
@@ -126,6 +126,8 @@ function listAthletesByDelegation(idDelegation) {
         cache: false,
         success: function (data) {
             $("#AthleteTable tr").remove();
+            $("#AthleteTable > thead:last").append("<tr><th>Id</th><th>Complete Name</th>"+
+                    "<th>Delegation</th><th>Age</th><th class='text-center'>Action</th></tr>");
             $.each(data, function (i, athlete) {
                 var html = parseEventToHtml(athlete);
                 $("#AthleteTable > thead:last").append(html);

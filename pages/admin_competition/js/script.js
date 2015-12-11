@@ -210,29 +210,7 @@ function chargeACData(id) {
     });
 }
 
-function listAC(combo) { //llenar combo con los id de los eventos principales existentes
-    var i = 0;
-    console.log(combo);
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: WS_URLS.EVENTOS_LISTAR_DESDE_HASTA + 0 + "/" + 900,
-        headers: {
-            "Authorization": "oauth " + token
-        },
-        cache: false,
-        success: function (data) {
-            console.log(data);
-            $("#AddMCId").html(" ");
-            $.each(data, function (i, evnt) {
-                var option = document.createElement("option");
-                option.text = evnt.mainCompetitionId;
-                combo.add(option);
-                i++;
-            });
-        }
-    });
-}
+
 function editAC(idAC, ACUpdatedData) {
     console.log(idAC);
     var token = localStorage.getItem('token');

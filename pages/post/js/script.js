@@ -7,6 +7,51 @@ $(document).ready(function () {
     console.log("Post document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listPosts();
+    var d = new Date();
+
+
+    //--------------------------------------------------------------------------
+    $("body").on("click", "#btnAddPost", function (e) {
+        console.log("Adding new post wn to ws");
+        var newTitle = document.getElementById("AddTitle").value;
+        var newDescription = document.getElementById("AddDescription").value;
+        var d = new Date();
+        var month, day, minute,hour;
+        if (d.getMonth() < 10) {
+            var month = "0" + d.getMonth;
+        }
+        else {
+            month = d.getMonth();
+        }
+        if (d.getDay() < 10) {
+            day = "0" + d.getDay();
+        }
+        else {
+            day = d.getDay();
+        }
+        if (d.getMinutes() < 10)
+        {
+            minute = "0" + d.getMinutes();
+        }
+        else {
+            minute = d.getMinutes();
+        }
+        if (d.getHours() < 10) {
+            hour = "0" + d.getHours();
+        }
+        else {
+            hour = d.getHours();
+        }
+        var newCreatedDate = d.getFullYear() + "-" + month + "-" + day +
+                "T" + d.getHours("HH") + ":" + d.getMinutes("MM") + ":00-03:00";
+        console.log(newCreatedDate);
+        var adminId = localStorage.getItem("adminId");
+        var mainCompetitionId = localStorage.getItem("mainCompetition");
+        console.log("adminId" + adminId);
+        console.log("mainComp" + mainCompetitionId);
+        console.log("La fecha complete es: " + newCreatedDate);
+        addPost(newTitle, newDescription, newCreatedDate, adminId, mainCompetitionId);
+    });
     //--------------------------------------------------------------------------
     $("body").on("hidden.bs.modal", "#seeDetPostModal", function (e) {
         document.getElementById("SDPostForm").reset();
@@ -17,18 +62,19 @@ $(document).ready(function () {
     });
     //--------------------------------------------------------------------------
     $("body").on("hidden.bs.modal", "#addPostModal", function (e) {
-        $("#AddPostForm").reset();
-        $("#addPostOkAlert").hide();
-        $("#addPostErrorAlert").hide();
+        document.getElementById("AddPostForm").reset();
+        //$("#AddPostForm").reset();
+        $("#addPostOkAlert").css("display", "none");
+        $("#addPostErrorAlert").css("display", "none");
     });
 });
 
 
 function parseEventToHtml(post) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla
-console.log(post.createdDate);
+    console.log(post.createdDate);
     return '<tr class="normal_row">' +
             '<td>' + post.postId + '</td>' +
-            '<td>' + post.createdDate.substring(0,10) + " " + post.createdDate.substring(21, 5) + '</td>' +
+            '<td>' + "Date: " + post.createdDate.substring(0, 10) + " Time: " + post.createdDate.substring(11, 16) + '</td>' +
             '<td>' + post.title + '</td>' +
             '<td>' + post.description + '</td>' +
             '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + post.postId + ' data-toggle="modal" data-target="#editPostModal" onclick="chargePostData(this.id)">' +
@@ -62,7 +108,7 @@ function listPosts() {
         statusCode: {
             404: function () {
                 //$("#PostTable tr .normal_row").remove();
-            $(".normal_row").remove();
+                $(".normal_row").remove();
                 html = '<tr class="normal_row">' +
                         '<td>' + "No hay registro de posts relacionados a tal evento, seleccione otro evento." + '</td>' +
                         '<td></td>' +
@@ -77,43 +123,43 @@ function listPosts() {
 }
 ;
 /*function listPostsByMC(idMC) {
-    var limit = (current_page - 1) * total_per_page;
-    var offset = current_page * total_per_page;
-    token = localStorage.getItem("token");
-    console.log(token);
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: WS_URLS.POST_LISTAR_DESDE_HASTA + "mainCompetition/" + idMC,
-        headers: {
-            "Authorization": "oauth " + token
-        },
-        cache: false,
-        success: function (data) {
-            //$("#PostTable tr .normal_row").remove();
-            $(".normal_row").remove();
-            $.each(data, function (i, post) {
-                var html = parseEventToHtml(post);
-                $("#PostTable > thead:last").append(html);
-            });
-        },
-        statusCode: {
-            404: function () {
-            $(".normal_row").remove();
-                //$("#PostTable tr .normal_row").remove();
-                html = '<tr class="normal_row">' +
-                        '<td>' + "No hay registro de posts relacionados a tal evento, seleccione otro evento." + '</td>' +
-                        '<td></td>' +
-                        '<td></td>' +
-                        '<td></td>' +
-                        '<td </td>' + '</tr>';
-
-                $("#PostTable > thead:last").append(html);
-            }
-        }
-    });
-}
-;*/
+ var limit = (current_page - 1) * total_per_page;
+ var offset = current_page * total_per_page;
+ token = localStorage.getItem("token");
+ console.log(token);
+ $.ajax({
+ type: "GET",
+ dataType: "json",
+ url: WS_URLS.POST_LISTAR_DESDE_HASTA + "mainCompetition/" + idMC,
+ headers: {
+ "Authorization": "oauth " + token
+ },
+ cache: false,
+ success: function (data) {
+ //$("#PostTable tr .normal_row").remove();
+ $(".normal_row").remove();
+ $.each(data, function (i, post) {
+ var html = parseEventToHtml(post);
+ $("#PostTable > thead:last").append(html);
+ });
+ },
+ statusCode: {
+ 404: function () {
+ $(".normal_row").remove();
+ //$("#PostTable tr .normal_row").remove();
+ html = '<tr class="normal_row">' +
+ '<td>' + "No hay registro de posts relacionados a tal evento, seleccione otro evento." + '</td>' +
+ '<td></td>' +
+ '<td></td>' +
+ '<td></td>' +
+ '<td </td>' + '</tr>';
+ 
+ $("#PostTable > thead:last").append(html);
+ }
+ }
+ });
+ }
+ ;*/
 function seeDetailPost(idPost) {
     console.log(idPost);
     $.ajax({
@@ -133,12 +179,11 @@ function seeDetailPost(idPost) {
     });
 }
 ;
-function addPost(title, description, createdDate) {
-    var arr = {createdDate: createdDate, description: description, title: title, mainCompetitionId: {mainCompetitionId: localStorage.getItem("mainCompetition")}, adminId: {adminId: localStorage.getItem("adminId")}};
+function addPost(title, description, createdDate, adminId, mainCompetitionId) {
+    var arr = {adminId: {adminId: adminId}, createdDate: createdDate, description: description, mainCompetitionId: {mainCompetitionId: mainCompetitionId}, title: title};
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
-    var selectedDelegation = document.getElementById("searchByDel").value;
     $.ajax({
         url: WS_URLS.POST_LISTAR_DESDE_HASTA,
         type: 'POST',
@@ -152,8 +197,8 @@ function addPost(title, description, createdDate) {
         },
         success: function (data) {
             $("#addPostOkAlert").show();
-                var html = parseEventToHtml(data);
-                $("#PostTable > thead:last").append(html);
+            var html = parseEventToHtml(data);
+            $("#PostTable > thead:last").append(html);
         },
         statusCode: {
             500: function () {
@@ -187,6 +232,24 @@ function addPost(title, description, createdDate) {
             }
         }
 
+    });
+}
+;
+function chargePostData(idPost) {
+    token = localStorage.getItem("token");
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.POST_LISTAR_DESDE_HASTA + idPost.substring(4),
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        cache: false,
+        success: function (data) {
+            $("#editPostId").val(data.postId);
+            $("#editPostTitle").val(data.title);
+            $("#editPostDescription").val(data.description);
+        }
     });
 }
 ;

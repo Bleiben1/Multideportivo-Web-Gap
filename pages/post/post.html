@@ -93,3 +93,49 @@ and open the template in the editor.
         </div>
     </div>
 </div>
+<div class="modal fade" id="editPostModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Editar información del post</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" id="editPostForm">
+                    <div class="form-group">
+                        <label for="editPostId" class="col-sm-2 control-label">Id</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editPostId" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPostTitle" class="col-sm-2 control-label">Title</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="editPostTitle">
+                        </div>
+                    </div>    
+                    <div class="form-group">
+                        <label for="editPostDescription" class="col-sm-2 control-label">Description</label>
+                        <div class="col-sm-10">
+                            <textarea maxlength="255" class="form-control" id="editPostDescription"></textarea>
+                        </div>
+                    </div>
+      
+                    <div class="alert alert-warning alert-dismissable" id="editPostErrorAlert" style="display:none;">
+
+                    </div>
+                    <div class="alert alert-success alert-dismissable" id="editPostOkAlert" style="display:none;">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        <strong>¡Éxito!</strong> Se han modificado los datos correctamente.
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Cancelar</button>
+                            <button type="button" class="btn btn-primary" id="btnEditPost"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Guardar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

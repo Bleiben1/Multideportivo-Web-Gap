@@ -46,14 +46,14 @@ $(document).ready(function () {
         if (aux.length === 0) {
             listCountries(aux);
         }
-        initialize();
+        initialize(0,0,0);
     });
-    $("body").on("load", "#addLocationModal", function (e){
-       console.log("gonzalo wn qliao pesado");
-       initialize(); 
+    $("body").on("load", "#addLocationModal", function (e) {
+        console.log("gonzalo wn qliao pesado");
+        initialize(0,0,0);
     });
-    
-    
+
+
     $("body").on("hidden.bs.modal", "#addLocationModal", function (e) {
         document.getElementById("AddLocationForm").reset();
         $("#addLocationOkAlert").hide();
@@ -79,8 +79,8 @@ $(document).ready(function () {
         document.getElementById("AddRegion").options.length = 0;
         listRegions(this.options[this.selectedIndex].value, document.getElementById("AddRegion"));
     });
-    
-        $("body").on("change", "#editLocationCountry", function (e) {
+
+    $("body").on("change", "#editLocationCountry", function (e) {
         listRegions(document.getElementById("editLocationCountry").value, document.getElementById("editLocationRegion"));
     });
 });
@@ -266,6 +266,7 @@ function chargeLocationData(id) {
         },
         cache: false,
         success: function (data) {
+                        initialize(data.longitude,data.latitude,1);
             var aux = document.getElementById("editLocationId");
             aux.value = data.locationId;
             aux = document.getElementById("editLocationName");
@@ -292,12 +293,12 @@ function chargeLocationData(id) {
                         listRegions(data.regionId.countryId.countryId, aux);
                         aux = document.getElementById("editLocationRegion");
                         console.log(aux.options);
-                        $.each(aux.options, function (i, option){
-                           if (option.text == data.regionId.name)
-                           {
-                           console.log("el nombre de la region es: "+data.regionId.name);
-                           aux.selectedIndex = option.index;
-                           }
+                        $.each(aux.options, function (i, option) {
+                            if (option.text == data.regionId.name)
+                            {
+                                console.log("el nombre de la region es: " + data.regionId.name);
+                                aux.selectedIndex = option.index;
+                            }
                         });
                     }
                     return true;
@@ -311,12 +312,20 @@ function chargeLocationData(id) {
 var map = null;
 var infoWindow = null;
 
-function openInfoWindow(marker) {
+function openInfoWindow(marker, mapType) {
     var markerLatLng = marker.getPosition();
     console.log("ok");
     alert("latitud: " + markerLatLng.lat() + "longitud" + markerLatLng.lng());
-    document.getElementById("AddLatitude").value = markerLatLng.lat();
-    document.getElementById("AddLongitude").value = markerLatLng.lng();
+    if (mapType == 0) {
+        document.getElementById("AddLatitude").value = markerLatLng.lat();
+        document.getElementById("AddLongitude").value = markerLatLng.lng();
+    }
+    else
+    {
+        document.getElementById("editLocationLatitude").value = markerLatLng.lat();
+        document.getElementById("editLocationLongitude").value = markerLatLng.lng();
+    }
+
     infoWindow.setContent([
         'La posicion del marcador es: ',
         markerLatLng.lat(),
@@ -327,25 +336,36 @@ function openInfoWindow(marker) {
     infoWindow.open(map, marker);
 }
 
-function initialize() {
-    var myLatlng = new google.maps.LatLng(20.68017, -101.35437);
+function initialize(longitud, latitud, mapType) {
+    var myLatlng;
+    var mapDiv;
+    var mapMarker;
+
+    if (mapType == 0) {
+        myLatlng = new google.maps.LatLng(20.68017, -101.35437);
+        mapDiv = document.getElementById('map');
+        mapMarker = 0;
+    }
+    else {
+        myLatlng = new google.maps.LatLng(latitud, longitud);
+        mapDiv = document.getElementById('EditMap');
+        mapMarker = 1;
+    }
     var myOptions = {
-        zoom: 13,
+        zoom: 10,
         center: myLatlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     }
-    var mapDiv = document.getElementById('map');
-    
     map = new google.maps.Map(mapDiv, myOptions);
     infoWindow = new google.maps.InfoWindow();
     var marker = new google.maps.Marker({
         position: myLatlng,
         draggable: true,
         map: map,
-        title: "Ejemplo marcador arrastrable"
+        title: "Arrastre y seleccione el marcador para seleccionar una ubicación"
     });
 
     google.maps.event.addListener(marker, 'click', function () {
-        openInfoWindow(marker);
+        openInfoWindow(marker, mapMarker);
     });
 }

@@ -5,7 +5,7 @@ $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
     listEvents();//se listan los eventos al cargar la pagina
-	
+    
     $("body").on("click", "#btnAddEvent", function (e) {
         console.log("Adding new event to ws");
 		showLoader();

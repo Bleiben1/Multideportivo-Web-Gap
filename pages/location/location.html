@@ -138,15 +138,18 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editLocationName" class="col-sm-2 control-label">Latitude</label>
                         <div class="col-sm-10">
-                            <input type="number" step="any" class="form-control" id="editLocationLatitude" required>
+                            <input type="number" step="any" class="form-control" id="editLocationLatitude" required style="display:none;">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="editLocationLongitude" class="col-sm-2 control-label">Longitude</label>
                         <div class="col-sm-10">
-                            <input type="number" step="any" class="form-control" id="editLocationLongitude" required>
+                            <input type="number" step="any" class="form-control" id="editLocationLongitude" required style="display:none;">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Geolocalization</label>
+                        <div class="col-sm-10" id="EditMap" style = "height: 300px; width: 70%; left: 10%;">
                         </div>
                     </div>
                     <div class="form-group">
@@ -171,7 +174,7 @@ and open the template in the editor.
                             </select>
                         </div>
                     </div>    
-                    
+
                     <div class="alert alert-warning alert-dismissable" id="editLocationErrorAlert" style="display:none;">
 
                     </div>

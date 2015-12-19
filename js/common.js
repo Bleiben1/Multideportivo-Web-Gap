@@ -36,6 +36,7 @@ var WS_URLS =
             ATHLETES_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.athlete/",
             LOCATIONS_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.location/",
             REGION_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.region/",
+            POST_LISTAR_DESDE_HASTA: BASE_URL_SERVER+"entities.post/",
             ETC: "http://www.......com/"
         };
 
@@ -162,6 +163,30 @@ function listRegions(idCountry, combo){
     });
 };
 
+function listAC(combo) { //llenar combo con los id de los eventos principales existentes
+    var i = 0;
+    console.log(combo);
+    token = localStorage.getItem("token");
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.EVENTOS_LISTAR_DESDE_HASTA + 0 + "/" + 900,
+        headers: {
+            "Authorization": "oauth " + token
+        },
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            $("#AddMCId").html(" ");
+            $.each(data, function (i, evnt) {
+                var option = document.createElement("option");
+                option.text = evnt.mainCompetitionId;
+                combo.add(option);
+                i++;
+            });
+        }
+    });
+}
 function showLoader(){
 	$("#loading").removeClass("hidden");
 	}

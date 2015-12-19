@@ -31,6 +31,10 @@ function login(username, password) {
             localStorage.setItem("token", token); //guarda en la cache el token
             var role = data.role;
             localStorage.setItem("role", role);
+            localStorage.setItem("adminId", data.adminId);
+            if(role == 2){
+                chargeMainCompetitionLS(data.adminId, token);
+            }
 //loader(false);
             console.log("success");
             alert('Logueado correctamente.');
@@ -69,3 +73,20 @@ $("#content div").fadeOut(3000, function(){
     });
 }
 });
+
+function chargeMainCompetitionLS(idAdmin, tokenAdmin){
+    
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: WS_URLS.ADMIN_COMPETITION_LISTAR_DESDE_HASTA + idAdmin,
+        headers: {
+            "Authorization": "oauth " + tokenAdmin
+        },
+        cache: false,
+        success: function (data) {
+            console.log(data);
+            localStorage.setItem("mainCompetition",data.mainCompetitionId.mainCompetitionId);
+        }
+    });
+};

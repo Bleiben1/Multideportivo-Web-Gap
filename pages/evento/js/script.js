@@ -17,7 +17,10 @@ $(document).ready(function () {
         var newEventDesc = document.getElementById("newEventDesc").value;
         var newEventStart = newEventStartDate + "T" + newEventStartTime+ ":00";
         var newEventEnd = newEventEndDate + "T" + newEventEndTime+ ":00";
-        addEvent(newEventStart, newEventEnd, newEventName, newEventDesc);
+		var newEventTag1 = document.getElementById("newEventTag1").value;
+		var newEventTag2 = document.getElementById("newEventTag2").value;
+		var newEventTag3 = document.getElementById("newEventTag3").value;				
+        addEvent(newEventStart, newEventEnd, newEventName, newEventDesc, newEventTag1, newEventTag2, newEventTag3);
     });
 	
 	$("body").on("click", ".btnModif", function (e) {
@@ -167,9 +170,33 @@ function modifEvent(eventId, newEventStart, newEventEnd, newEventName, newEventD
 }
 
 
-function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc) {
+function addEvent(newEventStart, newEventEnd, newEventName, newEventDesc, tag1, tag2, tag3) {
 	$('#addEventModal').modal('hide');
-    var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0 };
+	console.log("tags enviadas: "+tag1+" | "+tag2+" | "+tag3+"");
+    var arr = {description: newEventDesc, endDate: newEventEnd, name: newEventName,startDate: newEventStart, styleType: 0, tagCollection: [{tag: tag1}, {tag: tag2}, {tag: tag3}]};
+	console.log("json send : "+JSON.stringify(arr));
+/*
+{ //funciona
+	"description":"evento de prueba de tags",
+	"endDate":"2012-01-31T00:00:00",
+	"name":"Test Tags",
+	"startDate": "2012-01-31T00:00:00",
+	"styleType": 0,
+	"tagCollection":[{"tag":"tag1"},{"tag":"tag2"},{"tag":"tag3"}]
+}
+
+{ //no funciona
+	"description":"lalalalalal tags tags tags tags tags tags tags",
+	"endDate":"2015-12-27T16:00:00",
+	"name":"evento prueba tags",
+	"startDate":"2015-12-21T14:00:00",
+	"styleType":0,
+	"tagCollection":[{"tag":"etiqueta 1"},{"tag":"2daEtiqueta"},{"tag":"esta sería la última etiqueta"}]
+}
+*/
+	/*
+	*	problema con tags largos ¿limite x tag?
+	*/
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);

@@ -32,8 +32,8 @@ $(document).ready(function () {
 
             }
         });
-        if($("#AddTelephone").val().length < 9 || isNaN($("#AddTelephone").val())) {     
-          tel_fail = true;
+        if ($("#AddTelephone").val().length < 9 || isNaN($("#AddTelephone").val())) {
+            tel_fail = true;
         }
         console.log(email_fail + " " + fail);
         if (!fail && !email_fail) {
@@ -53,8 +53,8 @@ $(document).ready(function () {
         if (email_fail) {
             $("#addDelErrorAlert").append('Email no válido. Ej: ejemplo@correo.com. ');
         }
-        if (tel_fail){
-            if(email_fail){
+        if (tel_fail) {
+            if (email_fail) {
                 $("#addDelErrorAlert").append('<br>');
             }
             $("#addDelErrorAlert").append('El teléfono debe tener 9 caracteres, Ej:999888777');
@@ -109,7 +109,7 @@ $(document).ready(function () {
         $("#editDelOkAlert").hide();
         $("#editDelErrorAlert").hide();
     });
-    
+
 });
 
 function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila nueva y la devuelve para luego insertarla
@@ -122,7 +122,7 @@ function parseEventToHtml(delegation) {//segun los datos enviados, crea una fila
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=' + delegation.delegationId + ' href="#" data-toggle="modal" data-target="#seeDetDelegationModal" onclick="seeDetailDelegation(this.id)">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
-            '</span> See Detail</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + delegation.delegationId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
+            '</span> See Detail</a>' + '</td>' + '</tr>';
 }
 ;
 function chargeDelegationData(idDelegation) {
@@ -150,20 +150,35 @@ function chargeDelegationData(idDelegation) {
             aux.value = data.membersQty;
             aux = document.getElementById("editDelCountry");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
-                listCountries(aux);
+                listCountries(aux, function () {
+                    $.each(aux.options, function (i, option) {
+                        console.log(option.value);
+                        console.log(data.countryId.countryId); //revisar cuando anden los ws de delegation
+                        if (option.value == data.countryId.countryId)
+                        {
+                            console.log("ok");
+                            console.log(option.index);
+                            aux.selectedIndex = option.index;
+                            return true;
+                        }
+                    });
+                });
+            }
+            else {
+                $.each(aux.options, function (i, option) {
+                    console.log(option.value);
+                    console.log(data.countryId.countryId); //revisar cuando anden los ws de delegation
+                    if (option.value == data.countryId.countryId)
+                    {
+                        console.log("ok");
+                        console.log(option.index);
+                        aux.selectedIndex = option.index;
+                        return true;
+                    }
+                });
             }
             //console.log(aux.options);
-            $.each(aux.options, function (i, option) {
-                console.log(option.value);
-                console.log(data.countryId.countryId); //revisar cuando anden los ws de delegation
-                if (option.value == data.countryId.countryId)
-                {
-                    console.log("ok");
-                    console.log(option.index);
-                    aux.selectedIndex = option.index;
-                    return true;
-                }
-            });
+
         }
     });
 }

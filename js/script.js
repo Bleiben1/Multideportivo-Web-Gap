@@ -12,11 +12,32 @@ $(document).ready(function () {
     console.log("Index page ready");
     loadMainPanel("mainPanel");//loads the main panel
     var token = localStorage.getItem("token");
+    var nickname = localStorage.getItem("nickname");
     if (token != null) {
-        document.getElementById("log-in").text = "Cerrar Sesión";
+        console.log("ok");
+        $("#log-in").text("Cerrar Sesión");
+        $("#nickname").text(" " + nickname);
+        $("#nickname-li").show();
+        $("#nav-menu").show();
+    }
+    var role = localStorage.getItem("role");
+    if (role == 2){
+    $("#1, #dividerCompetition, #dividerAC, #3, #dividerDelegation, #5, #dividerDiscipline, #6, #dividerAthlete, #7").remove();
+    }
+    else if (role == 1){
+    $("#1, #dividerCompetition, #3, #dividerAD, #4, #dividerDelegation, #5, #dividerDiscipline, #6, #dividerAthlete, #dividerLocation, #8, #dividerPost, #9").remove();
     }
     //fix para ir al inicio el panel
+    
+    /*$("body").on("click", "#logo", function (e) {
+        token = localStorage.getItem("token");
+        if (token != null) {
+                            alert("ok");
+        $("#log-in").text("Cerrar Sesión");
+    }
+    });*/
     $("body").on("click", "#goto_index_page", function (e) {
+        alert("ok");
         window.location.href = BASE_URL + "index.html";
         e.preventDefault();
     });
@@ -104,6 +125,7 @@ $(document).ready(function () {
     });
 
     $("#log-in").click(function (event) {
+        console.log("ok");
         var token = localStorage.getItem("token");
         if (token == null) {
             showLoader();
@@ -112,8 +134,15 @@ $(document).ready(function () {
         else
         if (confirm('¿Seguro que desea cerrar la sesión?')) {
             localStorage.removeItem("token");
+            localStorage.removeItem("role");
+            localStorage.removeItem("mainCompetition");
+            localStorage.removeItem("adminId");
+            localStorage.removeItem("nickname");
+            $("#nickname-li").css("display","none");
             $("#log-in").text("Ingresar");
-        }
+            $("#nav-menu").css("display","none");
+            window.location = "index.html";
+        }  
 
     });
 

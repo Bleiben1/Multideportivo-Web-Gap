@@ -46,11 +46,10 @@ $(document).ready(function () {
         if (aux.length === 0) {
             listCountries(aux);
         }
-        initialize(0,0,0);
+        initialize(0, 0, 0);
     });
     $("body").on("load", "#addLocationModal", function (e) {
-        console.log("gonzalo wn qliao pesado");
-        initialize(0,0,0);
+        initialize(0, 0, 0);
     });
 
 
@@ -96,7 +95,7 @@ function parseEventToHtml(location) {//segun los datos enviados, crea una fila n
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=' + id + ' href="#" data-toggle="modal" data-target="#seeDetLocationModal" onclick="seeDetailLocation(this.id)">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
-            '</span> See Detail</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + id + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
+            '</span> See Detail</a>' + '</td>' + '</tr>';
 }
 ;
 function listLocations() {
@@ -266,7 +265,7 @@ function chargeLocationData(id) {
         },
         cache: false,
         success: function (data) {
-                        initialize(data.longitude,data.latitude,1);
+            initialize(data.longitude, data.latitude, 1);
             var aux = document.getElementById("editLocationId");
             aux.value = data.locationId;
             aux = document.getElementById("editLocationName");
@@ -279,31 +278,58 @@ function chargeLocationData(id) {
             aux.value = data.capacity;
             aux = document.getElementById("editLocationCountry");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
-                listCountries(aux); //faltaria indicar que pais es segun la region pero no se si hay ws
-            }
-            $.each(aux.options, function (i, option) {
-                console.log("El valor es: " + data.regionId.countryId.countryId);
-                if (option.value == data.regionId.countryId.countryId)
-                {
-                    console.log("ok");
-                    console.log(option.index);
-                    aux.selectedIndex = option.index;
-                    aux = document.getElementById("editLocationRegion");
-                    if (aux.length === 0) { //no permite cargar múltiples veces el combobox
-                        listRegions(data.regionId.countryId.countryId, aux);
-                        aux = document.getElementById("editLocationRegion");
-                        console.log(aux.options);
-                        $.each(aux.options, function (i, option) {
-                            if (option.text == data.regionId.name)
-                            {
-                                console.log("el nombre de la region es: " + data.regionId.name);
-                                aux.selectedIndex = option.index;
+                listCountries(aux, function () {
+                    console.log("pase x aqui");
+                    $.each(aux.options, function (i, option) {
+                        console.log("El valor es: " + data.regionId.countryId.countryId);
+                        if (option.value == data.regionId.countryId.countryId)
+                        {
+                            console.log("ok");
+                            console.log(option.index);
+                            aux.selectedIndex = option.index;
+                            aux = document.getElementById("editLocationRegion");
+                            if (aux.length === 0) { //no permite cargar múltiples veces el combobox
+                                listRegions(data.regionId.countryId.countryId, aux, function () {
+                                    aux = document.getElementById("editLocationRegion");
+                                    console.log(aux.options);
+                                    $.each(aux.options, function (i, option) {
+                                        if (option.text == data.regionId.name)
+                                        {
+                                            console.log("el nombre de la region es: " + data.regionId.name);
+                                            aux.selectedIndex = option.index;
+                                        }
+                                    });
+                                });
                             }
-                        });
+                            return true;
+                        }
+                    });
+                });
+            }
+            else {
+                $.each(aux.options, function (i, option) {
+                    console.log("El valor es: " + data.regionId.countryId.countryId);
+                    if (option.value == data.regionId.countryId.countryId)
+                    {
+                        console.log(option.index);
+                        aux.selectedIndex = option.index;
+                        aux = document.getElementById("editLocationRegion");
+                        console.log("pase x el else");
+                            listRegions(data.regionId.countryId.countryId, aux, function () {
+                                aux = document.getElementById("editLocationRegion");
+                                console.log(aux.options);
+                                $.each(aux.options, function (i, option) {
+                                    if (option.text == data.regionId.name)
+                                    {
+                                        console.log("el nombre de la region es: " + data.regionId.name);
+                                        aux.selectedIndex = option.index;
+                                    }
+                                });
+                            });
+                        return true;
                     }
-                    return true;
-                }
-            });
+                });
+            }
         }
     });
 }

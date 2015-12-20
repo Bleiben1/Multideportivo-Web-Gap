@@ -24,10 +24,10 @@ $(document).ready(function () {
             month = d.getMonth();
         }
         if (d.getDay() < 10) {
-            day = "0" + d.getDay();
+            day = "0" + d.getDate();
         }
         else {
-            day = d.getDay();
+            day = d.getDate();
         }
         if (d.getMinutes() < 10)
         {
@@ -42,8 +42,7 @@ $(document).ready(function () {
         else {
             hour = d.getHours();
         }
-        var newCreatedDate = d.getFullYear() + "-" + month + "-" + day +
-                "T" + d.getHours("HH") + ":" + d.getMinutes("MM") + ":00-03:00";
+        var newCreatedDate = d.getFullYear() + "-" + month + "-" + day + "T" + hour + ":" + minute + ":00-03:00";
         console.log(newCreatedDate);
         var adminId = localStorage.getItem("adminId");
         var mainCompetitionId = localStorage.getItem("mainCompetition");

@@ -1,12 +1,24 @@
 <div id="participaciones">
     <script src="pages/participacion/js/script.js"></script>
     <br/>
-    <button type="button" class="btn btn-success btn-lg btn-block btnAddParticipantModalToggle" data-toggle="modal" data-target="#addParticipantModal"><span class="glyphicon glyphicon-plus" aria-hidden="false"></span> Agregar nuevo participante</button>
 <!--    <div id="participantAlert">
 	</div> -->
     <!-- lista de competiciones -->
     <ul class="list-group" id="listParticipantsContent">
     </ul>
+    <div class="row col-md-12 col-md-offset-0 custyle">
+        <table class="table table-striped custab" id="ParticipationTable" style="padding-top: 200px">
+            <thead>
+                <tr>
+                    <th>Athlete</th>
+                    <th>Delegation</th>
+                    <th>Position</th>
+                    <th class="text-center">Action</th>
+                </tr>
+            </thead>
+        </table>
+        <a href="#" class="btn btn-primary btn-xs pull-right btnAddParticipantModalToggle" data-toggle="modal" data-target="#addParticipantModal"><b>+</b> Add new competitor</a>
+    </div>
     <!-- /lista de competiciones -->
     <!-- Modal -->
     <div class="modal fade" id="addParticipantModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

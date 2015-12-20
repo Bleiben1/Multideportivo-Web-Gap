@@ -73,9 +73,9 @@ function listParticipants() {
 			success: function (data) {
 				console.log(data);
 				$.each(data, function (i, evnt) {
-					console.log("evento -> "+evnt);
-					var html = parseParticipantsToHtml(evnt);
-					$("#listParticipantsContent").append(html);
+                                        var html = parseParticipants2ToHtml(evnt);
+                                        console.log("la info del evento es: " + evnt);
+                                        $("#ParticipationTable > thead:last").append (html);
 				});
 			},
 			statusCode: {
@@ -142,7 +142,16 @@ function parseAthleteToPopulateSelectHtml(event) {
 function parseCompetitionToPopulateSelectHtml(event) {
     return '<option value=' + event.competitionId + '>' + event.name + ' - ' + event.mainCompetitionId.name + '</option>';
 }
-
+function parseParticipants2ToHtml(event) {
+    var positionAux = event.position;
+    if (positionAux == 0){
+        positionAux = "No hay registro";
+    }
+    return "<tr>" + "<td>" +  event.athlete.name + ' ' + event.athlete.lastname + "</td>" + 
+            "<td>" + event.athlete.delegationId.name + "</td>" +
+            "<td>" + positionAux + "</td>" + '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + event.athlete.athleteId + ' data-toggle="modal" data-target="#editCompetitorModal" onclick="chargeCompetitorData(this.id)">' +
+            '<span class="glyphicon glyphicon-edit"></span>Reposition</a> </td>' + "</tr>";
+}
 /*
 function modifCompetition(competitionId, newCompetitionMainCompetitionId, newCompetitionLocationId, newCompetitionName, newCompetitionDesc, newCompetitionDisciplineId) {
     var arr = {mainCompetitionId: {mainCompetitionId: newCompetitionMainCompetitionId}, locationId: {locationId: newCompetitionLocationId}, name: newCompetitionName, description: newCompetitionDesc, disciplineId: {disciplineId: newCompetitionDisciplineId} };

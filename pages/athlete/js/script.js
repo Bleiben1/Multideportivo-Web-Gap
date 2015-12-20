@@ -7,8 +7,16 @@
 $(document).ready(function () {
     console.log("Eventos document ready.");
     loadMainPanel("eventMainPanel");//loads the main panel
-    listDelegation(document.getElementById("searchByDel"));
-    listAthletes(); //listado de los athletas almacenaos en la base de datos
+    if (localStorage.getItem("role") == 0) {
+        listDelegation(document.getElementById("searchByDel"));
+        listAthletes(); //listado de los athletas almacenaos en la base de datos    
+    }
+    else
+    {
+        listAthletesByDelegation(localStorage.getItem("delegationId"));
+        console.log("la delegacion es :" + localStorage.getItem("delegationId"));
+        $("#searchByDel").remove();
+    }
     //--------------------------------------------------------------------------
     $("body").on("click", "#btnAddAthlete", function (e) {
         console.log("Adding new athlete to ws");
@@ -33,8 +41,7 @@ $(document).ready(function () {
         if (flag === true) {
             var element = document.getElementById("edit" + AthleteId);
             element.parentNode.parentNode.childNodes[1].innerHTML = updateName + " " + updateLName; //necesito sacar el texto que esta puesto en el combobox
-            element.parentNode.parentNode.childNodes[2].innerHTML = updateDName;
-            element.parentNode.parentNode.childNodes[3].innerHTML = calculateAge(updateDob);
+            element.parentNode.parentNode.childNodes[2].innerHTML = calculateAge(updateDob);
         }
 
     });
@@ -50,7 +57,36 @@ $(document).ready(function () {
     $("body").on("shown.bs.modal", "#addAthleteModal", function (e) {
         aux = document.getElementById("AddDelegation");
         if (aux.length === 0) {
-            listDelegation(aux);
+            listDelegation(aux, function () {
+                if (localStorage.getItem("role") == 1) {
+                    var del = localStorage.getItem("delegationId");
+                    console.log("la delegación es: " + del);
+                    $.each(aux.options, function (i, option) {
+                        if (option.value == del)
+                        {
+                            aux.selectedIndex = option.index;
+                        }
+                    });
+                    console.log(aux.value);
+                    $("#delLabel").css("display", "none");
+                    $("#AddDelegation").css("display", "none");
+                }
+            });
+        }
+        else {
+            if (localStorage.getItem("role") == 1) {
+                var del = localStorage.getItem("delegationId");
+                console.log("la delegación es: " + del);
+                $.each(aux.options, function (i, option) {
+                    if (option.value == del)
+                    {
+                        aux.selectedIndex = option.index;
+                    }
+                });
+                console.log(aux.value);
+                $("#delLabel").css("display", "none");
+                $("#AddDelegation").css("display", "none");
+            }
         }
     });
     //--------------------------------------------------------------------------
@@ -65,10 +101,18 @@ $(document).ready(function () {
         $("#editAthleteOkAlert").hide();
         $("#editAthleteErrorAlert").hide();
     });
+
+    $("body").on("shown.bs.modal", "#editAthleteModal", function (e) {
+
+        if (localStorage.getItem("role") == 1) {
+            $("#delEditLabel").css("display", "none");
+            $("#editAthleteDelegation").css("display", "none");
+        }
+    });
+
     $("body").on("change", "#searchByDel", function (e) {
         $("#AthleteTable tr").remove();
         listAthletesByDelegation(document.getElementById("searchByDel").value);
-        
     });
 });
 
@@ -80,13 +124,12 @@ function parseEventToHtml(athlete) {//segun los datos enviados, crea una fila nu
     return '<tr>' +
             '<td>' + athlete.athleteId + '</td>' +
             '<td>' + athlete.name + " " + athlete.lastname + '</td>' +
-            '<td>' + athlete.delegationId.name + '</td>' +
             '<td>' + age + '</td>' +
             '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + athlete.athleteId + ' data-toggle="modal" data-target="#editAthleteModal" onclick="chargeAthleteData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
             '</span> Edit</a>' + '<a style="margin: 2px;" class="btn btn-info btn-xs" id=' + athlete.athleteId + ' href="#" data-toggle="modal" data-target="#seeDetAthleteModal" onclick="seeDetailAthlete(this.id)">' +
             '<span class="glyphicon glyphicon-plus-sign">' +
-            '</span> See Detail</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + athlete.athleteId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
+            '</span> See Detail</a>' + '</td>' + '</tr>';
 }
 ;
 //------------------------------------------------------------------------------
@@ -126,8 +169,8 @@ function listAthletesByDelegation(idDelegation) {
         cache: false,
         success: function (data) {
             $("#AthleteTable tr").remove();
-            $("#AthleteTable > thead:last").append("<tr><th>Id</th><th>Complete Name</th>"+
-                    "<th>Delegation</th><th>Age</th><th class='text-center'>Action</th></tr>");
+            $("#AthleteTable > thead:last").append("<tr><th>Id</th><th>Complete Name</th>" +
+                    "<th>Age</th><th class='text-center'>Action</th></tr>");
             $.each(data, function (i, athlete) {
                 var html = parseEventToHtml(athlete);
                 $("#AthleteTable > thead:last").append(html);
@@ -166,6 +209,7 @@ function seeDetailAthlete(idAthlete) {
             aux.value = data.dob.substring(0, 10);
             aux = document.getElementById("featured");
             aux.value = (data.featured) ? "Yes" : "No";
+            $("#delegation").val(data.delegationId.name);
         }
     });
 }
@@ -175,7 +219,6 @@ function addAthlete(name, lastName, dob, featured, delegationId) {
     console.log(arr);
     var token = localStorage.getItem('token');
     console.log(token);
-    var selectedDelegation = document.getElementById("searchByDel").value;
     $.ajax({
         url: WS_URLS.ATHLETES_LISTAR_DESDE_HASTA,
         type: 'POST',
@@ -189,9 +232,17 @@ function addAthlete(name, lastName, dob, featured, delegationId) {
         },
         success: function (data) {
             $("#addAthleteOkAlert").show();
-            if (delegationId === selectedDelegation) {
+            var role = localStorage.getItem("role");
+            if (role == 1) {
                 var html = parseEventToHtml(data);
                 $("#AthleteTable > thead:last").append(html);
+            }
+            else if (role == 0) {
+                var selectedDelegation = document.getElementById("searchByDel").value;
+                if (delegationId === selectedDelegation) {
+                    var html = parseEventToHtml(data);
+                    $("#AthleteTable > thead:last").append(html);
+                }
             }
         },
         statusCode: {
@@ -307,20 +358,31 @@ function chargeAthleteData(idAthlete) {
             aux.selectedIndex = (data.featured) ? 1 : 0;
             aux = document.getElementById("editAthleteDelegation");
             if (aux.length === 0) { //no permite cargar múltiples veces el combobox
-                listDelegation(aux);
+                listDelegation(aux, function () {
+                    $.each(aux.options, function (i, option) {
+                        if (option.value == data.delegationId.delegationId)
+                        {
+                            console.log("ok");
+                            console.log(option.index);
+                            aux.selectedIndex = option.index;
+                            return true;
+                        }
+                    });
+                });
+            }
+            else
+            {
+                $.each(aux.options, function (i, option) {
+                    if (option.value == data.delegationId.delegationId)
+                    {
+                        console.log("ok");
+                        console.log(option.index);
+                        aux.selectedIndex = option.index;
+                        return true;
+                    }
+                });
             }
             //console.log(aux.options);
-            $.each(aux.options, function (i, option) {
-                console.log(option.value);
-                console.log(data.delegationId.delegationId);
-                if (option.value == data.delegationId.delegationId)
-                {
-                    console.log("ok");
-                    console.log(option.index);
-                    aux.selectedIndex = option.index;
-                    return true;
-                }
-            });
         }
     });
 }

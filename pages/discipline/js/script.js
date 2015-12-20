@@ -70,7 +70,7 @@ function parseEventToHtml(discipline) {//segun los datos enviados, crea una fila
             '<td>' + discipline.description + '</td>' +
             '<td class="text-center">' + '<a style="margin: 2px;" class="btn btn-info btn-xs" href="#" id=edit' + discipline.disciplineId + ' data-toggle="modal" data-target="#editDisciplineModal" onclick="chargeDisciplineData(this.id)">' +
             '<span class="glyphicon glyphicon-edit">' +
-            '</span> Edit</a>' + '<a href="#" class="btn btn-danger btn-xs" id=del' + discipline.disciplineId + '><span class="glyphicon glyphicon-remove"></span> Del</a>' + '</td>' + '</tr>';
+            '</span> Edit</a>' + '</td>' + '</tr>';
 }
 ;
 function chargeDisciplineData(idDiscipline) {
